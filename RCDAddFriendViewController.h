@@ -16,5 +16,6 @@
 @property(nonatomic, strong) UIImageView *ivAva;
 @property(nonatomic, strong) UIButton *addFriendBtn;
 @property(nonatomic, strong) UIButton *startChat;
+@property(assign, nonatomic) BOOL isChatRoom;
 
 @end

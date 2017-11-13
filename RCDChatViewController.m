@@ -1235,6 +1235,9 @@ NSMutableDictionary *userInputStatus;
             RCUserInfo *userInfo = [[RCIM sharedRCIM] getUserInfoCache:userId];
             RCDAddFriendViewController *addViewController = [[RCDAddFriendViewController alloc]init];
             addViewController.targetUserInfo = userInfo;
+            if (self.conversationType == ConversationType_CHATROOM) {
+                addViewController.isChatRoom = YES;
+            }
             [self.navigationController pushViewController:addViewController
              
                                                  animated:YES];

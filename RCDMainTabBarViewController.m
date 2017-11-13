@@ -13,6 +13,7 @@
 #import "RCDContactViewController.h"
 #import "RCDMeTableViewController.h"
 #import "WCChatRoomViewController.h"
+#import "UITabBar+badge.h"
 
 @interface RCDMainTabBarViewController ()
 
@@ -41,11 +42,18 @@
                                            selector:@selector(changeSelectedIndex:)
                                                name:@"ChangeTabBarIndex"
                                              object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveFriendsRequest) name:@"DidReceiveFriendsRequest" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeNewFriendNumber:) name:@"DidChangeNewFriendsNumber" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ChangeTabBarIndex" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DidReceiveFriendsRequest" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DidChangeNewFriendsNumber" object:nil];
 }
 
 - (void)setControllers {
@@ -145,6 +153,24 @@
     default:
       break;
   }
+}
+
+//收到好友请求notification
+- (void)didReceiveFriendsRequest {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tabBar showBadgeOnItemIndex:1 badgeValue:1];
+    });
+}
+//收到接受好友请求notification
+- (void)didChangeNewFriendNumber:(NSNotification *)notification {
+    int count = [notification.object intValue];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (count > 0) {
+            [self.tabBar showBadgeOnItemIndex:1 badgeValue:count];
+        } else {
+            [self.tabBar hideBadgeOnItemIndex:1];
+        }
+    });
 }
 
 -(void)changeSelectedIndex:(NSNotification *)notify {

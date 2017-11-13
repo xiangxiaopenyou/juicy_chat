@@ -197,7 +197,10 @@
     if (isFriend == YES) {
         _addFriendBtn.hidden = YES;
     }
-    
+    if (self.isChatRoom) {
+        self.addFriendBtn.hidden = YES;
+        self.startChat.hidden = YES;
+    }
     
 }
 

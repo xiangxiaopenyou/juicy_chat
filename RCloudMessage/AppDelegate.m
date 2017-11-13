@@ -53,6 +53,7 @@
                            [[UIScreen mainScreen] currentMode].size)           \
        : NO)
 static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
+static NSString *const QQAPPID = @"1106530362";
 
 @interface AppDelegate () <RCWKAppInfoProvider>
 
@@ -85,6 +86,7 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
   [self umengTrack];
     //微信sdk
     [OpenShare connectWeixinWithAppId:WECHATAPPID];
+    [OpenShare connectQQWithAppId:QQAPPID];
   /**
    *  推送说明：
    *

@@ -846,6 +846,8 @@
           dispatch_async(dispatch_get_main_queue(), ^{
               [self refreshConversationTableViewIfNeeded];
           });
+      } else if ([_contactNotificationMsg.operation isEqualToString:@"Request"]) {
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"DidReceiveFriendsRequest" object:nil];
       }
     [RCDHTTPTOOL
         getUserInfoByUserID:_contactNotificationMsg.sourceUserId

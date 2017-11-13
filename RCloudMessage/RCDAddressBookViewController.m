@@ -61,6 +61,11 @@ MBProgressHUD *hud;
   self.navigationItem.title = @"新朋友";
 
   self.tableView.tableFooterView = [UIView new];
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        // Fallback on earlier versions
+    }
 
   _friendsDic = [[NSMutableDictionary alloc] init];
 
@@ -244,6 +249,14 @@ MBProgressHUD *hud;
                      cell.rightLabel.text = @"已添加";
                      cell.selected = YES;
                      friend.status = @"1";
+                     NSMutableArray *tempArray = [NSMutableArray arrayWithArray:[[RCDataBaseManager shareInstance] getAllFriends]];
+                     NSInteger count = 0;
+                     for (RCDUserInfo *friendInfo in tempArray) {
+                         if (friendInfo.status.integerValue == 2) {
+                             count += 1;
+                         }
+                     }
+                     [[NSNotificationCenter defaultCenter] postNotificationName:@"DidChangeNewFriendsNumber" object:@(count)];
                      [hud hide:YES];
                  });
              }];

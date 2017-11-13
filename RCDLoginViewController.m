@@ -441,11 +441,18 @@ arrayByAddingObjectsFromArray:
     [self.view addSubview:line2];
     
     UIButton *wechatLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    wechatLoginButton.frame = CGRectMake(SCREEN_WIDTH / 2.0 - 35, SCREEN_HEIGHT - 125, 70, 70);
+    wechatLoginButton.frame = CGRectMake(SCREEN_WIDTH / 2.0 - 74, SCREEN_HEIGHT - 125, 54, 54);
     [wechatLoginButton setImage:[UIImage imageNamed:@"wechat_login"] forState:UIControlStateNormal];
     [wechatLoginButton addTarget:self action:@selector(wechatAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:wechatLoginButton];
     wechatLoginButton.hidden = ![OpenShare isWeixinInstalled];
+    
+    UIButton *qqLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    qqLoginButton.frame = CGRectMake(SCREEN_WIDTH / 2.0 + 20, SCREEN_HEIGHT - 125, 54, 54);
+    [qqLoginButton setImage:[UIImage imageNamed:@"qq_login"] forState:UIControlStateNormal];
+    [qqLoginButton addTarget:self action:@selector(qqLoginAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:qqLoginButton];
+    qqLoginButton.hidden = ![OpenShare isQQInstalled];
     
   [[UIApplication sharedApplication]
       setStatusBarStyle:UIStatusBarStyleLightContent
@@ -687,6 +694,18 @@ arrayByAddingObjectsFromArray:
     } Fail:^(NSDictionary *message, NSError *error) {
         [hud hide:YES];
         _errorMsgLb.text = @"登录失败，请检查网络。";
+    }];
+}
+//qq登录
+- (void)qqLoginAction {
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithHexString:@"343637" alpha:0.8];
+    hud.labelText = @"登录中...";
+    [hud show:YES];
+    [OpenShare QQAuth:@"get_user_info" Success:^(NSDictionary *message) {
+        
+    } Fail:^(NSDictionary *message, NSError *error) {
+        
     }];
 }
 
