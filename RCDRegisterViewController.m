@@ -828,13 +828,14 @@
 //              [result objectForKey:@"verification_token"];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
       //注册用户
-    if (self.isWechatRegister) {
+    if (self.registerType == WCRegisterTypeWechat) {
         [AFHttpTool registerWithNickname:userName
                                 password:userPwd
                                   avatar:self.informations[@"headimgurl"]
                                 nickname:self.informations[@"nickname"]
                                      sex:self.informations[@"sex"]
                                 wechatId:self.informations[@"unionid"]
+                                  qqCode:nil
                         verficationToken:verificationCode
                                  success:^(id response) {
                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -863,6 +864,47 @@
                                      
                                  }];
 
+    } else if (self.registerType == WCRegisterTypeQQ) {
+        NSInteger sex = 0;
+        if ([self.informations[@"gender"] isEqualToString:@"男"]) {
+            sex = 1;
+        } else if ([self.informations[@"gender"] isEqualToString:@"女"]) {
+            sex = 2;
+        }
+        [AFHttpTool registerWithNickname:userName
+                                password:userPwd
+                                  avatar:self.informations[@"figureurl_2"]
+                                nickname:self.informations[@"nickname"]
+                                     sex:@(sex)
+                                wechatId:nil
+                                  qqCode:self.informations[@"openId"]
+                        verficationToken:verificationCode
+                                 success:^(id response) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                     NSDictionary *regResults = response;
+                                     NSString *code = [NSString
+                                                       stringWithFormat:@"%@", [regResults objectForKey:@"code"]];
+                                     
+                                     if (code.intValue == 200) {
+                                         _errorMsgLb.text = @"注册成功";
+                                         dispatch_after(
+                                                        dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_MSEC),
+                                                        dispatch_get_main_queue(), ^{
+                                                            NSString *token = response[@"data"][@"token"];
+                                                            NSString *userId = response[@"data"][@"userId"];
+                                                            [self loginRongCloud:userName userId:userId token:token password:userPwd];
+                                                        });
+                                     } else {
+                                         _errorMsgLb.text = regResults[@"message"];
+                                     }
+                                     
+                                 }
+                                 failure:^(NSError *err) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                     NSLog(@"");
+                                     _errorMsgLb.text = @"注册失败";
+                                     
+                                 }];
     } else {
         [AFHttpTool registerWithNickname:userName
                                 password:userPwd
@@ -870,6 +912,7 @@
                                 nickname:nil
                                      sex:nil
                                 wechatId:nil
+                                  qqCode:nil
                         verficationToken:verificationCode
                                  success:^(id response) {
                                      [MBProgressHUD hideHUDForView:self.view animated:YES];

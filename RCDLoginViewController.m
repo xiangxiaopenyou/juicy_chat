@@ -20,21 +20,26 @@
 #import "RCDataBaseManager.h"
 #import "RCUnderlineTextField.h"
 #import "SelectAppKeyViewController.h"
-#import "UITextFiled+Shake.h"
-#import <RongIMKit/RongIMKit.h>
-#import "UIColor+RCColor.h"
 #import "RCDNavigationViewController.h"
 #import "RCDMainTabBarViewController.h"
 #import "RCDSettingServerUrlViewController.h"
 #import "RCDSettingUserDefaults.h"
-#import <OpenShareHeader.h>
 #import "FetchInformationsRequest.h"
 #import "WechatLoginRequest.h"
+#import "WCQQLoginRequest.h"
+#import "WCCommonDefines.h"
+
+#import "UITextFiled+Shake.h"
+#import "UIColor+RCColor.h"
+
+#import <TencentOpenAPI/TencentOAuth.h>
+#import <OpenShareHeader.h>
+#import <RongIMKit/RongIMKit.h>
 
 #define SCREEN_WIDTH CGRectGetWidth(UIScreen.mainScreen.bounds)
 #define SCREEN_HEIGHT CGRectGetHeight(UIScreen.mainScreen.bounds)
 
-@interface RCDLoginViewController () <UITextFieldDelegate, RCIMConnectionStatusDelegate,UIAlertViewDelegate>
+@interface RCDLoginViewController () <UITextFieldDelegate, RCIMConnectionStatusDelegate,UIAlertViewDelegate, TencentSessionDelegate>
 
 @property(retain, nonatomic) IBOutlet RCAnimatedImagesView *animatedImagesView;
 
@@ -62,6 +67,7 @@
 @property(nonatomic, strong) NSString *loginUserId;
 @property(nonatomic, strong) NSString *loginToken;
 @property(nonatomic, strong) NSString *loginPassword;
+@property (strong, nonatomic) TencentOAuth *tencentOAuth;
 
 @end
 
@@ -90,6 +96,9 @@ MBProgressHUD *hud;
                                self.view.bounds.size.height)];
   [self.view addSubview:self.animatedImagesView];
   self.animatedImagesView.delegate = self;
+    
+    _tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"1106530362" andDelegate:self];
+    
 
   //添加头部内容
   _headBackground = [[UIView alloc]
@@ -658,7 +667,7 @@ arrayByAddingObjectsFromArray:
                                     } else if ([object[@"code"] integerValue] == 61003) { //第一次用微信登录
                                         dispatch_async(dispatch_get_main_queue(), ^{
                                             RCDRegisterViewController *temp = [[RCDRegisterViewController alloc] init];
-                                            temp.isWechatRegister = YES;
+                                            temp.registerType = WCRegisterTypeWechat;
                                             temp.informations = [response copy];
                                             [self.navigationController pushViewController:temp animated:YES];
                                         });
@@ -702,11 +711,15 @@ arrayByAddingObjectsFromArray:
     hud.color = [UIColor colorWithHexString:@"343637" alpha:0.8];
     hud.labelText = @"登录中...";
     [hud show:YES];
-    [OpenShare QQAuth:@"get_user_info" Success:^(NSDictionary *message) {
-        
-    } Fail:^(NSDictionary *message, NSError *error) {
-        
-    }];
+//    [OpenShare QQAuth:@"get_user_info" Success:^(NSDictionary *message) {
+//
+//    } Fail:^(NSDictionary *message, NSError *error) {
+//
+//    }];
+    NSArray *permissions = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_INFO, kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, nil];
+    // 这里调起登录
+    [_tencentOAuth authorize:permissions];
+    
 }
 
 - (void)retryConnectionFailed {
@@ -992,6 +1005,55 @@ arrayByAddingObjectsFromArray:
                 name:UIKeyboardWillShowNotification
               object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PasswordDidFind" object:nil];
+}
+
+- (void)tencentDidLogin {
+    if (_tencentOAuth.openId) {
+        [[WCQQLoginRequest new] request:^BOOL(WCQQLoginRequest *request) {
+            request.code = _tencentOAuth.openId;
+            return YES;
+        } result:^(id object, NSString *msg) {
+            if (object) {
+                if ([object[@"code"] integerValue] == 200) {
+                    NSDictionary *tempDictionary = [object[@"data"] copy];
+                    NSString *userId = [NSString stringWithFormat:@"%@", tempDictionary[@"userId"]];
+                    NSString *token = tempDictionary[@"token"];
+                    NSString *account = tempDictionary[@"account"];
+                    NSString *password = tempDictionary[@"password"];
+                    [self loginRongCloud:account userId:userId token:token password:password];
+                } else if ([object[@"code"] integerValue] == 61003) { //第一次用QQ登录
+                    [_tencentOAuth getUserInfo];
+                } else {
+                    [hud hide:YES];
+                    _errorMsgLb.text = @"登录失败，请检查网络。";
+                }
+            } else {
+                [hud hide:YES];
+                _errorMsgLb.text = @"登录失败，请检查网络。";
+            }
+        }];
+    }
+}
+
+- (void)tencentDidNotLogin:(BOOL)cancelled {
+    [hud hide:YES];
+}
+
+- (void)tencentDidNotNetWork {
+    [hud hide:YES];
+    _errorMsgLb.text = @"登录失败，请检查网络。";
+}
+- (void)getUserInfoResponse:(APIResponse *)response {
+    if (response.jsonResponse) {
+        NSMutableDictionary *responseDictionary = [response.jsonResponse mutableCopy];
+        [responseDictionary setObject:_tencentOAuth.openId forKey:@"openId"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            RCDRegisterViewController *temp = [[RCDRegisterViewController alloc] init];
+            temp.registerType = WCRegisterTypeQQ;
+            temp.informations = [responseDictionary copy];
+            [self.navigationController pushViewController:temp animated:YES];
+        });
+    }
 }
 
 @end

@@ -196,6 +196,7 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
                     nickname:(NSString *)nicknameString
                          sex:(NSNumber *)sex
                     wechatId:(NSString *)wechatId
+                      qqCode:(NSString *)qqCode
             verficationToken:(NSString *)verficationToken
                      success:(void (^)(id response))success
                      failure:(void (^)(NSError *err))failure {
@@ -215,6 +216,9 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
     }
     if (wechatId) {
         [params setObject:wechatId forKey:@"wechat"];
+    }
+    if (qqCode) {
+        [params setObject:qqCode forKey:@"qqcode"];
     }
 
   [AFHttpTool requestWihtMethod:RequestMethodTypePost

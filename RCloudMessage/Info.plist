@@ -56,7 +56,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>QQ</string>
+			<string>tencentopenapi</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>tencent1106530362</string>
@@ -73,6 +73,12 @@
 		<string>wtloginmqq2</string>
 		<string>mqqapi</string>
 		<string>mqq</string>
+		<string>mqqOpensdkSSoLogin</string>
+		<string>mqqconnect</string>
+		<string>mqqopensdkdataline</string>
+		<string>mqqopensdkapi</string>
+		<string>mqqopensdkapiV2</string>
+		<string>mqqopensdkapiV3</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

@@ -33,6 +33,7 @@
 #import "RCDSettingServerUrlViewController.h"
 #import "FetchInformationsRequest.h"
 #import <OpenShareHeader.h>
+#import <TencentOpenAPI/TencentOAuth.h>
 
 //#define RONGCLOUD_IM_APPKEY @"k51hidwqkexcb" //offline key
 //#define RONGCLOUD_IM_APPKEY @"c9kqb3rdkbb8j" // pre key
@@ -789,23 +790,25 @@ static NSString *const QQAPPID = @"1106530362";
 /* RedPacket_FTR  */
 //如果您使用了红包等融云的第三方扩展，请实现下面两个openURL方法
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
-  if ([[RCIM sharedRCIM] openExtensionModuleUrl:url]) {
-    return YES;
-  }
-    if ([OpenShare handleOpenURL:url]) {
+    if ([[RCIM sharedRCIM] openExtensionModuleUrl:url]) {
+        return YES;
+    } else if ([TencentOAuth HandleOpenURL:url]) {
+        return YES;
+    } else if ([OpenShare handleOpenURL:url]) {
         return YES;
     }
   return YES;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  if ([[RCIM sharedRCIM] openExtensionModuleUrl:url]) {
-    return YES;
-  }
-    if ([OpenShare handleOpenURL:url]) {
+    if ([[RCIM sharedRCIM] openExtensionModuleUrl:url]) {
+        return YES;
+    } else if ([TencentOAuth HandleOpenURL:url]) {
+        return YES;
+    } else if ([OpenShare handleOpenURL:url]) {
         return YES;
     }
-  return YES;
+    return YES;
 }
 
 //设置群组通知消息没有提示音

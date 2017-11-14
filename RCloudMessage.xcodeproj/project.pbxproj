@@ -62,6 +62,10 @@
 		3D7168341F516EFD00B0166D /* WCChatRoomListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7168331F516EFD00B0166D /* WCChatRoomListCell.m */; };
 		3D7168381F516FDE00B0166D /* WCChatRoomModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7168371F516FDE00B0166D /* WCChatRoomModel.m */; };
 		3D71683B1F5170C500B0166D /* WCChatRoomListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71683A1F5170C500B0166D /* WCChatRoomListRequest.m */; };
+		3D71D6661FB9720600960D36 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D71D6651FB9720600960D36 /* TencentOpenAPI.framework */; };
+		3D71D66B1FB97A9A00960D36 /* WCQQLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71D66A1FB97A9A00960D36 /* WCQQLoginRequest.m */; };
+		3D71D66F1FB97F5D00960D36 /* WCCommonDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71D66E1FB97F5D00960D36 /* WCCommonDefines.m */; };
+		3D71D6721FB99ADC00960D36 /* XLPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71D6711FB99ADC00960D36 /* XLPopView.m */; };
 		3D85B42A1EB85D4000E72D3F /* ModifyFriendInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */; };
 		3D85EEF11EC0423C00CD7ED2 /* libPods-SealTalk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599D0A49FB653D89550C3FF /* libPods-SealTalk.a */; };
 		3D85EEF31EC0424000CD7ED2 /* libOpenShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */; };
@@ -492,6 +496,13 @@
 		3D7168371F516FDE00B0166D /* WCChatRoomModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCChatRoomModel.m; sourceTree = "<group>"; };
 		3D7168391F5170C500B0166D /* WCChatRoomListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCChatRoomListRequest.h; sourceTree = "<group>"; };
 		3D71683A1F5170C500B0166D /* WCChatRoomListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCChatRoomListRequest.m; sourceTree = "<group>"; };
+		3D71D6651FB9720600960D36 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
+		3D71D6691FB97A9A00960D36 /* WCQQLoginRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCQQLoginRequest.h; sourceTree = "<group>"; };
+		3D71D66A1FB97A9A00960D36 /* WCQQLoginRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCQQLoginRequest.m; sourceTree = "<group>"; };
+		3D71D66D1FB97F5D00960D36 /* WCCommonDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCCommonDefines.h; sourceTree = "<group>"; };
+		3D71D66E1FB97F5D00960D36 /* WCCommonDefines.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCCommonDefines.m; sourceTree = "<group>"; };
+		3D71D6701FB99ADC00960D36 /* XLPopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XLPopView.h; sourceTree = "<group>"; };
+		3D71D6711FB99ADC00960D36 /* XLPopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XLPopView.m; sourceTree = "<group>"; };
 		3D85B4281EB85D4000E72D3F /* ModifyFriendInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyFriendInformationsRequest.h; sourceTree = "<group>"; };
 		3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyFriendInformationsRequest.m; sourceTree = "<group>"; };
 		3D85EEEF1EC01CBA00CD7ED2 /* libPods-SealTalk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SealTalk.a"; path = "Pods/../build/Debug-iphoneos/libPods-SealTalk.a"; sourceTree = SOURCE_ROOT; };
@@ -1151,6 +1162,7 @@
 				A68AFAF21CCF0B1600F16B3D /* RongCallLib.framework in Frameworks */,
 				A6EFABA71BB0EDFB007E9D67 /* libc++.tbd in Frameworks */,
 				A6EFABA51BB0EDE1007E9D67 /* libsqlite3.tbd in Frameworks */,
+				3D71D6661FB9720600960D36 /* TencentOpenAPI.framework in Frameworks */,
 				F894EC3A1DF7E47600EFD084 /* BQMMRongCloudExt.framework in Frameworks */,
 				A6EFABA11BB0EDAC007E9D67 /* libxml2.tbd in Frameworks */,
 				2E29FF3D1DC1BE8400AF2DF0 /* AlipaySDK.framework in Frameworks */,
@@ -1264,6 +1276,8 @@
 			children = (
 				3D051F0F1F9D943F00E92180 /* WCFetchShareLinkRequest.h */,
 				3D051F101F9D943F00E92180 /* WCFetchShareLinkRequest.m */,
+				3D71D6691FB97A9A00960D36 /* WCQQLoginRequest.h */,
+				3D71D66A1FB97A9A00960D36 /* WCQQLoginRequest.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -1721,6 +1735,8 @@
 				3DFFB8DE1EFA73AD003A2ABF /* JCSignCell.m */,
 				3DCD392A1F4D6D8E003EEC87 /* WCSpeakingMemberCell.h */,
 				3DCD392B1F4D6D8E003EEC87 /* WCSpeakingMemberCell.m */,
+				3D71D6701FB99ADC00960D36 /* XLPopView.h */,
+				3D71D6711FB99ADC00960D36 /* XLPopView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2197,6 +2213,7 @@
 		E4C4E7E71A0A309100140067 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D71D6651FB9720600960D36 /* TencentOpenAPI.framework */,
 				3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */,
 				3D85EEEF1EC01CBA00CD7ED2 /* libPods-SealTalk.a */,
 				F894EC361DF7E3A200EFD084 /* BQMM */,
@@ -2366,6 +2383,8 @@
 				98A670741DDD5478007D426D /* RCDNoFriendView.m */,
 				98AB3C071D38940600C3B87C /* SortForTime.h */,
 				98AB3C081D38940600C3B87C /* SortForTime.m */,
+				3D71D66D1FB97F5D00960D36 /* WCCommonDefines.h */,
+				3D71D66E1FB97F5D00960D36 /* WCCommonDefines.m */,
 				3DFF52611EBC828F00CDF351 /* Masonry */,
 				F821B7F11BE75BD000F0D14C /* UMAnalytics */,
 				46E17CB81B0EC275001AC57A /* DB */,
@@ -2653,6 +2672,7 @@
 					E4D40F271A031F460045097C = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = B4258LX29S;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -2853,6 +2873,7 @@
 				9891E8E61D82AC4400E874AB /* RCDVersionCell.m in Sources */,
 				17F7A84C1DAE187200E27D25 /* RCDSearchResultViewCell.m in Sources */,
 				3DFF527E1EBC828F00CDF351 /* MASConstraint.m in Sources */,
+				3D71D6721FB99ADC00960D36 /* XLPopView.m in Sources */,
 				E4E939601AD65A95001E0AC6 /* RCDNavigationBar.m in Sources */,
 				3D8E20331ED6B448008E6C29 /* AddFriendMessage.m in Sources */,
 				3DCD38C01F4AB551003EEC87 /* MJRefreshStateHeader.m in Sources */,
@@ -3063,6 +3084,7 @@
 				E4BFAE711A121A5E007165B1 /* RCDRCIMDataSource.m in Sources */,
 				E4E939631AD65A95001E0AC6 /* MKAnnotationView+WebCache.m in Sources */,
 				E4E939651AD65A95001E0AC6 /* SDImageCache.m in Sources */,
+				3D71D66F1FB97F5D00960D36 /* WCCommonDefines.m in Sources */,
 				3DCD39351F4E6491003EEC87 /* WCRedPacketTipCell.m in Sources */,
 				98D3C9D11D4C464D006FDF67 /* RCDMainTabBarViewController.m in Sources */,
 				3DCD38ED1F4AC400003EEC87 /* JSONModel+networking.m in Sources */,
@@ -3104,6 +3126,7 @@
 				A61647881BE9BF7C00E90813 /* RCDMeInfoTableViewController.m in Sources */,
 				466684271B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m in Sources */,
 				3DFF527D1EBC828F00CDF351 /* MASCompositeConstraint.m in Sources */,
+				3D71D66B1FB97A9A00960D36 /* WCQQLoginRequest.m in Sources */,
 				9B447DE81CF82926005D3ED5 /* RCDContactSelectedTableViewController.m in Sources */,
 				174151F51CBE516A00A4B23B /* RCDPublicServiceListViewController.m in Sources */,
 				A6447A3F1B1DC12500EA2CEE /* RCWKSharedUserDefault.m in Sources */,
@@ -3299,6 +3322,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CODE_SIGN_ENTITLEMENTS = SealTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3314,6 +3338,7 @@
 					"$(PROJECT_DIR)/framework/ifly",
 					"$(PROJECT_DIR)/framework/bqmm",
 					"$(PROJECT_DIR)/framework/PTT",
+					"$(PROJECT_DIR)/RongCloudTests",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -3336,6 +3361,8 @@
 				PRODUCT_NAME = SealTalk;
 				PROVISIONING_PROFILE = "305aba90-eefa-4027-8ef8-67ccc76f1586";
 				PROVISIONING_PROFILE_SPECIFIER = guoliao_dev;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -3451,6 +3478,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CODE_SIGN_ENTITLEMENTS = SealTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3465,6 +3493,7 @@
 					"$(PROJECT_DIR)/framework/ifly",
 					"$(PROJECT_DIR)/framework/bqmm",
 					"$(PROJECT_DIR)/framework/PTT",
+					"$(PROJECT_DIR)/RongCloudTests",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -3487,6 +3516,7 @@
 				PRODUCT_NAME = SealTalk;
 				PROVISIONING_PROFILE = "21da8fb5-0418-4846-9767-d27aaa48203c";
 				PROVISIONING_PROFILE_SPECIFIER = guoliao_dis;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -3761,6 +3791,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CODE_SIGN_ENTITLEMENTS = SealTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3776,6 +3807,7 @@
 					"$(PROJECT_DIR)/framework/ifly",
 					"$(PROJECT_DIR)/framework/bqmm",
 					"$(PROJECT_DIR)/framework/PTT",
+					"$(PROJECT_DIR)/RongCloudTests",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -3797,6 +3829,8 @@
 				PRODUCT_NAME = SealTalk;
 				PROVISIONING_PROFILE = "305aba90-eefa-4027-8ef8-67ccc76f1586";
 				PROVISIONING_PROFILE_SPECIFIER = guoliao_dev;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -3808,6 +3842,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CODE_SIGN_ENTITLEMENTS = SealTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3822,6 +3857,7 @@
 					"$(PROJECT_DIR)/framework/ifly",
 					"$(PROJECT_DIR)/framework/bqmm",
 					"$(PROJECT_DIR)/framework/PTT",
+					"$(PROJECT_DIR)/RongCloudTests",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -3843,6 +3879,7 @@
 				PRODUCT_NAME = SealTalk;
 				PROVISIONING_PROFILE = "21da8fb5-0418-4846-9767-d27aaa48203c";
 				PROVISIONING_PROFILE_SPECIFIER = guoliao_dis;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};

@@ -7,10 +7,11 @@
 //
 
 #import "RCAnimatedImagesView.h"
+#import "WCCommonDefines.h"
 #import <UIKit/UIKit.h>
 @interface RCDRegisterViewController
     : UIViewController <RCAnimatedImagesViewDelegate>
-@property (assign, nonatomic) BOOL isWechatRegister;
+@property (assign, nonatomic) WCRegisterType registerType;
 @property (copy, nonatomic) NSDictionary *informations;
 
 @end

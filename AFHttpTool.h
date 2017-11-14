@@ -62,6 +62,7 @@ typedef NS_ENUM(NSInteger, RequestMethodType) {
                     nickname:(NSString *)nicknameString
                          sex:(NSNumber *)sex
                     wechatId:(NSString *)wechatId
+                      qqCode:(NSString *)qqCode
             verficationToken:(NSString *)verficationToken
                      success:(void (^)(id response))success
                      failure:(void (^)(NSError *err))failure;

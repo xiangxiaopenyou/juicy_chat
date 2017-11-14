@@ -7,6 +7,7 @@
 //
 
 #import "WCShareWebViewController.h"
+#import "XLPopView.h"
 #import "RequestManager.h"
 #import "WCFetchShareLinkRequest.h"
 #import "ShareRewardRequest.h"
@@ -15,14 +16,20 @@
 
 #import <OpenShareHeader.h>
 #import <JavaScriptCore/JavaScriptCore.h>
-
-@interface WCShareWebViewController ()<UIWebViewDelegate>
+typedef NS_ENUM(NSInteger, WCShareType) {
+    WCShareTypeInvite,
+    WCShareTypeSharing
+};
+@interface WCShareWebViewController ()<UIWebViewDelegate, XLPopViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) XLPopView *popView;
+
 @property (copy, nonatomic) NSString *shareLinkUrlString;
 @property (copy, nonatomic) NSString *sharePictureUrlString;
 @property (copy, nonatomic) NSString *commonSharePictureString;
 @property (copy, nonatomic) NSString *titleString;
 @property (copy, nonatomic) NSString *contentString;
+@property (assign, nonatomic) WCShareType shareType;
 @end
 
 @implementation WCShareWebViewController
@@ -111,34 +118,75 @@
     [webView stringByEvaluatingJavaScriptFromString:jsMethodString1];
     [webView stringByEvaluatingJavaScriptFromString:jsMethodString2];
     JSContext *context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    OSMessage *message = [[OSMessage alloc] init];
-    message.title = _titleString;
-    message.desc = _contentString;
     context[@"SharePage"][@"Invite"] = ^(){
+        _shareType = WCShareTypeInvite;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.popView.viewTitle = @"邀请好友";
+            self.popView.images = @[@"wechat_login", @"qq_login"];
+            [self.popView show];
+        });
+    };
+    context[@"SharePage"][@"Share"] = ^(){
+        _shareType = WCShareTypeSharing;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.popView.viewTitle = @"分享到";
+            self.popView.images = @[@"icon_wechat_timeline", @"icon_qq_zone"];
+            [self.popView show];
+        });
+    };
+}
+
+#pragma mark - XLPopView delegate
+- (void)didClickButton:(NSInteger)index {
+    if (_shareType == WCShareTypeInvite) {
+        OSMessage *message = [[OSMessage alloc] init];
+        message.title = _titleString;
+        message.desc = _contentString;
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_sharePictureUrlString]];
         message.image = imageData;
         message.thumbnail = imageData;
         message.link = _shareLinkUrlString;
-        [OpenShare shareToWeixinSession:message Success:^(OSMessage *message) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        } Fail:^(OSMessage *message, NSError *error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }];
-    };
-    context[@"SharePage"][@"Share"] = ^(){
+        if (index == 0) {
+            [OpenShare shareToWeixinSession:message Success:^(OSMessage *message) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            } Fail:^(OSMessage *message, NSError *error) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }];
+        } else {
+            [OpenShare shareToQQFriends:message Success:^(OSMessage *message) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            } Fail:^(OSMessage *message, NSError *error) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }];
+        }
+    } else {
+        OSMessage *message = [[OSMessage alloc] init];
+        message.title = _titleString;
+        message.desc = _contentString;
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_commonSharePictureString]];
         message.image = imageData;
         message.thumbnail = imageData;
         message.link = nil;
-        [OpenShare shareToWeixinTimeline:message Success:^(OSMessage *message) {
-            [self fetchShareReward];
-        } Fail:^(OSMessage *message, NSError *error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }];
-    };
+        if (index == 0) {
+            [OpenShare shareToWeixinTimeline:message Success:^(OSMessage *message) {
+                [self fetchShareReward];
+            } Fail:^(OSMessage *message, NSError *error) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }];
+        } else {
+            [OpenShare shareToQQZone:message Success:^(OSMessage *message) {
+                [self fetchShareReward];
+            } Fail:^(OSMessage *message, NSError *error) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }];
+        }
+    }
 }
 
 /*
@@ -150,5 +198,13 @@
     // Pass the selected object to the new view controller.
 }
 */
+#pragma mark - Getters
+- (XLPopView *)popView {
+    if (!_popView) {
+        _popView = [[XLPopView alloc] initWithFrame:[UIScreen mainScreen].bounds images:nil title:nil];
+        _popView.delegate = self;
+    }
+    return _popView;
+}
 
 @end
