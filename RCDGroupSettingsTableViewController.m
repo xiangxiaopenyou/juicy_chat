@@ -31,6 +31,7 @@
 #import "ModifyGroupInformationsRequest.h"
 #import "DeleteGroupRequest.h"
 #import "RelieveLockViewController.h"
+#import "WCTransferGroupViewController.h"
 static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
 
 @interface RCDGroupSettingsTableViewController ()
@@ -798,7 +799,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
           rows = 1;
           break;
       case 1:
-          rows = 3;
+          rows = isCreator ? 4 : 3;
           break;
       case 2:
           //rows = isCreator ? 4 : 3;
@@ -915,22 +916,30 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
          
           case 3:
         {
-          RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
-          vc.GroupId = _Group.groupId;
-            vc.groupInfo = _Group;
-          [self.navigationController pushViewController:vc animated:YES];
-          /*
+//          RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
+//          vc.GroupId = _Group.groupId;
+//            vc.groupInfo = _Group;
+//          [self.navigationController pushViewController:vc animated:YES];
+//          /*
           if (isCreator == YES) {
-            RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
-            vc.GroupId = _Group.groupId;
-            [self.navigationController pushViewController:vc animated:YES];
+              WCTransferGroupViewController *transferController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"TransferGroup"];
+              transferController.groupInfo = self.Group;
+              transferController.transferBlock = ^(NSString *userId) {
+                  self.Group.creatorId = userId;
+                  isCreator = NO;
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      [self.tableView reloadData];
+                  });
+              };
+              [self.navigationController pushViewController:transferController animated:YES];
+//            RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
+//            vc.GroupId = _Group.groupId;
+//            [self.navigationController pushViewController:vc animated:YES];
+          } else {
+            //[self showAlert:@"只有群主可以发布群公告"];
           }
-          else
-          {
-            [self showAlert:@"只有群主可以发布群公告"];
-          }
-           */
-        }break;
+        }
+              break;
           
         default:
           break;

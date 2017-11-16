@@ -30,7 +30,7 @@
 #import "AppealCenterViewController.h"
 #import "WCShareWebViewController.h"
 #import "FetchSharePictureRequest.h"
-#import "MBProgressHUD.h"
+#import "MBProgressHUD+Add.h"
 
 #import <OpenShareHeader.h>
 
@@ -109,7 +109,7 @@
 #if RCDDebugTestFunction
       rows = 4;
 #else
-      rows = 1;
+      rows = 2;
 #endif
       break;
       
@@ -207,6 +207,11 @@
           return cell;
         }
           break;
+          case 1: {
+              [cell setCellWithImageName:@"mine_copy_link" labelName:@"复制官网地址"];
+              return cell;
+          }
+              break;
           
 //        case 1:{
 //          [cell setCellWithImageName:@"about_rongcloud" labelName:@"关于 SealTalk"];
@@ -308,8 +313,24 @@
           break;
           
         case 1: {
-          RCDAboutRongCloudTableViewController *vc = [[RCDAboutRongCloudTableViewController alloc] init];
-          [self.navigationController pushViewController:vc animated:YES];
+//          RCDAboutRongCloudTableViewController *vc = [[RCDAboutRongCloudTableViewController alloc] init];
+//          [self.navigationController pushViewController:vc animated:YES];
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"官网地址" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.enabled = NO;
+                textField.text = @"http://www.juicychat.cn";
+                textField.textAlignment = NSTextAlignmentCenter;
+            }];
+            UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"复制" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+                pasteboard.string = @"http://www.juicychat.cn";
+                [MBProgressHUD showSuccess:@"已经复制到粘贴板" toView:self.view];
+            }];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"" style:UIAlertActionStyleCancel handler:nil];
+            [alertController addAction:copyAction];
+            [alertController addAction:cancelAction];
+            [self presentViewController:alertController animated:YES completion:nil];
         }
           break;
 #if RCDDebugTestFunction

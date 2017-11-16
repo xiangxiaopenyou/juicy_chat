@@ -57,6 +57,8 @@ MBProgressHUD *hud;
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
+    self.view.backgroundColor = HEXCOLOR(0xf2f2f2);
+    self.tableView.backgroundColor = [UIColor whiteColor];
   self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
   self.navigationItem.title = @"新朋友";
 
@@ -249,14 +251,7 @@ MBProgressHUD *hud;
                      cell.rightLabel.text = @"已添加";
                      cell.selected = YES;
                      friend.status = @"1";
-                     NSMutableArray *tempArray = [NSMutableArray arrayWithArray:[[RCDataBaseManager shareInstance] getAllFriends]];
-                     NSInteger count = 0;
-                     for (RCDUserInfo *friendInfo in tempArray) {
-                         if (friendInfo.status.integerValue == 2) {
-                             count += 1;
-                         }
-                     }
-                     [[NSNotificationCenter defaultCenter] postNotificationName:@"DidChangeNewFriendsNumber" object:@(count)];
+                     [[NSNotificationCenter defaultCenter] postNotificationName:@"DidChangeNewFriendsNumber" object:nil];
                      [hud hide:YES];
                  });
              }];

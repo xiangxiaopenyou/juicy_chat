@@ -66,6 +66,9 @@
 		3D71D66B1FB97A9A00960D36 /* WCQQLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71D66A1FB97A9A00960D36 /* WCQQLoginRequest.m */; };
 		3D71D66F1FB97F5D00960D36 /* WCCommonDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71D66E1FB97F5D00960D36 /* WCCommonDefines.m */; };
 		3D71D6721FB99ADC00960D36 /* XLPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71D6711FB99ADC00960D36 /* XLPopView.m */; };
+		3D71D6751FBC356F00960D36 /* WCTransferGroupMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71D6741FBC356E00960D36 /* WCTransferGroupMemberCell.m */; };
+		3D71D6781FBC364A00960D36 /* WCTransferGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71D6771FBC364A00960D36 /* WCTransferGroupViewController.m */; };
+		3D71D67C1FBC3DEE00960D36 /* WCTransferGroupRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71D67B1FBC3DEE00960D36 /* WCTransferGroupRequest.m */; };
 		3D85B42A1EB85D4000E72D3F /* ModifyFriendInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */; };
 		3D85EEF11EC0423C00CD7ED2 /* libPods-SealTalk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599D0A49FB653D89550C3FF /* libPods-SealTalk.a */; };
 		3D85EEF31EC0424000CD7ED2 /* libOpenShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */; };
@@ -503,6 +506,12 @@
 		3D71D66E1FB97F5D00960D36 /* WCCommonDefines.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCCommonDefines.m; sourceTree = "<group>"; };
 		3D71D6701FB99ADC00960D36 /* XLPopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XLPopView.h; sourceTree = "<group>"; };
 		3D71D6711FB99ADC00960D36 /* XLPopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XLPopView.m; sourceTree = "<group>"; };
+		3D71D6731FBC356E00960D36 /* WCTransferGroupMemberCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCTransferGroupMemberCell.h; sourceTree = "<group>"; };
+		3D71D6741FBC356E00960D36 /* WCTransferGroupMemberCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCTransferGroupMemberCell.m; sourceTree = "<group>"; };
+		3D71D6761FBC364A00960D36 /* WCTransferGroupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCTransferGroupViewController.h; sourceTree = "<group>"; };
+		3D71D6771FBC364A00960D36 /* WCTransferGroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCTransferGroupViewController.m; sourceTree = "<group>"; };
+		3D71D67A1FBC3DEE00960D36 /* WCTransferGroupRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCTransferGroupRequest.h; sourceTree = "<group>"; };
+		3D71D67B1FBC3DEE00960D36 /* WCTransferGroupRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCTransferGroupRequest.m; sourceTree = "<group>"; };
 		3D85B4281EB85D4000E72D3F /* ModifyFriendInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyFriendInformationsRequest.h; sourceTree = "<group>"; };
 		3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyFriendInformationsRequest.m; sourceTree = "<group>"; };
 		3D85EEEF1EC01CBA00CD7ED2 /* libPods-SealTalk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SealTalk.a"; path = "Pods/../build/Debug-iphoneos/libPods-SealTalk.a"; sourceTree = SOURCE_ROOT; };
@@ -1285,6 +1294,7 @@
 		3D0E5F0F1EADCF7F00B41F9E /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				3D71D6791FBC3DB100960D36 /* GroupRequest */,
 				3D051F0E1F9D942800E92180 /* Others */,
 				3DCD39361F4E7DDA003EEC87 /* SpeakingManage */,
 				3D0E5F101EADCF9800B41F9E /* FetchInformationsRequest.h */,
@@ -1293,10 +1303,6 @@
 				3D0E5F3E1EB1A0B300B41F9E /* ModifyInformationsRequest.m */,
 				3D85B4281EB85D4000E72D3F /* ModifyFriendInformationsRequest.h */,
 				3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */,
-				3DFF52581EBC0F2400CDF351 /* ModifyGroupInformationsRequest.h */,
-				3DFF52591EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m */,
-				3DFF525B1EBC736A00CDF351 /* DeleteGroupRequest.h */,
-				3DFF525C1EBC736A00CDF351 /* DeleteGroupRequest.m */,
 				3D85EEF41EC0572D00CD7ED2 /* WechatLoginRequest.h */,
 				3D85EEF51EC0572D00CD7ED2 /* WechatLoginRequest.m */,
 				3D3F8CAB1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.h */,
@@ -1307,8 +1313,6 @@
 				3D3F8CBB1EC4A13E0040C0D5 /* FetchBalanceRequest.m */,
 				3D3F8CBD1EC4A7120040C0D5 /* SendRedPacketRequest.h */,
 				3D3F8CBE1EC4A7120040C0D5 /* SendRedPacketRequest.m */,
-				3D3F8CC61EC6FE460040C0D5 /* CheckLockMoneyRequest.h */,
-				3D3F8CC71EC6FE460040C0D5 /* CheckLockMoneyRequest.m */,
 				3D3F8CCC1EC72B390040C0D5 /* CheckTakeApartStateRequest.h */,
 				3D3F8CCD1EC72B390040C0D5 /* CheckTakeApartStateRequest.m */,
 				3D3F8CCF1EC72BBE0040C0D5 /* FetchRemainingPacketAmountRequest.h */,
@@ -1445,6 +1449,21 @@
 			);
 			path = ChatRoomModel;
 			sourceTree = SOURCE_ROOT;
+		};
+		3D71D6791FBC3DB100960D36 /* GroupRequest */ = {
+			isa = PBXGroup;
+			children = (
+				3DFF52581EBC0F2400CDF351 /* ModifyGroupInformationsRequest.h */,
+				3DFF52591EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m */,
+				3DFF525B1EBC736A00CDF351 /* DeleteGroupRequest.h */,
+				3DFF525C1EBC736A00CDF351 /* DeleteGroupRequest.m */,
+				3D3F8CC61EC6FE460040C0D5 /* CheckLockMoneyRequest.h */,
+				3D3F8CC71EC6FE460040C0D5 /* CheckLockMoneyRequest.m */,
+				3D71D67A1FBC3DEE00960D36 /* WCTransferGroupRequest.h */,
+				3D71D67B1FBC3DEE00960D36 /* WCTransferGroupRequest.m */,
+			);
+			path = GroupRequest;
+			sourceTree = "<group>";
 		};
 		3D8E20A41ED6D07E008E6C29 /* MyFriendsList */ = {
 			isa = PBXGroup;
@@ -1722,6 +1741,8 @@
 				3DCD39281F4D68F1003EEC87 /* WCSpeakingManageViewController.m */,
 				3D051F0A1F9D935B00E92180 /* WCShareWebViewController.h */,
 				3D051F0B1F9D935B00E92180 /* WCShareWebViewController.m */,
+				3D71D6761FBC364A00960D36 /* WCTransferGroupViewController.h */,
+				3D71D6771FBC364A00960D36 /* WCTransferGroupViewController.m */,
 			);
 			path = Additional;
 			sourceTree = SOURCE_ROOT;
@@ -1737,6 +1758,8 @@
 				3DCD392B1F4D6D8E003EEC87 /* WCSpeakingMemberCell.m */,
 				3D71D6701FB99ADC00960D36 /* XLPopView.h */,
 				3D71D6711FB99ADC00960D36 /* XLPopView.m */,
+				3D71D6731FBC356E00960D36 /* WCTransferGroupMemberCell.h */,
+				3D71D6741FBC356E00960D36 /* WCTransferGroupMemberCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2926,6 +2949,7 @@
 				3DFF52811EBC828F00CDF351 /* MASViewAttribute.m in Sources */,
 				9891E8DD1D8263F700E874AB /* RCDMeCell.m in Sources */,
 				9B447DE61CF82926005D3ED5 /* RCDChangePasswordViewController.m in Sources */,
+				3D71D67C1FBC3DEE00960D36 /* WCTransferGroupRequest.m in Sources */,
 				98FFECB71D267140001DBB0D /* UITabBar+badge.m in Sources */,
 				E4E9394F1AD65A95001E0AC6 /* UIImageView+AFNetworking.m in Sources */,
 				A65C1C8F1C7C13F400EBB601 /* RCDCustomerServiceViewController.m in Sources */,
@@ -3037,6 +3061,7 @@
 				17244C181B56553B000EFF79 /* RCDMessageNoDisturbSettingController.m in Sources */,
 				98E4A6021DC08980007C3D1C /* RCDSquareCell.m in Sources */,
 				17F7A84A1DAE187200E27D25 /* RCDSearchMoreViewCell.m in Sources */,
+				3D71D6751FBC356F00960D36 /* WCTransferGroupMemberCell.m in Sources */,
 				E4E939911AD65BD4001E0AC6 /* RCDUpdateNameViewController.m in Sources */,
 				5C7629831B54F7E60027DA82 /* RCDBlackListCell.m in Sources */,
 				46E17CC71B0EC32A001AC57A /* FMDatabase.m in Sources */,
@@ -3085,6 +3110,7 @@
 				E4E939631AD65A95001E0AC6 /* MKAnnotationView+WebCache.m in Sources */,
 				E4E939651AD65A95001E0AC6 /* SDImageCache.m in Sources */,
 				3D71D66F1FB97F5D00960D36 /* WCCommonDefines.m in Sources */,
+				3D71D6781FBC364A00960D36 /* WCTransferGroupViewController.m in Sources */,
 				3DCD39351F4E6491003EEC87 /* WCRedPacketTipCell.m in Sources */,
 				98D3C9D11D4C464D006FDF67 /* RCDMainTabBarViewController.m in Sources */,
 				3DCD38ED1F4AC400003EEC87 /* JSONModel+networking.m in Sources */,

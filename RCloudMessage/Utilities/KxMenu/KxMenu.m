@@ -613,7 +613,7 @@ typedef enum {
 
   if (_arrowDirection == KxMenuViewArrowDirectionUp) {
 
-    const CGFloat arrowXM = _arrowPosition;
+    const CGFloat arrowXM = _arrowPosition + 50;
     const CGFloat arrowX0 = arrowXM - kArrowSize;
     const CGFloat arrowX1 = arrowXM + kArrowSize;
     const CGFloat arrowY0 = Y0;

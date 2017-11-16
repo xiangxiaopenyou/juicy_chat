@@ -107,9 +107,19 @@
                       views:views]];
     
   }
+    _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(43, 4, 14, 14)];
+    _numberLabel.layer.masksToBounds = YES;
+    _numberLabel.layer.cornerRadius = 7.f;
+    _numberLabel.textAlignment = NSTextAlignmentCenter;
+    _numberLabel.font = [UIFont systemFontOfSize:10];
+    _numberLabel.textColor = [UIColor whiteColor];
+    _numberLabel.text = @"5";
+    _numberLabel.backgroundColor = [UIColor colorWithRed:238/255.0 green:28/255.0 blue:27/255.0 alpha:1];
+    [self.contentView addSubview:_numberLabel];
+    _numberLabel.hidden = YES;
   
-  self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
-  self.selectedBackgroundView.backgroundColor = [UIColor colorWithHexString:@"f5f5f5" alpha:1.0];
+//  self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
+//  self.selectedBackgroundView.backgroundColor = [UIColor colorWithHexString:@"f5f5f5" alpha:1.0];
 }
 
 - (void)awakeFromNib {
@@ -118,7 +128,11 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
   [super setSelected:selected animated:animated];
-
+    _numberLabel.backgroundColor = [UIColor colorWithRed:238/255.0 green:28/255.0 blue:27/255.0 alpha:1];
   // Configure the view for the selected state
+}
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    _numberLabel.backgroundColor = [UIColor colorWithRed:238/255.0 green:28/255.0 blue:27/255.0 alpha:1];
 }
 @end

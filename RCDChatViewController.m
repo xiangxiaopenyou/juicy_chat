@@ -112,7 +112,6 @@ NSMutableDictionary *userInputStatus;
   self.enableSaveNewPhotoToLocalSystem = YES;
   [UIApplication sharedApplication].statusBarStyle =
       UIStatusBarStyleLightContent;
-
   if (self.conversationType != ConversationType_CHATROOM) {
     if (self.conversationType == ConversationType_DISCUSSION) {
       [[RCIMClient sharedRCIMClient] getDiscussion:self.targetId

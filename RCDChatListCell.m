@@ -169,5 +169,13 @@
   }
   return self;
 }
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    self.unreadLabel.backgroundColor = [UIColor colorWithRed:238/255.0 green:28/255.0 blue:27/255.0 alpha:1];
+}
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    self.unreadLabel.backgroundColor = [UIColor colorWithRed:238/255.0 green:28/255.0 blue:27/255.0 alpha:1];
+}
 
 @end

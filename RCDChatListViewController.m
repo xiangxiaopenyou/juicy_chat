@@ -121,6 +121,11 @@
   self.navigationController.navigationBar.translucent = NO;
   self.searchBar.delegate = self;
   [self.headerView addSubview:self.searchBar];
+    if (@available(iOS 11.0, *)) {
+        self.conversationListTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        // Fallback on earlier versions
+    }
   self.conversationListTableView.tableHeaderView = self.headerView;
 
   //设置tableView样式
@@ -847,7 +852,7 @@
               [self refreshConversationTableViewIfNeeded];
           });
       } else if ([_contactNotificationMsg.operation isEqualToString:@"Request"]) {
-          [[NSNotificationCenter defaultCenter] postNotificationName:@"DidReceiveFriendsRequest" object:nil];
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"DidChangeNewFriendsNumber" object:nil];
       }
     [RCDHTTPTOOL
         getUserInfoByUserID:_contactNotificationMsg.sourceUserId

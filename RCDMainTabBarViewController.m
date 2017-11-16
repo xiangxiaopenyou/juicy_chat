@@ -14,6 +14,9 @@
 #import "RCDMeTableViewController.h"
 #import "WCChatRoomViewController.h"
 #import "UITabBar+badge.h"
+#import "RCDUserInfo.h"
+#import "RCDataBaseManager.h"
+#import "RCDRCIMDataSource.h"
 
 @interface RCDMainTabBarViewController ()
 
@@ -42,8 +45,8 @@
                                            selector:@selector(changeSelectedIndex:)
                                                name:@"ChangeTabBarIndex"
                                              object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveFriendsRequest) name:@"DidReceiveFriendsRequest" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeNewFriendNumber:) name:@"DidChangeNewFriendsNumber" object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveFriendsRequest) name:@"DidReceiveFriendsRequest" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveFriendsRequest) name:@"DidChangeNewFriendsNumber" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,7 +55,7 @@
 }
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ChangeTabBarIndex" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DidReceiveFriendsRequest" object:nil];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:@"DidReceiveFriendsRequest" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DidChangeNewFriendsNumber" object:nil];
 }
 
@@ -78,6 +81,7 @@
             [chatListVC updateBadgeValueForTabBarItem];
         }
     }];
+    [self didChangeNewFriendNumber];
 }
 
 -(void)setTabBarItems {
@@ -157,16 +161,22 @@
 
 //收到好友请求notification
 - (void)didReceiveFriendsRequest {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tabBar showBadgeOnItemIndex:1 badgeValue:1];
-    });
+    [RCDDataSource syncFriendList:[RCIM sharedRCIM].currentUserInfo.userId complete:^(NSMutableArray *friends) {
+        [self didChangeNewFriendNumber];
+    }];
 }
 //收到接受好友请求notification
-- (void)didChangeNewFriendNumber:(NSNotification *)notification {
-    int count = [notification.object intValue];
+- (void)didChangeNewFriendNumber {
+    int friendRequestNumber = 0;
+    NSMutableArray *temp = [NSMutableArray arrayWithArray:[[RCDataBaseManager shareInstance] getAllFriends]];
+    for (RCDUserInfo *user in temp) {
+        if ([user.status integerValue] == 2) {
+            friendRequestNumber += 1;
+        }
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (count > 0) {
-            [self.tabBar showBadgeOnItemIndex:1 badgeValue:count];
+        if (friendRequestNumber > 0) {
+            [self.tabBar showBadgeOnItemIndex:1 badgeValue:friendRequestNumber];
         } else {
             [self.tabBar hideBadgeOnItemIndex:1];
         }

@@ -26,7 +26,6 @@ typedef NS_ENUM(NSInteger, WCShareType) {
 
 @property (copy, nonatomic) NSString *shareLinkUrlString;
 @property (copy, nonatomic) NSString *sharePictureUrlString;
-@property (copy, nonatomic) NSString *commonSharePictureString;
 @property (copy, nonatomic) NSString *titleString;
 @property (copy, nonatomic) NSString *contentString;
 @property (assign, nonatomic) WCShareType shareType;
@@ -63,11 +62,12 @@ typedef NS_ENUM(NSInteger, WCShareType) {
         if (msg) {
             [MBProgressHUD showError:msg toView:self.view];
         } else {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             _shareLinkUrlString = object[@"linkUrl"];
             _sharePictureUrlString = object[@"imgUrl"];
             _titleString = object[@"title"];
             _contentString = object[@"content"];
-            [self fetchSharePictureRequest];
+            
         }
     }];
 }
@@ -90,16 +90,16 @@ typedef NS_ENUM(NSInteger, WCShareType) {
         }
     }];
 }
-- (void)fetchSharePictureRequest {
-    [[FetchSharePictureRequest new] request:^BOOL(id request) {
-        return YES;
-    } result:^(id object, NSString *msg) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        if (object) {
-            _commonSharePictureString = object[@"url"];
-        }
-    }];
-}
+//- (void)fetchSharePictureRequest {
+//    [[FetchSharePictureRequest new] request:^BOOL(id request) {
+//        return YES;
+//    } result:^(id object, NSString *msg) {
+//        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+//        if (object) {
+//            _commonSharePictureString = object[@"url"];
+//        }
+//    }];
+//}
 
 //- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
 //    NSString *requestString = [[[request URL] absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -138,14 +138,14 @@ typedef NS_ENUM(NSInteger, WCShareType) {
 
 #pragma mark - XLPopView delegate
 - (void)didClickButton:(NSInteger)index {
+    OSMessage *message = [[OSMessage alloc] init];
+    message.title = _titleString;
+    message.desc = _contentString;
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_sharePictureUrlString]];
+    message.image = imageData;
+    message.thumbnail = imageData;
+    message.link = _shareLinkUrlString;
     if (_shareType == WCShareTypeInvite) {
-        OSMessage *message = [[OSMessage alloc] init];
-        message.title = _titleString;
-        message.desc = _contentString;
-        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_sharePictureUrlString]];
-        message.image = imageData;
-        message.thumbnail = imageData;
-        message.link = _shareLinkUrlString;
         if (index == 0) {
             [OpenShare shareToWeixinSession:message Success:^(OSMessage *message) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
@@ -164,23 +164,20 @@ typedef NS_ENUM(NSInteger, WCShareType) {
             }];
         }
     } else {
-        OSMessage *message = [[OSMessage alloc] init];
-        message.title = _titleString;
-        message.desc = _contentString;
-        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_commonSharePictureString]];
-        message.image = imageData;
-        message.thumbnail = imageData;
-        message.link = nil;
         if (index == 0) {
             [OpenShare shareToWeixinTimeline:message Success:^(OSMessage *message) {
-                [self fetchShareReward];
+                //[self fetchShareReward];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
             } Fail:^(OSMessage *message, NSError *error) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [alert show];
             }];
         } else {
             [OpenShare shareToQQZone:message Success:^(OSMessage *message) {
-                [self fetchShareReward];
+                //[self fetchShareReward];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
             } Fail:^(OSMessage *message, NSError *error) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [alert show];

@@ -38,6 +38,7 @@
 @property(nonatomic, assign) BOOL hasSyncFriendList;
 @property(nonatomic, assign) BOOL isBeginSearch;
 @property(nonatomic, strong) NSMutableDictionary *resultDic;
+@property (assign, nonatomic) NSInteger friendRequestNumber;
 
 @end
 
@@ -143,6 +144,8 @@
       arrayWithObjects:@"newFriend", @"defaultGroup", nil];
   
   self.isBeginSearch = NO;
+    //添加好友通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeNewFriendNumber) name:@"DidChangeNewFriendsNumber" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -151,6 +154,7 @@
   [self.searchFriendsBar resignFirstResponder];
     [RCDDataSource syncFriendList:[RCIM sharedRCIM].currentUserInfo.userId
                          complete:^(NSMutableArray *result) {
+                             [self messagesNumberOfRequest];
                          }];
   [self sortAndRefreshWithList:[self getAllFriendList]];
   
@@ -184,6 +188,37 @@
     [self.matchFriendList removeAllObjects];
     [self.friendsTabelView setContentOffset:CGPointMake(0,0) animated:NO];
   }
+}
+- (void)didChangeNewFriendNumber {
+    //[self messagesNumberOfRequest];
+    [RCDDataSource syncFriendList:[RCIM sharedRCIM].currentUserInfo.userId
+                         complete:^(NSMutableArray *result) {
+                             _friendRequestNumber = 0;
+                             NSMutableArray *temp = [NSMutableArray arrayWithArray:[[RCDataBaseManager shareInstance] getAllFriends]];
+                             for (RCDUserInfo *user in temp) {
+                                 if ([user.status integerValue] == 2) {
+                                     _friendRequestNumber += 1;
+                                 }
+                             }
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 [self.friendsTabelView reloadData];
+                             });
+                         }];
+    
+}
+
+//获取好友请求消息数量
+- (void)messagesNumberOfRequest {
+    _friendRequestNumber = 0;
+    NSMutableArray *temp = [NSMutableArray arrayWithArray:[[RCDataBaseManager shareInstance] getAllFriends]];
+    for (RCDUserInfo *user in temp) {
+        if ([user.status integerValue] == 2) {
+            _friendRequestNumber += 1;
+        }
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.friendsTabelView reloadData];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -285,6 +320,14 @@
                                           @"%@",
                                           [_defaultCellsPortrait
                                               objectAtIndex:indexPath.row]]]];
+      if (indexPath.row == 0) {
+          if (_friendRequestNumber > 0) {
+              cell.numberLabel.hidden = NO;
+              cell.numberLabel.text = [NSString stringWithFormat:@"%@", @(_friendRequestNumber)];
+          } else {
+              cell.numberLabel.hidden = YES;
+          }
+      }
   }
   if (indexPath.section == 0 && indexPath.row == 2) {
       if ([isDisplayID isEqualToString:@"YES"]) {
