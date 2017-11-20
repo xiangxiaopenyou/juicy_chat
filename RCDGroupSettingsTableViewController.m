@@ -1282,19 +1282,32 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([groupNotification.operation isEqualToString:@"Dismiss"]) {
       return;
     } else if ([groupNotification.operation isEqualToString:@"Quit"] || [groupNotification.operation isEqualToString:@"Add"] || [groupNotification.operation isEqualToString:@"Kicked"]) {
-      [RCDHTTPTOOL getGroupMembersWithGroupId:message.targetId
-                                        Block:^(NSMutableArray *result) {
-                                          [[RCDataBaseManager shareInstance]
-                                           insertGroupMemberToDB:result
-                                           groupId:message.targetId
-                                           complete:^(BOOL results) {
-                                             dispatch_async(dispatch_get_main_queue(), ^{
-                                               self.title = [NSString stringWithFormat:@"群组信息(%lu)",(unsigned long)result.count];
-                                               [self refreshHeaderView];
-                                               [self refreshTabelViewInfo];
-                                             });
-                                           }];
-                                        }];
+        NSData *jsonData = [groupNotification.data dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *temp = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+        NSArray *tempArray = temp[@"targetUserIds"];
+        if ([groupNotification.operation isEqualToString:@"Kicked"] && [tempArray containsObject:[RCIM sharedRCIM].currentUserInfo.userId]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_GROUP targetId:groupId];
+                [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:groupId];
+                [[RCDataBaseManager shareInstance] deleteGroupToDB:groupId];
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
+        } else {
+            [RCDHTTPTOOL getGroupMembersWithGroupId:message.targetId
+                                              Block:^(NSMutableArray *result) {
+                                                  [[RCDataBaseManager shareInstance]
+                                                   insertGroupMemberToDB:result
+                                                   groupId:message.targetId
+                                                   complete:^(BOOL results) {
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           self.title = [NSString stringWithFormat:@"群组信息(%lu)",(unsigned long)result.count];
+                                                           [self refreshHeaderView];
+                                                           //[self refreshTabelViewInfo];
+                                                       });
+                                                   }];
+                                              }];
+        }
+      
     } else if ([groupNotification.operation isEqualToString:@"Rename"]) {
       dispatch_async(dispatch_get_main_queue(), ^{
         [self refreshTabelViewInfo];

@@ -221,7 +221,6 @@
     }
     
   self.tabBarController.navigationItem.title = @"果聊";
-
 //  [self notifyUpdateUnreadMessageCount];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
@@ -836,15 +835,7 @@
     }
     //该接口需要替换为从消息体获取好友请求的用户信息
       if ([_contactNotificationMsg.operation isEqualToString:@"Remove"]) {
-//          NSMutableArray *tempArray = [self.conversationListDataSource mutableCopy];
-//          for (NSInteger i = 0; i < self.conversationListDataSource.count; i ++) {
-//              RCConversationModel *tempModel = self.conversationListDataSource[i];
-//              if ([tempModel.targetId integerValue] == [_contactNotificationMsg.sourceUserId integerValue]) {
-//                  [tempArray removeObjectAtIndex:i];
-//                  continue;
-//              }
-//          }
-//          self.conversationListDataSource = [tempArray mutableCopy];
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"ReceivedDeleteMessage" object:_contactNotificationMsg];
           [[RCDataBaseManager shareInstance] deleteFriendFromDB:_contactNotificationMsg.sourceUserId];
           [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_PRIVATE targetId:_contactNotificationMsg.sourceUserId];
           [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_PRIVATE targetId:_contactNotificationMsg.sourceUserId];

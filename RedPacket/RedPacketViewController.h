@@ -15,6 +15,6 @@
 @property (strong, nonatomic) RCDGroupInfo *groupInfo;
 @property (copy, nonatomic) NSString *toId;
 
-@property (copy, nonatomic) void (^successBlock)(NSString *packetId, NSString *note);
+@property (copy, nonatomic) void (^successBlock)(NSString *packetId, NSString *note, NSNumber *count, NSNumber *money);
 
 @end

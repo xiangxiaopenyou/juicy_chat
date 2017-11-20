@@ -277,6 +277,12 @@ NSMutableDictionary *userInputStatus;
          selector:@selector(updateForSharedMessageInsertSuccess:)
              name:@"RCDSharedMessageInsertSuccess"
            object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveDeleteMessage:) name:@"ReceivedDeleteMessage" object:nil];
+//    [[NSNotificationCenter defaultCenter]
+//     addObserver:self
+//     selector:@selector(didReceiveMessageNotification:)
+//     name:RCKitDispatchMessageNotification
+//     object:nil];
 
 //  //表情面板添加自定义表情包
 //  UIImage *icon = [RCKitUtility imageNamed:@"emoji_btn_normal"
@@ -563,6 +569,22 @@ NSMutableDictionary *userInputStatus;
 - (void)setRealTimeLocation:(id<RCRealTimeLocationProxy>)realTimeLocation {
   _realTimeLocation = realTimeLocation;
 }
+- (void)didReceiveDeleteMessage:(NSNotification *)notification {
+    if (self.conversationType == ConversationType_PRIVATE) {
+        RCContactNotificationMessage *message = (RCContactNotificationMessage *)notification.object;
+        if ([message.sourceUserId isEqualToString:self.targetId]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"对方已经和你解除好友关系" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+                [alert addAction:okAction];
+                [self presentViewController:alert animated:YES completion:nil];
+            });
+        }
+    }
+    
+}
 
 - (void)pluginBoardView:(RCPluginBoardView *)pluginBoardView
      clickedItemWithTag:(NSInteger)tag {
@@ -605,11 +627,11 @@ NSMutableDictionary *userInputStatus;
               } else if (self.conversationType == ConversationType_PRIVATE) {
                   redPacket.toId = self.targetId;
               }
-              redPacket.successBlock = ^(NSString *packetId, NSString *note) {
+              redPacket.successBlock = ^(NSString *packetId, NSString *note, NSNumber *count, NSNumber *money) {
                   if (packetId && note) {
                       NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
                       dispatch_async(dispatch_get_main_queue(), ^{
-                          [self sendRedPacketMessage:packetId note:note userId:userId toUserId:self.targetId];
+                          [self sendRedPacketMessage:packetId note:note userId:userId toUserId:self.targetId count:count money:money];
                       });
                   }
               };
@@ -675,8 +697,12 @@ NSMutableDictionary *userInputStatus;
     break;
   }
 }
-- (void)sendRedPacketMessage:(NSString *)packetId note:(NSString *)note userId:(NSString *)fromUserId toUserId:(NSString *)toUserId {
-    RedPacketMessage *message = [RedPacketMessage messageWithContent:[NSString stringWithFormat:@"[红包]%@", note] redPacketId:packetId fromuserid:fromUserId tomemberid:toUserId];
+- (void)sendRedPacketMessage:(NSString *)packetId note:(NSString *)note userId:(NSString *)fromUserId toUserId:(NSString *)toUserId count:(NSNumber *)count money:(NSNumber *)money {
+    NSDate *date = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateString = [formatter stringFromDate:date];
+    RedPacketMessage *message = [RedPacketMessage messageWithContent:[NSString stringWithFormat:@"[红包]%@", note] redPacketId:packetId fromuserid:fromUserId tomemberid:toUserId createtime:dateString state:@1 count:count sort:@1 money:money type:@(self.conversationType)];
     [self sendMessage:message pushContent:note];
 }
 - (void)sendPersonalCardMessage:(RCDUserInfo *)userInfo {
@@ -1684,6 +1710,24 @@ NSMutableDictionary *userInputStatus;
     [super alertErrorAndLeft:errorInfo];
   }
 }
+//- (void)didReceiveMessageNotification:(NSNotification *)notification {
+//    RCMessage *message = notification.object;
+//    if ([message.content isMemberOfClass:[RCContactNotificationMessage class]]) {
+//        RCContactNotificationMessage *_contactNotificationMsg =
+//        (RCContactNotificationMessage *)message.content;
+//        if (_contactNotificationMsg.sourceUserId == nil || _contactNotificationMsg.sourceUserId.length == 0) {
+//            return;
+//        }
+//        if ([_contactNotificationMsg.operation isEqualToString:@"Remove"]) {
+//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"对方已经和你解除好友关系" preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+//                [self.navigationController popViewControllerAnimated:YES];
+//            }];
+//            [alert addAction:okAction];
+//            [self presentViewController:alert animated:YES completion:nil];
+//        }
+//    }
+//}
 
 - (TakeApartPacketView *)packetView {
     if (!_packetView) {

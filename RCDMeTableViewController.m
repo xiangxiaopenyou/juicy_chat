@@ -327,7 +327,7 @@
                 pasteboard.string = @"http://www.juicychat.cn";
                 [MBProgressHUD showSuccess:@"已经复制到粘贴板" toView:self.view];
             }];
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
             [alertController addAction:copyAction];
             [alertController addAction:cancelAction];
             [self presentViewController:alertController animated:YES completion:nil];

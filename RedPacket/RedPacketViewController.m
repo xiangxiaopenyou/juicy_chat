@@ -110,10 +110,10 @@
         _hud.labelText = @"";
         [_hud show:YES];
         NSString *passwordString = (NSString *)notification.object;
+        UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1001];
+        UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1000];
+        UITextField *textField3 = (UITextField *)[self.tableView viewWithTag:1002];
         [[SendRedPacketRequest new] request:^BOOL(SendRedPacketRequest *request) {
-            UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1001];
-            UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1000];
-            UITextField *textField3 = (UITextField *)[self.tableView viewWithTag:1002];
             if (self.type == ConversationType_GROUP) {
                 request.type = @(2);
                 request.toId = self.groupInfo.groupId;
@@ -142,7 +142,11 @@
                         }
                         NSString *idString = [NSString stringWithFormat:@"%@", object[@"id"]];
                         if (self.successBlock) {
-                            self.successBlock(idString, noteString);
+                            if (self.type == ConversationType_GROUP) {
+                                self.successBlock(idString, noteString, @(textField3.text.integerValue), @(textField2.text.integerValue * 100));
+                            } else {
+                                self.successBlock(idString, noteString, @1, @(textField2.text.integerValue * 100));
+                            }
                         }
                     } else {
                         [self.entryView clearPassword];

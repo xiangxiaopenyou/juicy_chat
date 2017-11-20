@@ -219,6 +219,7 @@ MBProgressHUD *hud;
         }];
         [_friends removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+        [[RCDataBaseManager shareInstance] deleteFriendFromDB:user.userId];
     }
 }
 

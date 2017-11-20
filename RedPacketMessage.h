@@ -14,7 +14,22 @@ static NSString *const RedPacketMessageTypeIdentifier = @"JC:RedPacketMsg";
 @property (copy, nonatomic) NSString *redpacketId;
 @property (copy, nonatomic) NSString *fromuserid;
 @property (copy, nonatomic) NSString *tomemberid;
+@property (copy, nonatomic) NSString *createtime;
+@property (strong, nonatomic) NSNumber *state;
+@property (strong, nonatomic) NSNumber *count;
+@property (strong, nonatomic) NSNumber *sort;
+@property (strong, nonatomic) NSNumber *money;
+@property (strong, nonatomic) NSNumber *type;
 
-+ (instancetype)messageWithContent:(NSString *)content redPacketId:(NSString *)redpacketId fromuserid:(NSString *)fromuserid tomemberid:(NSString *)tomemberid;
++ (instancetype)messageWithContent:(NSString *)content
+                       redPacketId:(NSString *)redpacketId
+                        fromuserid:(NSString *)fromuserid
+                        tomemberid:(NSString *)tomemberid
+                        createtime:(NSString *)createtime
+                             state:(NSNumber *)state
+                             count:(NSNumber *)count
+                              sort:(NSNumber *)sort
+                             money:(NSNumber *)money
+                              type:(NSNumber *)type;
 
 @end

@@ -164,7 +164,7 @@
                 [[RCDataBaseManager shareInstance] deleteFriendFromDB:self.userId];
                 [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_PRIVATE targetId:self.userId];
                 [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_PRIVATE targetId:self.userId];
-                [self.navigationController popViewControllerAnimated:YES];
+                [self.navigationController popToRootViewControllerAnimated:YES];
             } else {
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
                                                                     message:@"删除好友失败"

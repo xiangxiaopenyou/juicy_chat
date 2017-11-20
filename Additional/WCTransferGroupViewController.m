@@ -117,11 +117,19 @@
     return key;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [MBProgressHUD showHUDAddedTo:self.view animated:self.view];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSString *key = [_allKeysArray objectAtIndex:indexPath.section];
     NSArray *arr = [_allMembersDictionary objectForKey:key];
     RCDUserInfo *userInfo = arr[indexPath.row];
-    [self transferRequest:userInfo.userId];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"确定要把群组转让给%@吗", userInfo.name] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:self.view];
+        [self transferRequest:userInfo.userId];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:okAction];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 /*
 #pragma mark - Navigation
