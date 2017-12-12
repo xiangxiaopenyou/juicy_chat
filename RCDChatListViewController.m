@@ -202,6 +202,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+    //NSArray *tempArray = [self.conversationListDataSource copy];
   self.navigationController.navigationBar.translucent = NO;
   _isClick = YES;
   //自定义rightBarButtonItem
@@ -746,7 +747,13 @@
                         cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.content];
                     } else if ([model.lastestMessage isKindOfClass:[WCRedPacketTipMessage class]]) {
                         WCRedPacketTipMessage *message = (WCRedPacketTipMessage *)model.lastestMessage;
-                        cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.message];
+                        NSInteger userId = [[NSUserDefaults standardUserDefaults] integerForKey:@"userId"];
+                        if (message.touserid.integerValue == userId) {
+                            cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.message];
+                        } else {
+                            cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.tipmessage];
+                        }
+                        
                     } else {
                         cell.lblDetail.text = @"[个人名片]";
                     }

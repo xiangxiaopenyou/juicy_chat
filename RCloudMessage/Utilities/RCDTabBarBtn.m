@@ -101,8 +101,8 @@
   _samllCircleView.center = self.center;
   _samllCircleView.layer.cornerRadius = _samllCircleView.bounds.size.width / 2;
   
-  UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-  [self addGestureRecognizer:pan];
+//  UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+//  [self addGestureRecognizer:pan];
   
   [self addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -262,42 +262,42 @@
 }
 
 #pragma mark - 设置长按时候左右摇摆的动画
-- (void)setHighlighted:(BOOL)highlighted
-{
-  [self.layer removeAnimationForKey:@"shake"];
-  
-  //长按左右晃动的幅度大小
-  CGFloat shake = 3;
-  
-  CAKeyframeAnimation *keyAnim = [CAKeyframeAnimation animation];
-  keyAnim.keyPath = @"transform.translation.x";
-  keyAnim.values = @[@(-shake), @(shake), @(-shake)];
-  keyAnim.removedOnCompletion = NO;
-  keyAnim.repeatCount = 2;
-  //左右晃动一次的时间
-  keyAnim.duration = 0.3;
-  if ( [self.layer animationForKey:@"shake"] == nil) {
-    [self.layer addAnimation:keyAnim forKey:@"shake"];
-  }
-}
+//- (void)setHighlighted:(BOOL)highlighted
+//{
+//  [self.layer removeAnimationForKey:@"shake"];
+//
+//  //长按左右晃动的幅度大小
+//  CGFloat shake = 3;
+//  
+//  CAKeyframeAnimation *keyAnim = [CAKeyframeAnimation animation];
+//  keyAnim.keyPath = @"transform.translation.x";
+//  keyAnim.values = @[@(-shake), @(shake), @(-shake)];
+//  keyAnim.removedOnCompletion = NO;
+//  keyAnim.repeatCount = 2;
+//  //左右晃动一次的时间
+//  keyAnim.duration = 0.3;
+//  if ( [self.layer animationForKey:@"shake"] == nil) {
+//    [self.layer addAnimation:keyAnim forKey:@"shake"];
+//  }
+//}
 
 -(void)setUnreadCount:(NSString *)unreadCount
 {
   [self setTitle:unreadCount forState:UIControlStateNormal];
 }
 
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event
-{
-  CGRect bounds = self.bounds;
-  //若原热区小于44x44，则放大热区，否则保持原大小不变
-  CGFloat widthDelta = MAX(44.0 - bounds.size.width, 0);
-  CGFloat heightDelta = MAX(44.0 - bounds.size.height, 0);
-  bounds = CGRectInset(bounds, -0.5 * widthDelta, -0.5 * heightDelta);
-  if ([RCDMainTabBarViewController shareInstance].selectedTabBarIndex > 0) {
-    bounds = CGRectZero;
-  }
-  return CGRectContainsPoint(bounds, point);
-}
+//- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event
+//{
+//  CGRect bounds = self.bounds;
+//  //若原热区小于44x44，则放大热区，否则保持原大小不变
+//  CGFloat widthDelta = MAX(44.0 - bounds.size.width, 0);
+//  CGFloat heightDelta = MAX(44.0 - bounds.size.height, 0);
+//  bounds = CGRectInset(bounds, -0.5 * widthDelta, -0.5 * heightDelta);
+//  if ([RCDMainTabBarViewController shareInstance].selectedTabBarIndex > 0) {
+//    bounds = CGRectZero;
+//  }
+//  return CGRectContainsPoint(bounds, point);
+//}
 
 - (void)setTabBarIndexStr:(NSNotification *)notify {
   if (notify != nil) {

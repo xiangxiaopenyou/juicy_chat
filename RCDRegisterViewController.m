@@ -1034,7 +1034,7 @@
  *  @param token    token
  *  @param password 密码
  */
-- (void)loginRongCloud:(NSString *)userName
+- (void)     loginRongCloud:(NSString *)userName
                 userId:(NSString *)userId
                  token:(NSString *)token
               password:(NSString *)password {

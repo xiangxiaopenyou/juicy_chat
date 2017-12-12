@@ -956,7 +956,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                       if (self.Group.redPacketLimit.integerValue == 0) {
                           textField.text = nil;
                       } else {
-                          textField.text = [NSString stringWithFormat:@"%ld", self.Group.redPacketLimit.integerValue];
+                          textField.text = [NSString stringWithFormat:@"%ld", (long)self.Group.redPacketLimit.integerValue];
                       }
                   }];
                   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
@@ -1009,7 +1009,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                       if (self.Group.lockLimit.integerValue == 0) {
                           textField.text = nil;
                       } else {
-                          textField.text = [NSString stringWithFormat:@"%ld", self.Group.lockLimit.integerValue];
+                          textField.text = [NSString stringWithFormat:@"(long)%ld", self.Group.lockLimit.integerValue];
                       }
                   }];
                   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];

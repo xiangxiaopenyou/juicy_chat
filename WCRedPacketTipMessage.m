@@ -29,7 +29,7 @@
     return tipMessage;
 }
 + (RCMessagePersistent)persistentFlag {
-    return (MessagePersistent_ISPERSISTED | MessagePersistent_ISCOUNTED);
+    return (MessagePersistent_ISPERSISTED);
 }
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];

@@ -63,6 +63,7 @@
 @property(nonatomic, strong)
     RealTimeLocationStatusView *realTimeLocationStatusView;
 @property (strong, nonatomic) TakeApartPacketView *packetView;
+@property (strong, nonatomic) UILabel *backText;
 @property(nonatomic, strong) RCDGroupInfo *groupInfo;
 @property (copy, nonatomic) NSString *packetId;
 @property (copy, nonatomic) NSArray *tempMembersArray;
@@ -112,6 +113,29 @@ NSMutableDictionary *userInputStatus;
   self.enableSaveNewPhotoToLocalSystem = YES;
   [UIApplication sharedApplication].statusBarStyle =
       UIStatusBarStyleLightContent;
+    
+    //返回按钮
+    NSString *backString = @"返回";
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    backBtn.frame = CGRectMake(0, 6, 87, 23);
+    UIImageView *backImg = [[UIImageView alloc]
+                            initWithImage:[UIImage imageNamed:@"navigator_btn_back"]];
+    backImg.frame = CGRectMake(-6, 8, 10, 17);
+    [backBtn addSubview:backImg];
+    _backText =
+    [[UILabel alloc] initWithFrame:CGRectMake(9, 8, 85, 17)];
+    _backText.text = backString; // NSLocalizedStringFromTable(@"Back",
+    // @"RongCloudKit", nil);
+    //   backText.font = [UIFont systemFontOfSize:17];
+    [_backText setBackgroundColor:[UIColor clearColor]];
+    [_backText setTextColor:[UIColor whiteColor]];
+    [backBtn addSubview:_backText];
+    [backBtn addTarget:self
+                action:@selector(leftBarButtonItemPressed:)
+      forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItem:leftButton];
+    
   if (self.conversationType != ConversationType_CHATROOM) {
     if (self.conversationType == ConversationType_DISCUSSION) {
       [[RCIMClient sharedRCIMClient] getDiscussion:self.targetId
@@ -532,26 +556,26 @@ NSMutableDictionary *userInputStatus;
     } else {
       backString = @"返回";
     }
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.frame = CGRectMake(0, 6, 87, 23);
-    UIImageView *backImg = [[UIImageView alloc]
-        initWithImage:[UIImage imageNamed:@"navigator_btn_back"]];
-    backImg.frame = CGRectMake(-6, 8, 10, 17);
-    [backBtn addSubview:backImg];
-    UILabel *backText =
-        [[UILabel alloc] initWithFrame:CGRectMake(9, 8, 85, 17)];
-    backText.text = backString; // NSLocalizedStringFromTable(@"Back",
+//    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    backBtn.frame = CGRectMake(0, 6, 87, 23);
+//    UIImageView *backImg = [[UIImageView alloc]
+//        initWithImage:[UIImage imageNamed:@"navigator_btn_back"]];
+//    backImg.frame = CGRectMake(-6, 8, 10, 17);
+//    [backBtn addSubview:backImg];
+//    UILabel *backText =
+//        [[UILabel alloc] initWithFrame:CGRectMake(9, 8, 85, 17)];
+    _backText.text = backString; // NSLocalizedStringFromTable(@"Back",
                                 // @"RongCloudKit", nil);
     //   backText.font = [UIFont systemFontOfSize:17];
-    [backText setBackgroundColor:[UIColor clearColor]];
-    [backText setTextColor:[UIColor whiteColor]];
-    [backBtn addSubview:backText];
-    [backBtn addTarget:__weakself
-                  action:@selector(leftBarButtonItemPressed:)
-        forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *leftButton =
-        [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-    [__weakself.navigationItem setLeftBarButtonItem:leftButton];
+//    [backText setBackgroundColor:[UIColor clearColor]];
+//    [backText setTextColor:[UIColor whiteColor]];
+//    [backBtn addSubview:backText];
+//    [backBtn addTarget:__weakself
+//                  action:@selector(leftBarButtonItemPressed:)
+//        forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *leftButton =
+//        [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+//    [__weakself.navigationItem setLeftBarButtonItem:leftButton];
   });
 }
 
@@ -576,7 +600,7 @@ NSMutableDictionary *userInputStatus;
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"对方已经和你解除好友关系" preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [self.navigationController popToRootViewControllerAnimated:YES];
                 }];
                 [alert addAction:okAction];
                 [self presentViewController:alert animated:YES completion:nil];
@@ -702,7 +726,11 @@ NSMutableDictionary *userInputStatus;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *dateString = [formatter stringFromDate:date];
-    RedPacketMessage *message = [RedPacketMessage messageWithContent:[NSString stringWithFormat:@"[红包]%@", note] redPacketId:packetId fromuserid:fromUserId tomemberid:toUserId createtime:dateString state:@1 count:count sort:@1 money:money type:@(self.conversationType)];
+    NSInteger redpacketType = 1;
+    if (self.conversationType == ConversationType_GROUP) {
+        redpacketType = 2;
+    }
+    RedPacketMessage *message = [RedPacketMessage messageWithContent:[NSString stringWithFormat:@"[红包]%@", note] redPacketId:packetId fromuserid:fromUserId tomemberid:toUserId createtime:dateString state:@1 count:count sort:@1 money:money type:@(redpacketType)];
     [self sendMessage:message pushContent:note];
 }
 - (void)sendPersonalCardMessage:(RCDUserInfo *)userInfo {

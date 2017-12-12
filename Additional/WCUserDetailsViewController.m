@@ -42,6 +42,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"详细资料";
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        // Fallback on earlier versions
+    }
     if ([self isMyself]) {
         self.chatButton.hidden = YES;
         self.transferButton.hidden = YES;
