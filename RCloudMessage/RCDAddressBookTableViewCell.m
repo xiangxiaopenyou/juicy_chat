@@ -42,9 +42,15 @@
     CGFloat nameLabelWidth = 200;
     CGFloat nameLabelHeight = 21;
     CGFloat nameLabelX = CGRectGetMaxX(self.portraitImageView.frame)+8;
-    CGFloat nameLabelY = cellHeight/2.0-nameLabelHeight/2.0;
-    self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(nameLabelX, nameLabelY, nameLabelWidth, nameLabelHeight)];
-    self.nameLabel.font = [UIFont systemFontOfSize:17];
+    CGFloat nameLabelY = cellHeight/2.0-nameLabelHeight;
+    self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(nameLabelX, nameLabelY + 2, nameLabelWidth, nameLabelHeight)];
+    self.nameLabel.font = [UIFont systemFontOfSize:14];
+    self.nameLabel.textColor = HEXCOLOR(0x333333);
+    
+    //备注
+    self.noteLabel = [[UILabel alloc] initWithFrame:CGRectMake(nameLabelX, nameLabelY + 22, cellWidth - 80, 15)];
+    self.noteLabel.font = [UIFont systemFontOfSize:12];
+    self.noteLabel.textColor = HEXCOLOR(0x999999);
     
     
     //右侧箭头
@@ -70,6 +76,8 @@
     CGFloat acceptBtnX = rightLabelX;
     CGFloat acceptBtnY = rightLabelY+5;
     _acceptBtn = [[UIButton alloc] initWithFrame:CGRectMake(acceptBtnX, acceptBtnY, acceptBtnWidth, acceptBtnHeight)];
+    _acceptBtn.layer.masksToBounds = YES;
+    _acceptBtn.layer.cornerRadius = 3.f;
     _acceptBtn.tag = self.tag;
     [_acceptBtn setTitle:@"接受" forState:UIControlStateNormal];
     [_acceptBtn setTintColor:[UIColor whiteColor]];
@@ -82,6 +90,7 @@
     
     [self.contentView addSubview:self.portraitImageView];
     [self.contentView addSubview:self.nameLabel];
+    [self.contentView addSubview:self.noteLabel];
     [self.contentView addSubview:self.rightLabel];
     //[self.contentView addSubview:self.arrow];
     [self.contentView addSubview:_acceptBtn];
@@ -90,6 +99,7 @@
 - (void)setModel:(RCDUserInfo *)user {
     if (user) {
         self.nameLabel.text = user.name;
+        self.noteLabel.text = user.note;
         if ([user.portraitUri isEqualToString:@""]) {
             DefaultPortraitView *defaultPortrait = [[DefaultPortraitView alloc]
                                                     initWithFrame:CGRectMake(0, 0, 100, 100)];

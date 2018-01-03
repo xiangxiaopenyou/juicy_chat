@@ -119,6 +119,8 @@
     self.isShowNetworkIndicatorView = NO;
   self.edgesForExtendedLayout = UIRectEdgeNone;
   self.navigationController.navigationBar.translucent = NO;
+    self.view.backgroundColor = HEXCOLOR(0xf2f2f2);
+    self.conversationListTableView.backgroundColor = [UIColor clearColor];
   self.searchBar.delegate = self;
   [self.headerView addSubview:self.searchBar];
     if (@available(iOS 11.0, *)) {

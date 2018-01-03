@@ -466,6 +466,7 @@
                 userInfo.updatedAt = [NSString
                     stringWithFormat:@"%@", [userDic objectForKey:@"createtime"]];
                   userInfo.isvisible = userDic[@"isvisible"];
+                  userInfo.note = userDic[@"note"];
                 [list addObject:userInfo];
                 [_allFriends addObject:userInfo];
 
@@ -546,9 +547,8 @@
       }];
 }
 
-- (void)requestFriend:(NSString *)userId complete:(void (^)(id))result {
-  [AFHttpTool inviteUser:userId
-      success:^(id response) {
+- (void)requestFriend:(NSString *)userId note:(NSString *)note complete:(void (^)(id))result {
+    [AFHttpTool inviteUser:userId note:(NSString *)note success:^(id response) {
         if (result && [response[@"code"] intValue] == 200) {
           dispatch_async(dispatch_get_main_queue(), ^(void) {
             result(@(YES));

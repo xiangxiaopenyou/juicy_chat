@@ -11,6 +11,7 @@
 #import "RCDChatViewController.h"
 #import "WCTransferViewController.h"
 #import "AppealCenterViewController.h"
+#import "WCAddFriendTableViewController.h"
 #import "RCDHttpTool.h"
 #import "RCDataBaseManager.h"
 #import "UIImageView+WebCache.h"
@@ -225,28 +226,31 @@
                                     otherButtonTitles:nil, nil];
           [alertView show];
       } else {
-          [RCDHTTPTOOL requestFriend:_targetUserInfo.userId
-                            complete:^(id result) {
-                                if ([result boolValue]) {
-                                    UIAlertView *alertView = [[UIAlertView alloc]
-                                                              initWithTitle:nil
-                                                              message:@"请求已发送"
-                                                              delegate:nil
-                                                              cancelButtonTitle:@"确定"
-                                                              otherButtonTitles:nil, nil];
-                                    [RCDHTTPTOOL getFriendscomplete:^(NSMutableArray *result) {
-                                    }];
-                                    [alertView show];
-                                } else {
-                                    UIAlertView *alertView = [[UIAlertView alloc]
-                                                              initWithTitle:nil
-                                                              message:(NSString *)result
-                                                              delegate:nil
-                                                              cancelButtonTitle:@"确定"
-                                                              otherButtonTitles:nil, nil];
-                                    [alertView show];
-                                }
-                            }];
+//          [RCDHTTPTOOL requestFriend:_targetUserInfo.userId
+//                            complete:^(id result) {
+//                                if ([result boolValue]) {
+//                                    UIAlertView *alertView = [[UIAlertView alloc]
+//                                                              initWithTitle:nil
+//                                                              message:@"请求已发送"
+//                                                              delegate:nil
+//                                                              cancelButtonTitle:@"确定"
+//                                                              otherButtonTitles:nil, nil];
+//                                    [RCDHTTPTOOL getFriendscomplete:^(NSMutableArray *result) {
+//                                    }];
+//                                    [alertView show];
+//                                } else {
+//                                    UIAlertView *alertView = [[UIAlertView alloc]
+//                                                              initWithTitle:nil
+//                                                              message:(NSString *)result
+//                                                              delegate:nil
+//                                                              cancelButtonTitle:@"确定"
+//                                                              otherButtonTitles:nil, nil];
+//                                    [alertView show];
+//                                }
+//                            }];
+          WCAddFriendTableViewController *addFriendController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"WCAddFriend"];
+          addFriendController.friendId = _targetUserInfo.userId;
+          [self.navigationController pushViewController:addFriendController animated:YES];
       }
 
   };

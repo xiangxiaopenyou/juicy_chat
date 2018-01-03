@@ -322,11 +322,13 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
 
 // invite user
 + (void)inviteUser:(NSString *)userId
+              note:(NSString *)note
            success:(void (^)(id response))success
            failure:(void (^)(NSError *err))failure {
     NSString *token = [DEFAULTS stringForKey:@"userToken"];
   NSDictionary *params = @{
     @"friendId" : userId,
+    @"note" : note,
     @"token" : token};
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
                             url:@"AddFriend.aspx"

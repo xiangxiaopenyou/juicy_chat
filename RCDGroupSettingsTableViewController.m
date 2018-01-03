@@ -799,10 +799,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
           rows = 1;
           break;
       case 1:
-          rows = isCreator ? 4 : 3;
+          rows = isCreator ? 6 : 4;
           break;
       case 2:
-          //rows = isCreator ? 4 : 3;
           rows = 3;
       break;
       case 3:
@@ -885,7 +884,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
           }
         }break;
          
-        case 1:
+        case 2:
         {
           
           if (isCreator == YES) {
@@ -900,7 +899,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             [self showAlert:@"只有群主可以修改群组名称"];
           }
         }break;
-          case 2:{
+          case 3:{
               //if (isCreator == YES) {
                   RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
                   vc.GroupId = _Group.groupId;
@@ -914,7 +913,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
           }
               break;
          
-          case 3:
+          case 4:
         {
 //          RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
 //          vc.GroupId = _Group.groupId;
@@ -939,6 +938,20 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             //[self showAlert:@"只有群主可以发布群公告"];
           }
         }
+              break;
+          case 5: {
+              RCTextMessage *message = [RCTextMessage messageWithContent:@"@所有人"];
+              message.mentionedInfo = [[RCMentionedInfo alloc] initWithMentionedType:RC_Mentioned_All userIdList:nil mentionedContent:nil];
+              [[RCIM sharedRCIM] sendMessage:ConversationType_GROUP targetId:self.Group.groupId content:message pushContent:nil pushData:nil success:^(long messageId) {
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      [self.navigationController popViewControllerAnimated:YES];
+                  });
+              } error:^(RCErrorCode nErrorCode, long messageId) {
+                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                  message:@"@所有人失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                  [alert show];
+              }];
+          }
               break;
           
         default:

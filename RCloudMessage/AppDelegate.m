@@ -208,7 +208,7 @@ static NSString *const QQAPPID = @"1106530362";
   
   //登录
   NSString *token = [DEFAULTS objectForKey:@"userToken"];
-  NSString *userId = [DEFAULTS objectForKey:@"userId"];
+  NSString *userId = [NSString stringWithFormat:@"%@", [DEFAULTS objectForKey:@"userId"]];
   NSString *userName = [DEFAULTS objectForKey:@"userName"];
   NSString *password = [DEFAULTS objectForKey:@"userPwd"];
   NSString *userNickName = [DEFAULTS objectForKey:@"userNickName"];

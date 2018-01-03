@@ -89,7 +89,7 @@
                  complete:(void (^)(NSMutableArray *))userList;
 
 //请求加好友
-- (void)requestFriend:(NSString *)userId complete:(void (^)(id result))result;
+- (void)requestFriend:(NSString *)userId note:(NSString *)note complete:(void (^)(id result))result;
 
 //处理请求加好友
 - (void)processInviteFriendRequest:(NSString *)userId

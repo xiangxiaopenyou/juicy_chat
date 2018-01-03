@@ -54,6 +54,7 @@
 #import "MBProgressHUD.h"
 #import "MBProgressHUD+Add.h"
 #import "MyFriendsListTableViewController.h"
+#import "WCVideoFileTableViewController.h"
 
 @interface RCDChatViewController () <
     UIActionSheetDelegate, RCRealTimeLocationObserver,
@@ -209,14 +210,17 @@ NSMutableDictionary *userInputStatus;
 //                                                @"File", @"RongCloudKit", nil)
 //                                    atIndex:3
 //                                        tag:PLUGIN_BOARD_ITEM_FILE_TAG];
-//    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:2];
-    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
+    [self.chatSessionInputBarControl.pluginBoardView removeItemWithTag:PLUGIN_BOARD_ITEM_LOCATION_TAG];
+    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:4];
+    
     if (self.conversationType == ConversationType_PRIVATE || self.conversationType == ConversationType_GROUP) {
         [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_red_packet"] title:@"红包" tag:PLUGIN_BOARD_ITEM_REDPACKET_TAG];
         [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"actionbar_card_icon"] title:@"个人名片" tag:PLUGIN_BOARD_ITEM_CARD_TAG];
         if (self.conversationType == ConversationType_PRIVATE) {
             [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_transfer"] title:@"转账" tag:PLUGIN_BOARD_ITEM_TRANSFER_TAG];
         }
+        [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_video_file"] title:@"视频文件" tag:PLUGIN_BOARD_ITEM_VIDEO_FILE_TAG];
+        [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[RCKitUtility imageNamed:@"actionbar_location_icon" ofBundle:@"RongCloud.bundle"] title:@"位置" tag:PLUGIN_BOARD_ITEM_LOCATION_TAG];
     } else if (self.conversationType == ConversationType_CHATROOM) {
         [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"actionbar_card_icon"] title:@"个人名片" tag:PLUGIN_BOARD_ITEM_CARD_TAG];
     }
@@ -713,6 +717,12 @@ NSMutableDictionary *userInputStatus;
           RCDUserInfo *friendInfo = [[RCDataBaseManager shareInstance] getFriendInfo:self.targetId];
           transferController.userInfo = friendInfo;
           UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:transferController];
+          [self presentViewController:navigationController animated:YES completion:nil];
+      }
+          break;
+      case PLUGIN_BOARD_ITEM_VIDEO_FILE_TAG: {
+          WCVideoFileTableViewController *videoFileController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"VideoFile"];
+          UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:videoFileController];
           [self presentViewController:navigationController animated:YES completion:nil];
       }
           break;

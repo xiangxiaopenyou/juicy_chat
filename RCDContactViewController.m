@@ -18,6 +18,7 @@
 #import "RCDPublicServiceListViewController.h"
 #import "RCDRCIMDataSource.h"
 #import "RCDSearchFriendViewController.h"
+#import "WCServiceAssistantTableViewController.h"
 #import "RCDUserInfo.h"
 #import "RCDataBaseManager.h"
 #import "UIImageView+WebCache.h"
@@ -139,9 +140,9 @@
   self.searchFriendsBar.placeholder = @"搜索通讯录";
 
   self.defaultCellsTitle = [NSArray
-      arrayWithObjects:@"新朋友", @"群组", nil];
+      arrayWithObjects:@"新朋友", @"群组", @"客服助手", nil];
   self.defaultCellsPortrait = [NSArray
-      arrayWithObjects:@"newFriend", @"defaultGroup", nil];
+      arrayWithObjects:@"newFriend", @"defaultGroup", @"default_service_portrait", nil];
   
   self.isBeginSearch = NO;
     //添加好友通知
@@ -156,6 +157,7 @@
                          complete:^(NSMutableArray *result) {
                              [self messagesNumberOfRequest];
                          }];
+    
   [self sortAndRefreshWithList:[self getAllFriendList]];
   
   //自定义rightBarButtonItem
@@ -236,7 +238,7 @@
     }
     else
     {
-      rows = 3;
+      rows = 4;
     }
   } else {
     NSString *letter = self.resultDic[@"allKeys"][section -1];
@@ -264,7 +266,7 @@
     return section == [self.resultDic[@"allKeys"] count] ? 50.f : 0.1f;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (section == [self.resultDic[@"allKeys"] count]) {
+    if (section == [self.resultDic[@"allKeys"] count] && !_isBeginSearch) {
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
         footerView.backgroundColor = [UIColor clearColor];
         UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
@@ -311,7 +313,7 @@
       cell = [[RCDContactTableViewCell alloc] init];
   }
 
-  if (indexPath.section == 0 && indexPath.row < 2) {
+  if (indexPath.section == 0 && indexPath.row < 3) {
     cell.nicknameLabel.text = [_defaultCellsTitle objectAtIndex:indexPath.row];
       [cell.portraitView
           setImage:[UIImage
@@ -329,7 +331,7 @@
           }
       }
   }
-  if (indexPath.section == 0 && indexPath.row == 2) {
+  if (indexPath.section == 0 && indexPath.row == 3) {
       if ([isDisplayID isEqualToString:@"YES"]) {
         cell.userIdLabel.text = [RCIM sharedRCIM].currentUserInfo.userId;
       }
@@ -409,8 +411,14 @@
 //      return;
 //
 //    } break;
+        case 2: {
+            WCServiceAssistantTableViewController *serviceController = [[WCServiceAssistantTableViewController alloc] init];
+            [self.navigationController pushViewController:serviceController animated:YES];
+            return;
+        }
+            break;
 
-    case 2: {
+    case 3: {
         //RCDPersonDetailViewController *detailViewController =
         //[[RCDPersonDetailViewController alloc]init];
         WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
@@ -514,8 +522,14 @@
   //如有好友备注，则显示备注
   NSArray *resultList = [[RCDUserInfoManager shareInstance]
                          getFriendInfoList:friendList];
+    NSMutableArray *resultFriendsArray = [[NSMutableArray alloc] init];
+    for (RCDUserInfo *tempInfo in resultList) {
+        if (tempInfo.userId.integerValue > 10010) {
+            [resultFriendsArray addObject:tempInfo];
+        }
+    }
   
-  return resultList;
+  return resultFriendsArray;
 }
 
 - (void)sortAndRefreshWithList:(NSArray *)friendList {

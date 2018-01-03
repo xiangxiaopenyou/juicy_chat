@@ -48,12 +48,19 @@
                 break;
             case 1: {
                 [self setCellStyle:DefaultStyle_RightLabel];
+                self.rightArrow.hidden = YES;
+                self.leftLabel.text = @"群组ID";
+                self.rightLabel.text = groupInfo.groupId;
+            }
+                break;
+            case 2: {
+                [self setCellStyle:DefaultStyle_RightLabel];
                 self.leftLabel.text = @"群组名称";
                 self.rightLabel.text = groupInfo.groupName;
                 
             }
                 break;
-            case 2: {
+            case 3: {
                 [self setCellStyle:DefaultStyle_RightLabel];
                 self.leftLabel.text = @"群公告";
                 if (groupInfo.gonggao.length > 0) {
@@ -67,10 +74,16 @@
                 }
             }
                 break;
-            case 3: {
+            case 4: {
                 [self setCellStyle:DefaultStyle_RightLabel];
                 self.leftLabel.text = @"群组转让";
             }
+                break;
+            case 5: {
+                [self setCellStyle:DefaultStyle];
+                self.leftLabel.text = @"@所有人";
+            }
+                break;
             default:
                 break;
         }

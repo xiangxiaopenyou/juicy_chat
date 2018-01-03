@@ -121,6 +121,14 @@
 		3DA417DB1ED80B4300613FBD /* UpdateUrlRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417DA1ED80B4300613FBD /* UpdateUrlRequest.m */; };
 		3DA417DF1ED8190300613FBD /* RCDPersonDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417DE1ED8190300613FBD /* RCDPersonDetailViewController.m */; };
 		3DA417E21ED819F900613FBD /* RCDGroupSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417E11ED819F900613FBD /* RCDGroupSettingsTableViewController.m */; };
+		3DB7200E1FFC6BDC004D7A20 /* WCServiceAssistantTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7200D1FFC6BDC004D7A20 /* WCServiceAssistantTableViewController.m */; };
+		3DB720141FFCC38A004D7A20 /* WCVideoFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720131FFCC38A004D7A20 /* WCVideoFileCell.m */; };
+		3DB720171FFCC468004D7A20 /* WCVideoFileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720161FFCC468004D7A20 /* WCVideoFileTableViewController.m */; };
+		3DB7201B1FFCC6CE004D7A20 /* WCVideoFileListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7201A1FFCC6CE004D7A20 /* WCVideoFileListRequest.m */; };
+		3DB7201E1FFCC6ED004D7A20 /* WCUploadVideoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7201D1FFCC6ED004D7A20 /* WCUploadVideoRequest.m */; };
+		3DB720211FFCC777004D7A20 /* WCVideoLimitRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720201FFCC777004D7A20 /* WCVideoLimitRequest.m */; };
+		3DB720241FFCCB20004D7A20 /* WCDeleteVideoFileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720231FFCCB20004D7A20 /* WCDeleteVideoFileRequest.m */; };
+		3DB720281FFCCD24004D7A20 /* WCVideoFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720271FFCCD24004D7A20 /* WCVideoFileModel.m */; };
 		3DCD38731F4A7BCB003EEC87 /* WCTransferRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCD38721F4A7BCB003EEC87 /* WCTransferRecordCell.m */; };
 		3DCD38761F4A80B1003EEC87 /* WCTransferRecordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCD38751F4A80B1003EEC87 /* WCTransferRecordRequest.m */; };
 		3DCD38B31F4AB551003EEC87 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCD38871F4AB551003EEC87 /* MJRefreshAutoFooter.m */; };
@@ -176,6 +184,7 @@
 		3DE932A11ECEAC8E00C89762 /* FindPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932A01ECEAC8E00C89762 /* FindPayPasswordRequest.m */; };
 		3DE932A41ECED03B00C89762 /* DeleteFriendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932A31ECED03B00C89762 /* DeleteFriendRequest.m */; };
 		3DF1D47D1ECD7FA4005B494D /* MyRedPacketsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1D47C1ECD7FA4005B494D /* MyRedPacketsRequest.m */; };
+		3DF390641FF37B3A001D7205 /* WCAddFriendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF390631FF37B3A001D7205 /* WCAddFriendTableViewController.m */; };
 		3DFF525A1EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52591EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m */; };
 		3DFF525D1EBC736A00CDF351 /* DeleteGroupRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF525C1EBC736A00CDF351 /* DeleteGroupRequest.m */; };
 		3DFF52601EBC80EC00CDF351 /* MyInformationsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF525F1EBC80EC00CDF351 /* MyInformationsCell.m */; };
@@ -614,6 +623,22 @@
 		3DA417E11ED819F900613FBD /* RCDGroupSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDGroupSettingsTableViewController.m; sourceTree = SOURCE_ROOT; };
 		3DA8046F1EA5C4480087DF1F /* SealTalk.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = SealTalk.entitlements; sourceTree = "<group>"; };
 		3DA804711EA5D87D0087DF1F /* RCloudMessage.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = RCloudMessage.entitlements; path = RCloudMessage/RCloudMessage.entitlements; sourceTree = SOURCE_ROOT; };
+		3DB7200C1FFC6BDC004D7A20 /* WCServiceAssistantTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCServiceAssistantTableViewController.h; sourceTree = SOURCE_ROOT; };
+		3DB7200D1FFC6BDC004D7A20 /* WCServiceAssistantTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCServiceAssistantTableViewController.m; sourceTree = SOURCE_ROOT; };
+		3DB720121FFCC38A004D7A20 /* WCVideoFileCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCVideoFileCell.h; sourceTree = "<group>"; };
+		3DB720131FFCC38A004D7A20 /* WCVideoFileCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCVideoFileCell.m; sourceTree = "<group>"; };
+		3DB720151FFCC468004D7A20 /* WCVideoFileTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCVideoFileTableViewController.h; sourceTree = "<group>"; };
+		3DB720161FFCC468004D7A20 /* WCVideoFileTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCVideoFileTableViewController.m; sourceTree = "<group>"; };
+		3DB720191FFCC6CE004D7A20 /* WCVideoFileListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCVideoFileListRequest.h; sourceTree = "<group>"; };
+		3DB7201A1FFCC6CE004D7A20 /* WCVideoFileListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCVideoFileListRequest.m; sourceTree = "<group>"; };
+		3DB7201C1FFCC6ED004D7A20 /* WCUploadVideoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCUploadVideoRequest.h; sourceTree = "<group>"; };
+		3DB7201D1FFCC6ED004D7A20 /* WCUploadVideoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCUploadVideoRequest.m; sourceTree = "<group>"; };
+		3DB7201F1FFCC777004D7A20 /* WCVideoLimitRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCVideoLimitRequest.h; sourceTree = "<group>"; };
+		3DB720201FFCC777004D7A20 /* WCVideoLimitRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCVideoLimitRequest.m; sourceTree = "<group>"; };
+		3DB720221FFCCB20004D7A20 /* WCDeleteVideoFileRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCDeleteVideoFileRequest.h; sourceTree = "<group>"; };
+		3DB720231FFCCB20004D7A20 /* WCDeleteVideoFileRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCDeleteVideoFileRequest.m; sourceTree = "<group>"; };
+		3DB720261FFCCD24004D7A20 /* WCVideoFileModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCVideoFileModel.h; sourceTree = "<group>"; };
+		3DB720271FFCCD24004D7A20 /* WCVideoFileModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCVideoFileModel.m; sourceTree = "<group>"; };
 		3DCD38711F4A7BCB003EEC87 /* WCTransferRecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCTransferRecordCell.h; sourceTree = "<group>"; };
 		3DCD38721F4A7BCB003EEC87 /* WCTransferRecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCTransferRecordCell.m; sourceTree = "<group>"; };
 		3DCD38741F4A80B1003EEC87 /* WCTransferRecordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCTransferRecordRequest.h; sourceTree = "<group>"; };
@@ -725,6 +750,8 @@
 		3DE932A31ECED03B00C89762 /* DeleteFriendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteFriendRequest.m; sourceTree = "<group>"; };
 		3DF1D47B1ECD7FA4005B494D /* MyRedPacketsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRedPacketsRequest.h; sourceTree = "<group>"; };
 		3DF1D47C1ECD7FA4005B494D /* MyRedPacketsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRedPacketsRequest.m; sourceTree = "<group>"; };
+		3DF390621FF37B3A001D7205 /* WCAddFriendTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCAddFriendTableViewController.h; sourceTree = "<group>"; };
+		3DF390631FF37B3A001D7205 /* WCAddFriendTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCAddFriendTableViewController.m; sourceTree = "<group>"; };
 		3DFF52581EBC0F2400CDF351 /* ModifyGroupInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyGroupInformationsRequest.h; sourceTree = "<group>"; };
 		3DFF52591EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyGroupInformationsRequest.m; sourceTree = "<group>"; };
 		3DFF525B1EBC736A00CDF351 /* DeleteGroupRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteGroupRequest.h; sourceTree = "<group>"; };
@@ -1294,6 +1321,7 @@
 		3D0E5F0F1EADCF7F00B41F9E /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				3DB720181FFCC6B5004D7A20 /* VideoRequests */,
 				3D71D6791FBC3DB100960D36 /* GroupRequest */,
 				3D051F0E1F9D942800E92180 /* Others */,
 				3DCD39361F4E7DDA003EEC87 /* SpeakingManage */,
@@ -1472,6 +1500,30 @@
 				3D8E20A61ED6D0A6008E6C29 /* MyFriendsListTableViewController.m */,
 			);
 			path = MyFriendsList;
+			sourceTree = SOURCE_ROOT;
+		};
+		3DB720181FFCC6B5004D7A20 /* VideoRequests */ = {
+			isa = PBXGroup;
+			children = (
+				3DB720191FFCC6CE004D7A20 /* WCVideoFileListRequest.h */,
+				3DB7201A1FFCC6CE004D7A20 /* WCVideoFileListRequest.m */,
+				3DB7201C1FFCC6ED004D7A20 /* WCUploadVideoRequest.h */,
+				3DB7201D1FFCC6ED004D7A20 /* WCUploadVideoRequest.m */,
+				3DB7201F1FFCC777004D7A20 /* WCVideoLimitRequest.h */,
+				3DB720201FFCC777004D7A20 /* WCVideoLimitRequest.m */,
+				3DB720221FFCCB20004D7A20 /* WCDeleteVideoFileRequest.h */,
+				3DB720231FFCCB20004D7A20 /* WCDeleteVideoFileRequest.m */,
+			);
+			path = VideoRequests;
+			sourceTree = "<group>";
+		};
+		3DB720251FFCCD11004D7A20 /* AdditionModel */ = {
+			isa = PBXGroup;
+			children = (
+				3DB720261FFCCD24004D7A20 /* WCVideoFileModel.h */,
+				3DB720271FFCCD24004D7A20 /* WCVideoFileModel.m */,
+			);
+			path = AdditionModel;
 			sourceTree = SOURCE_ROOT;
 		};
 		3DCD38701F4A7B9F003EEC87 /* View */ = {
@@ -1743,6 +1795,10 @@
 				3D051F0B1F9D935B00E92180 /* WCShareWebViewController.m */,
 				3D71D6761FBC364A00960D36 /* WCTransferGroupViewController.h */,
 				3D71D6771FBC364A00960D36 /* WCTransferGroupViewController.m */,
+				3DF390621FF37B3A001D7205 /* WCAddFriendTableViewController.h */,
+				3DF390631FF37B3A001D7205 /* WCAddFriendTableViewController.m */,
+				3DB720151FFCC468004D7A20 /* WCVideoFileTableViewController.h */,
+				3DB720161FFCC468004D7A20 /* WCVideoFileTableViewController.m */,
 			);
 			path = Additional;
 			sourceTree = SOURCE_ROOT;
@@ -1760,6 +1816,8 @@
 				3D71D6711FB99ADC00960D36 /* XLPopView.m */,
 				3D71D6731FBC356E00960D36 /* WCTransferGroupMemberCell.h */,
 				3D71D6741FBC356E00960D36 /* WCTransferGroupMemberCell.m */,
+				3DB720121FFCC38A004D7A20 /* WCVideoFileCell.h */,
+				3DB720131FFCC38A004D7A20 /* WCVideoFileCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2045,6 +2103,8 @@
 				98FD3F1D1D5CC48F007A70DE /* RCDFrienfRemarksViewController.m */,
 				98C8B28F1DB85E9C00D42297 /* RCDContactSelectedCollectionViewCell.h */,
 				98C8B2901DB85E9C00D42297 /* RCDContactSelectedCollectionViewCell.m */,
+				3DB7200C1FFC6BDC004D7A20 /* WCServiceAssistantTableViewController.h */,
+				3DB7200D1FFC6BDC004D7A20 /* WCServiceAssistantTableViewController.m */,
 			);
 			name = AddressBook;
 			sourceTree = "<group>";
@@ -2072,6 +2132,7 @@
 		E4C331471A10554E00E31B9A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3DB720251FFCCD11004D7A20 /* AdditionModel */,
 				3D7168351F516FCA00B0166D /* ChatRoomModel */,
 				3DCD38801F4AA4E5003EEC87 /* TransferRecordModel */,
 				3DCD387B1F4AA434003EEC87 /* BaseModel */,
@@ -2973,9 +3034,11 @@
 				E4E939A01AD65C74001E0AC6 /* RCDDiscussGroupSettingViewController.m in Sources */,
 				3D3F8CB31EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m in Sources */,
 				3D8E20851ED6B955008E6C29 /* LockedMoneyViewController.m in Sources */,
+				3DB720141FFCC38A004D7A20 /* WCVideoFileCell.m in Sources */,
 				9899D8331DBDAA1C00AD60F8 /* RCDTabBarBtn.m in Sources */,
 				A677D69C1B81EBB9007D5D90 /* RCLocationConvert.m in Sources */,
 				980EF4591D376BC9000C26FC /* UITextViewAndPlaceholder.m in Sources */,
+				3DB7200E1FFC6BDC004D7A20 /* WCServiceAssistantTableViewController.m in Sources */,
 				E412BD1E1ADE19A4000DCA7A /* RCDChatListCell.m in Sources */,
 				E4E9395E1AD65A95001E0AC6 /* MBProgressHUD.m in Sources */,
 				3DCD38F81F4BCE6D003EEC87 /* WCTransferInformationCell.m in Sources */,
@@ -2987,6 +3050,7 @@
 				980EF4561D373BE0000C26FC /* RCDGroupAnnouncementViewController.m in Sources */,
 				E4BFAE6B1A121A13007165B1 /* RCDGroupViewController.m in Sources */,
 				3D8E20AA1ED7C384008E6C29 /* PersonalCardMessage.m in Sources */,
+				3DB7201E1FFCC6ED004D7A20 /* WCUploadVideoRequest.m in Sources */,
 				3DFF52861EBC828F00CDF351 /* ViewController+MASAdditions.m in Sources */,
 				3D8E20201ED6B32D008E6C29 /* RCDChatListViewController.m in Sources */,
 				9B447DEA1CF82926005D3ED5 /* RCDContactViewController.m in Sources */,
@@ -3068,8 +3132,10 @@
 				E4E939B11AD65CD6001E0AC6 /* RCDSelectPersonTableViewCell.m in Sources */,
 				E4E939491AD65A95001E0AC6 /* AFURLResponseSerialization.m in Sources */,
 				3D8E209A1ED6BA7D008E6C29 /* RCDHttpTool.m in Sources */,
+				3DF390641FF37B3A001D7205 /* WCAddFriendTableViewController.m in Sources */,
 				3D8E206A1ED6B776008E6C29 /* SetupPayPasswordViewController.m in Sources */,
 				17F7A8471DAE187200E27D25 /* RCDSearchBar.m in Sources */,
+				3DB7201B1FFCC6CE004D7A20 /* WCVideoFileListRequest.m in Sources */,
 				17D7D2021D5355A0000AEC54 /* pinyin.c in Sources */,
 				3DFFB9461F00D5A2003A2ABF /* JCBigAvatarViewController.m in Sources */,
 				3D8E20411ED6B728008E6C29 /* RedPacketCell.m in Sources */,
@@ -3102,6 +3168,7 @@
 				3DFFB8DF1EFA73AD003A2ABF /* JCSignCell.m in Sources */,
 				A677D69E1B81EBB9007D5D90 /* RealTimeLocationEndCell.m in Sources */,
 				3D8E202A1ED6B3DD008E6C29 /* LockMoneyDetailRequest.m in Sources */,
+				3DB720171FFCC468004D7A20 /* WCVideoFileTableViewController.m in Sources */,
 				3D8E20861ED6B955008E6C29 /* MyRedPacketsViewController.m in Sources */,
 				E4E9396D1AD65A95001E0AC6 /* UIImage+GIF.m in Sources */,
 				3D8E20941ED6BA32008E6C29 /* AFHttpTool.m in Sources */,
@@ -3123,8 +3190,10 @@
 				3DCD393F1F4EA62B003EEC87 /* MBProgressHUD+Add.m in Sources */,
 				3DFF52801EBC828F00CDF351 /* MASLayoutConstraint.m in Sources */,
 				E4E939701AD65A95001E0AC6 /* UIImageView+HighlightedWebCache.m in Sources */,
+				3DB720211FFCC777004D7A20 /* WCVideoLimitRequest.m in Sources */,
 				3DFFB8DC1EFA62E4003A2ABF /* JCDetailsCell.m in Sources */,
 				E4BFAE6E1A121A22007165B1 /* RCDChatRoomViewController.m in Sources */,
+				3DB720241FFCCB20004D7A20 /* WCDeleteVideoFileRequest.m in Sources */,
 				E4E939621AD65A95001E0AC6 /* RCUnderlineTextField.m in Sources */,
 				E4E939681AD65A95001E0AC6 /* SDWebImageDownloader.m in Sources */,
 				3D8E20691ED6B776008E6C29 /* RelieveLockViewController.m in Sources */,
@@ -3149,6 +3218,7 @@
 				E4E9395D1AD65A95001E0AC6 /* KxMenu.m in Sources */,
 				E4E9399D1AD65C61001E0AC6 /* RCDRoomSettingViewController.m in Sources */,
 				46E17CCC1B0EC32A001AC57A /* FMResultSet.m in Sources */,
+				3DB720281FFCCD24004D7A20 /* WCVideoFileModel.m in Sources */,
 				A61647881BE9BF7C00E90813 /* RCDMeInfoTableViewController.m in Sources */,
 				466684271B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m in Sources */,
 				3DFF527D1EBC828F00CDF351 /* MASCompositeConstraint.m in Sources */,

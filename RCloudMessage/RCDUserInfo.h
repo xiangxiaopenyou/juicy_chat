@@ -32,5 +32,7 @@
 
 @property (nonatomic, copy) NSString *isvisible;
 
+@property (nonatomic, copy) NSString *note;         //添加好友备注
+
 
 @end

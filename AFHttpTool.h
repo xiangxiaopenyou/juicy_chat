@@ -98,6 +98,7 @@ typedef NS_ENUM(NSInteger, RequestMethodType) {
 
 // invite user
 + (void)inviteUser:(NSString *)userId
+              note:(NSString *)note
            success:(void (^)(id response))success
            failure:(void (^)(NSError *err))failure;
 

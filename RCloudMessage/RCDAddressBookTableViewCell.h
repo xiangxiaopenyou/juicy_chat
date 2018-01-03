@@ -30,6 +30,11 @@
 @property(nonatomic, strong) UILabel *nameLabel;
 
 /**
+ 添加好友备注
+ */
+@property (nonatomic, strong) UILabel *noteLabel;
+
+/**
  *  头像
  */
 @property(nonatomic, strong) UIImageView *portraitImageView;
