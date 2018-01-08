@@ -12,9 +12,12 @@
 @property (copy, nonatomic) NSString *id;
 @property (copy, nonatomic) NSString *userid;
 @property (copy, nonatomic) NSString *url;
+@property (strong, nonatomic) UIImage<Optional> *firstImage;
 @property (copy, nonatomic) NSString *createtime;
 @property (copy, nonatomic) NSString *name;
 @property (strong, nonatomic) NSNumber *duration;
 @property (strong, nonatomic) NSNumber *size;
+@property (copy, nonatomic) NSString<Optional> *identifier;
+@property (strong, nonatomic) NSNumber<Optional> *isUploading;
 
 @end

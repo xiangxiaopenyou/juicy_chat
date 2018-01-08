@@ -9,5 +9,8 @@
 #import "BaseRequest.h"
 
 @interface WCUploadVideoRequest : BaseRequest
+@property (copy, nonatomic) NSString *url;
+@property (copy, nonatomic) NSString *name;
+@property (strong, nonatomic) NSNumber *duration;
 
 @end

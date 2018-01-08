@@ -388,7 +388,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
-                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无视频文件" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="400" id="GIq-aN-a6G">
+                        <label key="tableFooterView" hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无视频文件" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="400" id="GIq-aN-a6G">
                             <rect key="frame" x="0.0" y="118" width="375" height="241"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
@@ -418,29 +418,41 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lns-ND-hH6">
-                                            <rect key="frame" x="95" y="26.5" width="26" height="17"/>
+                                            <rect key="frame" x="95" y="21.5" width="26" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="时长  00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d0T-XZ-N2y">
-                                            <rect key="frame" x="95" y="47.5" width="65.5" height="14.5"/>
+                                            <rect key="frame" x="95" y="42.5" width="65.5" height="14.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h0K-ts-0tv">
+                                            <rect key="frame" x="95" y="67.5" width="230" height="2"/>
+                                        </progressView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="c3a-vg-BxC" firstAttribute="leading" secondItem="Na8-xk-poW" secondAttribute="leading" constant="70" id="3UY-5V-6hA"/>
-                                        <constraint firstItem="d0T-XZ-N2y" firstAttribute="centerY" secondItem="Na8-xk-poW" secondAttribute="centerY" constant="10" id="6af-0q-WA4"/>
+                                        <constraint firstItem="d0T-XZ-N2y" firstAttribute="centerY" secondItem="Na8-xk-poW" secondAttribute="centerY" constant="5" id="6af-0q-WA4"/>
                                         <constraint firstItem="iSU-hB-Ikj" firstAttribute="leading" secondItem="Na8-xk-poW" secondAttribute="leading" constant="15" id="BET-cb-gNG"/>
+                                        <constraint firstAttribute="bottom" secondItem="h0K-ts-0tv" secondAttribute="bottom" constant="20" id="DXc-K3-ggg"/>
                                         <constraint firstAttribute="bottom" secondItem="c3a-vg-BxC" secondAttribute="bottom" constant="15" id="JCp-FK-3BL"/>
-                                        <constraint firstItem="lns-ND-hH6" firstAttribute="centerY" secondItem="Na8-xk-poW" secondAttribute="centerY" constant="-10" id="Npv-n0-z9i"/>
+                                        <constraint firstItem="lns-ND-hH6" firstAttribute="centerY" secondItem="Na8-xk-poW" secondAttribute="centerY" constant="-15" id="Npv-n0-z9i"/>
                                         <constraint firstItem="iSU-hB-Ikj" firstAttribute="centerY" secondItem="Na8-xk-poW" secondAttribute="centerY" id="UHg-my-Xgs"/>
+                                        <constraint firstItem="h0K-ts-0tv" firstAttribute="leading" secondItem="Na8-xk-poW" secondAttribute="leading" constant="95" id="b8B-sn-REJ"/>
+                                        <constraint firstAttribute="trailing" secondItem="h0K-ts-0tv" secondAttribute="trailing" constant="50" id="ke4-zh-D14"/>
                                         <constraint firstItem="d0T-XZ-N2y" firstAttribute="leading" secondItem="iSU-hB-Ikj" secondAttribute="trailing" constant="10" id="mcC-Ej-r1y"/>
                                         <constraint firstItem="lns-ND-hH6" firstAttribute="leading" secondItem="iSU-hB-Ikj" secondAttribute="trailing" constant="10" id="rq8-pV-4dL"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="progressView" destination="h0K-ts-0tv" id="nWt-LI-2cX"/>
+                                    <outlet property="videoDurationLabel" destination="d0T-XZ-N2y" id="S8Q-NZ-QEh"/>
+                                    <outlet property="videoImageView" destination="iSU-hB-Ikj" id="qWI-vs-xxb"/>
+                                    <outlet property="videoNameLabel" destination="lns-ND-hH6" id="Vfs-3d-DXT"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -463,6 +475,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="emptyLabel" destination="GIq-aN-a6G" id="PkU-Bb-2p8"/>
+                        <outlet property="rightItem" destination="kmC-bS-OOP" id="dOl-YU-LyG"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mXo-ge-EvR" userLabel="First Responder" sceneMemberID="firstResponder"/>

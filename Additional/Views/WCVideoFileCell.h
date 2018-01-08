@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface WCVideoFileCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *videoImageView;
+@property (weak, nonatomic) IBOutlet UILabel *videoNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *videoDurationLabel;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
 @end

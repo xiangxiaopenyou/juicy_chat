@@ -13,6 +13,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.progressView.transform = CGAffineTransformMakeScale(1.0f, 4.0f);
+    self.progressView.contentMode = UIViewContentModeScaleAspectFill;
+    self.progressView.layer.masksToBounds = YES;
+    self.progressView.layer.cornerRadius = 8.0;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
