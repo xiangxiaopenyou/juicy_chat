@@ -7,11 +7,13 @@
 //
 
 #import "WCVideoFileTableViewController.h"
+#import "WCVideoUploadViewController.h"
 
 #import "WCVideoFileCell.h"
 
 #import "WCVideoFileListRequest.h"
 #import "WCUploadVideoRequest.h"
+#import "WCVideoLimitRequest.h"
 #import "WCVideoLimitRequest.h"
 #import "WCUploadFileRequestManager.h"
 #import "WCVideoFileModel.h"
@@ -26,10 +28,13 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *rightItem;
 
 @property (strong, nonatomic) NSMutableArray *fileArray;
+@property (assign, nonatomic) NSInteger maxCount;
+@property (assign, nonatomic) NSInteger maxSize;
 
 @end
 
 @implementation WCVideoFileTableViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,7 +45,25 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     _rightItem.enabled = NO;
-    [self listRequest];
+    [WCVideoUploadViewController sharedController].failHandler = ^(WCVideoFileModel *model) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD showError:[NSString stringWithFormat:@"%@文件上传失败", model.name] toView:self.view];
+        });
+    };
+    [WCVideoUploadViewController sharedController].successHandler = ^(WCVideoFileModel *model) {
+        [self uploadRequest:model];
+    };
+    [WCVideoUploadViewController sharedController].progressHandler = ^(WCVideoFileModel *model, CGFloat percent) {
+        [_fileArray enumerateObjectsUsingBlock:^(WCVideoFileModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.identifier isEqualToString:model.identifier]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    WCVideoFileCell *tempCell = (WCVideoFileCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+                    [tempCell.progressView setProgress:percent animated:YES];
+                });
+            }
+        }];
+    };
+    [self limitRequest];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
@@ -49,9 +72,17 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)uploadAction:(id)sender {
+    if (self.fileArray.count >= self.maxCount) {
+        [MBProgressHUD showError:[NSString stringWithFormat:@"上传视频最多不能超过%@个", @(self.maxCount)] toView:self.view];
+        return;
+    }
+    if ([WCVideoUploadViewController sharedController].fileArray.count >= 3) {
+        [MBProgressHUD showError:@"最多同时上传3个视频" toView:self.view];
+        return;
+    }
     UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
     pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    pickerController.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo, (NSString *)kUTTypeMPEG4];
+    pickerController.mediaTypes = @[(NSString *)kUTTypeMovie ];
     pickerController.videoMaximumDuration = 100;
     pickerController.videoQuality = UIImagePickerControllerQualityTypeHigh;
     pickerController.delegate = self;
@@ -63,26 +94,23 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
 
 #pragma mark - Requests
 - (void)listRequest {
+    self.fileArray = [[WCVideoUploadViewController sharedController].fileArray mutableCopy];
     [[WCVideoFileListRequest new] request:^BOOL(id request) {
         return YES;
     } result:^(id object, NSString *msg) {
         if (object) {
-            _fileArray = [[WCVideoFileModel setupWithArray:(NSArray *)object] mutableCopy];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                for (WCVideoFileModel *tempModel in _fileArray) {
-                    tempModel.firstImage = [self firstFrameWithVideoURL:[NSURL URLWithString:tempModel.url] size:CGSizeMake(70, 70)];
+            NSArray *resultArray = [[WCVideoFileModel setupWithArray:(NSArray *)object] copy];
+            [_fileArray addObjectsFromArray:resultArray];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _rightItem.enabled = YES;
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self.tableView reloadData];
+                if (_fileArray.count > 0) {
+                    self.emptyLabel.hidden = YES;
+                } else {
+                    self.emptyLabel.hidden = NO;
+                    self.emptyLabel.text = @"暂无视频文件";
                 }
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    _rightItem.enabled = YES;
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    [self.tableView reloadData];
-                    if (_fileArray.count > 0) {
-                        self.emptyLabel.hidden = YES;
-                    } else {
-                        self.emptyLabel.hidden = NO;
-                        self.emptyLabel.text = @"暂无视频文件";
-                    }
-                });
             });
         } else {
             [MBProgressHUD showError:msg toView:self.view];
@@ -102,8 +130,24 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
             [self listRequest];
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD showError:msg toView:self.view];
+                [MBProgressHUD showError:[NSString stringWithFormat:@"%@文件上传失败", model.name] toView:self.view];
+                [self listRequest];
             });
+        }
+    }];
+}
+- (void)limitRequest {
+    [[WCVideoLimitRequest new] request:^BOOL(id request) {
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            self.maxCount = [object[@"maxCount"] integerValue];
+            self.maxSize = [object[@"maxSize"] integerValue];
+            [self listRequest];
+        } else {
+            [MBProgressHUD showError:msg toView:self.view];
+            self.emptyLabel.hidden = NO;
+            self.emptyLabel.text = @"网络错误";
         }
     }];
 }
@@ -170,8 +214,6 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
                                                                  [AFHttpTool getUploadImageTokensuccess:^(id response) {
                                                                      if ([response[@"code"] integerValue] == 200) {
                                                                          [self uploadFile:fileName url:PATH_MOVIE_FILE token:response[@"data"][@"qiniutoken"]];
-                                                                         
-                                                                         //[WCUploadFileRequestManager uploadQNVideoFile:fileName fileUrl:PATH_MOVIE_FILE token:response[@"data"][@"qiniutoken"]];
                                                                      } else {
                                                                          //获取上传token失败
                                                                          [MBProgressHUD showError:[NSString stringWithFormat:@"%@文件上传失败", fileName] toView:self.view];
@@ -201,29 +243,7 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
     });
-    QNUploadManager *manager = [[QNUploadManager alloc] init];
-    QNUploadOption *option = [[QNUploadOption alloc] initWithMime:nil progressHandler:^(NSString *key, float percent) {
-        [_fileArray enumerateObjectsUsingBlock:^(WCVideoFileModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.identifier isEqualToString:tempModel.identifier]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    WCVideoFileCell *tempCell = (WCVideoFileCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
-                    [tempCell.progressView setProgress:percent animated:YES];
-                });
-            }
-        }];
-    } params:nil checkCrc:YES cancellationSignal:nil];
-    [manager putFile:fileUrl key:fileName token:token complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-        if (info.ok) {
-            WCVideoFileModel *model = [[WCVideoFileModel alloc] init];
-            model.name = fileName;
-            NSString *urlString = [[NSString stringWithFormat:@"%@%@", kWCFileBaseURL, key] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            model.url = urlString;
-            model.duration = @([self videoDurationWithPath:fileUrl]);
-            [self uploadRequest:model];
-        } else {
-            [MBProgressHUD showError:[NSString stringWithFormat:@"%@文件上传失败", fileName] toView:self.view];
-        }
-    } option:option];
+    [[WCVideoUploadViewController sharedController] uploadFile:tempModel token:token];
 }
 
 #pragma mark - Image picker controller delegate
@@ -253,12 +273,38 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     cell.videoImageView.image = model.firstImage;
     cell.videoDurationLabel.text = [self videoDurationWithTime:model.duration.integerValue];
     cell.progressView.hidden = !model.isUploading.boolValue;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (!model.firstImage) {
+            UIImage *tempImage = [self firstFrameWithVideoURL:[NSURL URLWithString:model.url] size:CGSizeMake(70, 70)];
+            model.firstImage = tempImage;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            cell.videoImageView.image = model.firstImage;
+        });
+    });
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    WCVideoFileModel *model = _fileArray[indexPath.row];
+    if (!model.isUploading.boolValue) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"确定要发送%@吗？", model.name] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"发送" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            if (self.sendBlock) {
+                self.sendBlock(model);
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+        }];
+        [alertController addAction:cancelAction];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+        [MBProgressHUD showError:@"视频上传完成才能发送" toView:self.view];
+    }
 }
 
 

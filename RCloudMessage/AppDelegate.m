@@ -18,6 +18,7 @@
 #import "RedPacketMessage.h"
 #import "PersonalCardMessage.h"
 #import "WCRedPacketTipMessage.h"
+#import "WCVideoFileMessage.h"
 #import "RCDataBaseManager.h"
 #import "RCWKNotifier.h"
 #import "RCWKRequestHandler.h"
@@ -150,6 +151,9 @@ static NSString *const QQAPPID = @"1106530362";
     
     //注册自定义红包提示消息
     [[RCIM sharedRCIM] registerMessageType:[WCRedPacketTipMessage class]];
+    
+    //注册自定义视频文件消息
+    [[RCIM sharedRCIM] registerMessageType:[WCVideoFileMessage class]];
 
   //设置会话列表头像和会话页面头像
 

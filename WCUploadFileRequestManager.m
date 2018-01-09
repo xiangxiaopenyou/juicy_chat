@@ -12,19 +12,21 @@
 #import <RongIMKit/RongIMKit.h>
 
 @implementation WCUploadFileRequestManager
-- (instancetype)initWithConfiguration:(QNConfiguration *)config {
-    QNConfiguration *qnConfig = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
-    }];
-    WCUploadFileRequestManager *manager = [[WCUploadFileRequestManager alloc] initWithConfiguration:qnConfig];
-    return manager;
-}
 + (void)uploadQNVideoFile:(NSString *)fileName fileUrl:(NSString *)fileUrl token:(NSString *)token {
-    QNConfiguration *config = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
-    }];
-    QNUploadManager *manager = [[QNUploadManager alloc] initWithConfiguration:config];
+    QNUploadOption *option = [[QNUploadOption alloc] initWithMime:nil progressHandler:^(NSString *key, float percent) {
+//        [_fileArray enumerateObjectsUsingBlock:^(WCVideoFileModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            if ([obj.identifier isEqualToString:tempModel.identifier]) {
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    WCVideoFileCell *tempCell = (WCVideoFileCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+//                    [tempCell.progressView setProgress:percent animated:YES];
+//                });
+//            }
+//        }];
+    } params:nil checkCrc:YES cancellationSignal:nil];
+    QNUploadManager *manager = [[QNUploadManager alloc] init];
     [manager putFile:fileUrl key:fileName token:token complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
         
-    } option:nil];
+    } option:option];
 }
 
 @end

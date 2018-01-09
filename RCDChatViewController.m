@@ -24,12 +24,14 @@
 #import "RedPacketMessage.h"
 #import "PersonalCardMessage.h"
 #import "WCRedPacketTipMessage.h"
+#import "WCVideoFileMessage.h"
 #import "AddFriendMessage.h"
 #import "RCDTestMessageCell.h"
 #import "RedPacketCell.h"
 #import "WCRedPacketTipCell.h"
 #import "PersonalCardCell.h"
 #import "AddFriendMessageCell.h"
+#import "WCVideoFileMessageCell.h"
 #import "TakeApartPacketView.h"
 #import "RCDUIBarButtonItem.h"
 #import "RCDUserInfoManager.h"
@@ -55,6 +57,8 @@
 #import "MBProgressHUD+Add.h"
 #import "MyFriendsListTableViewController.h"
 #import "WCVideoFileTableViewController.h"
+#import "WCVideoFileModel.h"
+#import "WCVideoPlayWebViewController.h"
 
 @interface RCDChatViewController () <
     UIActionSheetDelegate, RCRealTimeLocationObserver,
@@ -197,6 +201,7 @@ NSMutableDictionary *userInputStatus;
     [self registerClass:[WCRedPacketTipCell class] forMessageClass:[WCRedPacketTipMessage class]];
     [self registerClass:[PersonalCardCell class] forMessageClass:[PersonalCardMessage class]];
     [self registerClass:[AddFriendMessageCell class] forMessageClass:[AddFriendMessage class]];
+    [self registerClass:[WCVideoFileMessageCell class] forMessageClass:[WCVideoFileMessage class]];
 
   [self notifyUpdateUnreadMessageCount];
 
@@ -723,6 +728,11 @@ NSMutableDictionary *userInputStatus;
       case PLUGIN_BOARD_ITEM_VIDEO_FILE_TAG: {
           WCVideoFileTableViewController *videoFileController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"VideoFile"];
           UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:videoFileController];
+          videoFileController.sendBlock = ^(WCVideoFileModel *model) {
+              if (model) {
+                  [self sendVideoFileMessage:model.url duration:model.duration];
+              }
+          };
           [self presentViewController:navigationController animated:YES completion:nil];
       }
           break;
@@ -754,6 +764,10 @@ NSMutableDictionary *userInputStatus;
 - (void)sendRedPacketTipMessage:(NSString *)redPacketId message:(NSString *)message iosMessage:(NSString *)iosMessage tipMessage:(NSString *)tipmessage userId:(NSString *)userId showIds:(NSString *)ids isLink:(NSNumber *)isLink {
     WCRedPacketTipMessage *tipMessage = [WCRedPacketTipMessage messageWithContent:message iosMessage:iosMessage tipMessage:(NSString *)tipmessage redPacketId:redPacketId userId:userId showUserIds:ids islink:isLink];
     [self sendMessage:tipMessage pushContent:nil];
+}
+- (void)sendVideoFileMessage:(NSString *)url duration:(NSNumber *)duration {
+    WCVideoFileMessage *message = [WCVideoFileMessage messageWithUrl:url duration:duration];
+    [self sendMessage:message pushContent:@"[视频文件]"];
 }
 - (RealTimeLocationStatusView *)realTimeLocationStatusView {
   if (!_realTimeLocationStatusView) {
@@ -1246,6 +1260,11 @@ NSMutableDictionary *userInputStatus;
             }
         }];
 
+    } else if ([model.content isKindOfClass:[WCVideoFileMessage class]]) {
+        WCVideoFileMessage *message = (WCVideoFileMessage *)model.content;
+        WCVideoPlayWebViewController *playController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"VideoPlayWeb"];
+        playController.urlString = message.url;
+        [self.navigationController pushViewController:playController animated:YES];
     }
 }
 

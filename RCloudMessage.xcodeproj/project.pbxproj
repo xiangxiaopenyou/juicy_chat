@@ -171,6 +171,10 @@
 		3DB7210C1FFF1605004D7A20 /* QNHex.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720F81FFF1605004D7A20 /* QNHex.m */; };
 		3DB7210D1FFF1605004D7A20 /* QNIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720FA1FFF1605004D7A20 /* QNIP.m */; };
 		3DB7210F1FFF16C9004D7A20 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DB7210E1FFF16C9004D7A20 /* libresolv.tbd */; };
+		3DB7211320030244004D7A20 /* WCVideoFileMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7211220030244004D7A20 /* WCVideoFileMessage.m */; };
+		3DB7211620030BA7004D7A20 /* WCVideoFileMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7211520030BA7004D7A20 /* WCVideoFileMessageCell.m */; };
+		3DB7211920032F06004D7A20 /* WCVideoPlayWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7211820032F06004D7A20 /* WCVideoPlayWebViewController.m */; };
+		3DB7211C20033BBB004D7A20 /* WCVideoUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7211B20033BBB004D7A20 /* WCVideoUploadViewController.m */; };
 		3DCD38731F4A7BCB003EEC87 /* WCTransferRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCD38721F4A7BCB003EEC87 /* WCTransferRecordCell.m */; };
 		3DCD38761F4A80B1003EEC87 /* WCTransferRecordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCD38751F4A80B1003EEC87 /* WCTransferRecordRequest.m */; };
 		3DCD38B31F4AB551003EEC87 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCD38871F4AB551003EEC87 /* MJRefreshAutoFooter.m */; };
@@ -772,6 +776,14 @@
 		3DB720F91FFF1605004D7A20 /* QNIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNIP.h; sourceTree = "<group>"; };
 		3DB720FA1FFF1605004D7A20 /* QNIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNIP.m; sourceTree = "<group>"; };
 		3DB7210E1FFF16C9004D7A20 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		3DB7211120030244004D7A20 /* WCVideoFileMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCVideoFileMessage.h; sourceTree = SOURCE_ROOT; };
+		3DB7211220030244004D7A20 /* WCVideoFileMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCVideoFileMessage.m; sourceTree = SOURCE_ROOT; };
+		3DB7211420030BA7004D7A20 /* WCVideoFileMessageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCVideoFileMessageCell.h; sourceTree = "<group>"; };
+		3DB7211520030BA7004D7A20 /* WCVideoFileMessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCVideoFileMessageCell.m; sourceTree = "<group>"; };
+		3DB7211720032F06004D7A20 /* WCVideoPlayWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCVideoPlayWebViewController.h; sourceTree = "<group>"; };
+		3DB7211820032F06004D7A20 /* WCVideoPlayWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCVideoPlayWebViewController.m; sourceTree = "<group>"; };
+		3DB7211A20033BBB004D7A20 /* WCVideoUploadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCVideoUploadViewController.h; sourceTree = "<group>"; };
+		3DB7211B20033BBB004D7A20 /* WCVideoUploadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCVideoUploadViewController.m; sourceTree = "<group>"; };
 		3DCD38711F4A7BCB003EEC87 /* WCTransferRecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCTransferRecordCell.h; sourceTree = "<group>"; };
 		3DCD38721F4A7BCB003EEC87 /* WCTransferRecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCTransferRecordCell.m; sourceTree = "<group>"; };
 		3DCD38741F4A80B1003EEC87 /* WCTransferRecordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCTransferRecordRequest.h; sourceTree = "<group>"; };
@@ -2108,6 +2120,10 @@
 				3DF390631FF37B3A001D7205 /* WCAddFriendTableViewController.m */,
 				3DB720151FFCC468004D7A20 /* WCVideoFileTableViewController.h */,
 				3DB720161FFCC468004D7A20 /* WCVideoFileTableViewController.m */,
+				3DB7211720032F06004D7A20 /* WCVideoPlayWebViewController.h */,
+				3DB7211820032F06004D7A20 /* WCVideoPlayWebViewController.m */,
+				3DB7211A20033BBB004D7A20 /* WCVideoUploadViewController.h */,
+				3DB7211B20033BBB004D7A20 /* WCVideoUploadViewController.m */,
 			);
 			path = Additional;
 			sourceTree = SOURCE_ROOT;
@@ -2127,6 +2143,8 @@
 				3D71D6741FBC356E00960D36 /* WCTransferGroupMemberCell.m */,
 				3DB720121FFCC38A004D7A20 /* WCVideoFileCell.h */,
 				3DB720131FFCC38A004D7A20 /* WCVideoFileCell.m */,
+				3DB7211420030BA7004D7A20 /* WCVideoFileMessageCell.h */,
+				3DB7211520030BA7004D7A20 /* WCVideoFileMessageCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2463,6 +2481,8 @@
 				3D8E20A91ED7C384008E6C29 /* PersonalCardMessage.m */,
 				3DCD39301F4E627D003EEC87 /* WCRedPacketTipMessage.h */,
 				3DCD39311F4E627D003EEC87 /* WCRedPacketTipMessage.m */,
+				3DB7211120030244004D7A20 /* WCVideoFileMessage.h */,
+				3DB7211220030244004D7A20 /* WCVideoFileMessage.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3460,6 +3480,7 @@
 				A677D6991B81EBB9007D5D90 /* HeadCollectionView.m in Sources */,
 				466684241B5DEA10000B7504 /* RCDSettingBaseViewController.m in Sources */,
 				3DCD39071F4C0DFB003EEC87 /* WCSentRedPacketRecordRequest.m in Sources */,
+				3DB7211620030BA7004D7A20 /* WCVideoFileMessageCell.m in Sources */,
 				3DB720BD1FFF1531004D7A20 /* QNFile.m in Sources */,
 				3D7168301F516D0E00B0166D /* WCChatRoomViewController.m in Sources */,
 				9891E8E31D82AB3100E874AB /* RCDLogoTableViewCell.m in Sources */,
@@ -3545,13 +3566,16 @@
 				3DB720211FFCC777004D7A20 /* WCVideoLimitRequest.m in Sources */,
 				3DFFB8DC1EFA62E4003A2ABF /* JCDetailsCell.m in Sources */,
 				E4BFAE6E1A121A22007165B1 /* RCDChatRoomViewController.m in Sources */,
+				3DB7211920032F06004D7A20 /* WCVideoPlayWebViewController.m in Sources */,
 				3DB720241FFCCB20004D7A20 /* WCDeleteVideoFileRequest.m in Sources */,
 				3DB7210C1FFF1605004D7A20 /* QNHex.m in Sources */,
 				E4E939621AD65A95001E0AC6 /* RCUnderlineTextField.m in Sources */,
 				E4E939681AD65A95001E0AC6 /* SDWebImageDownloader.m in Sources */,
 				3D8E20691ED6B776008E6C29 /* RelieveLockViewController.m in Sources */,
+				3DB7211C20033BBB004D7A20 /* WCVideoUploadViewController.m in Sources */,
 				3DCD39011F4C0CD4003EEC87 /* WCRedpacketModel.m in Sources */,
 				3DCD38C41F4AB551003EEC87 /* UIScrollView+MJExtension.m in Sources */,
+				3DB7211320030244004D7A20 /* WCVideoFileMessage.m in Sources */,
 				F836AB151C226A7F00A1A5D2 /* RCDTestMessageCell.m in Sources */,
 				3DCD38B31F4AB551003EEC87 /* MJRefreshAutoFooter.m in Sources */,
 				E4E939AC1AD65CC2001E0AC6 /* RCDSearchResultTableViewCell.m in Sources */,

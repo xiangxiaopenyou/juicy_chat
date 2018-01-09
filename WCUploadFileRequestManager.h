@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "QiniuSDK.h"
 
-@interface WCUploadFileRequestManager : QNUploadManager
-@property (strong, nonatomic) QNUploadOption *option;
+@interface WCUploadFileRequestManager : NSObject
 + (void)uploadQNVideoFile:(NSString *)fileName fileUrl:(NSString *)fileUrl token:(NSString *)token;
 @end

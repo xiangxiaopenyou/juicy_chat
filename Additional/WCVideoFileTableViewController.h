@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class WCVideoFileModel;
 
 @interface WCVideoFileTableViewController : UITableViewController
+
+@property (copy, nonatomic) void (^sendBlock)(WCVideoFileModel *model);
 
 @end
