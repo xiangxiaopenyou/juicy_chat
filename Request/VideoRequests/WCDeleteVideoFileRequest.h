@@ -9,5 +9,6 @@
 #import "BaseRequest.h"
 
 @interface WCDeleteVideoFileRequest : BaseRequest
+@property (copy, nonatomic) NSString *videoId;
 
 @end

@@ -763,6 +763,13 @@ titleForHeaderInSection:(NSInteger)section {
       [_friendsArr addObject:friend];
     }
   }
+    NSMutableArray *resultFriendsArray = [[NSMutableArray alloc] init];
+    for (RCDUserInfo *tempInfo in _friendsArr) {
+        if (tempInfo.userId.integerValue > 10010) {
+            [resultFriendsArray addObject:tempInfo];
+        }
+    }
+    _friendsArr = [resultFriendsArray mutableCopy];
   if (_friendsArr.count < 1) {
     CGRect frame = CGRectMake(0, 0, RCDscreenWidth, RCDscreenHeight - 64);
     self.noFriendView = [[RCDNoFriendView alloc] initWithFrame:frame];

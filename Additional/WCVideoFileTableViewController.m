@@ -15,6 +15,7 @@
 #import "WCUploadVideoRequest.h"
 #import "WCVideoLimitRequest.h"
 #import "WCVideoLimitRequest.h"
+#import "WCDeleteVideoFileRequest.h"
 #import "WCUploadFileRequestManager.h"
 #import "WCVideoFileModel.h"
 #import "MBProgressHUD+Add.h"
@@ -123,11 +124,19 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     [[WCUploadVideoRequest new] request:^BOOL(WCUploadVideoRequest *request) {
         request.url = model.url;
         request.name = model.name;
-        request.duration = model.duration;
+        request.duration =@([self videoDurationWithPath:model.url]);
         return YES;
     } result:^(id object, NSString *msg) {
         if (object) {
-            [self listRequest];
+            WCVideoFileModel *resultModel = [[WCVideoFileModel alloc] initWithDictionary:(NSDictionary *)object error:nil];
+            NSArray *tempArray = [self.fileArray copy];
+            [tempArray enumerateObjectsUsingBlock:^(WCVideoFileModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj.identifier isEqualToString:model.identifier]) {
+                    [self.fileArray replaceObjectAtIndex:idx withObject:resultModel];
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                }
+            }];
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD showError:[NSString stringWithFormat:@"%@文件上传失败", model.name] toView:self.view];
@@ -170,9 +179,9 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     //format of hour
     NSString *str_hour = [NSString stringWithFormat:@"%02ld",time/3600];
     //format of minute
-    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(time%3600)/60];
+    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(time % 3600) / 60];
     //format of second
-    NSString *str_second = [NSString stringWithFormat:@"%02ld",time%60];
+    NSString *str_second = [NSString stringWithFormat:@"%02ld",time % 60];
     //format of time
     NSString *format_time = [NSString stringWithFormat:@"%@:%@", str_minute, str_second];
     if (str_hour.integerValue > 0) {
@@ -188,6 +197,10 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     return seconds;
 }
 
+/**
+ 获取视频文件
+ @param asset 相册选择的视频asset
+ */
 - (void)fetchVideoPathFromPhAsset:(PHAsset *)asset {
     NSArray *assetResources = [PHAssetResource assetResourcesForAsset:asset];
     PHAssetResource *resource;
@@ -196,6 +209,13 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
             resource = assetRes;
         }
     }
+    
+    //判断视频格式
+    NSString *typeString = [resource.originalFilename substringFromIndex:resource.originalFilename.length - 3];
+    if (!([typeString isEqualToString:@"mp4"] ||[typeString isEqualToString:@"MP4"])) {
+        [MBProgressHUD showError:@"只能上传mp4格式的视频" toView:self.view];
+        return;
+    }
     NSString *fileName = resource.originalFilename;
     if (asset.mediaType == PHAssetMediaTypeVideo) {
         PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
@@ -203,6 +223,11 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
         options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
         NSString *PATH_MOVIE_FILE = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
         [[NSFileManager defaultManager] removeItemAtPath:PATH_MOVIE_FILE error:nil];
+        NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:PATH_MOVIE_FILE]];
+        if (fileData.length / 1024 / 1024 > self.maxSize) {
+            [MBProgressHUD showError:[NSString stringWithFormat:@"%@", @(self.maxSize)] toView:self.view];
+            return;
+        }
         [[PHAssetResourceManager defaultManager] writeDataForAssetResource:resource
                                                                     toFile:[NSURL fileURLWithPath:PATH_MOVIE_FILE]
                                                                    options:nil
@@ -231,14 +256,16 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
 - (void)uploadFile:(NSString *)fileName url:(NSString *)fileUrl token:(NSString *)token {
     WCVideoFileModel *tempModel = [[WCVideoFileModel alloc] init];
     tempModel.name = fileName;
-    tempModel.url = fileUrl;
-    tempModel.duration = @([self videoDurationWithPath:fileUrl]);
-    tempModel.isUploading = @YES;
     //获取系统当前的时间戳
     NSDate *dat = [NSDate dateWithTimeIntervalSinceNow:0];
     NSTimeInterval now = [dat timeIntervalSince1970] * 1000;
     NSString *timeString = [NSString stringWithFormat:@"%f", now];
+    timeString = [timeString stringByReplacingOccurrencesOfString:@"." withString:@""];
+    NSString *key = [NSString stringWithFormat:@"i_%@", timeString];
+    tempModel.key = key;
     tempModel.identifier = timeString;
+    tempModel.url = fileUrl;
+    tempModel.isUploading = @YES;
     [_fileArray insertObject:tempModel atIndex:0];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
@@ -253,7 +280,6 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
         NSURL *videoUrl = info[UIImagePickerControllerReferenceURL];
         PHFetchResult *fetchResult = [PHAsset fetchAssetsWithALAssetURLs:@[videoUrl] options:nil];
         PHAsset *asset = fetchResult.firstObject;
-        NSLog(@"xainglinping");
         [self fetchVideoPathFromPhAsset:asset];
     }
 }
@@ -308,25 +334,58 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
 }
 
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"删除";
+}
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+        WCVideoFileModel *model = _fileArray[indexPath.row];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"确定要删除%@吗？", model.name] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            if (model.isUploading.boolValue) {
+                model.isCancel = @YES;
+                [[WCVideoUploadViewController sharedController] cancelStatusRefresh:model];
+                [self.fileArray removeObject:model];
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            } else {
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                [[WCDeleteVideoFileRequest new] request:^BOOL(WCDeleteVideoFileRequest *request) {
+                    request.videoId = model.id;
+                    return YES;
+                } result:^(id object, NSString *msg) {
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    if (object) {
+                        [self.fileArray removeObject:model];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                        });
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [MBProgressHUD showError:msg toView:self.view];
+                        });
+                    }
+                }];
+            }
+        }];
+        [alertController addAction:cancelAction];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+    }
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.

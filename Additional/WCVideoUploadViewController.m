@@ -15,6 +15,7 @@
 static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
 
 @interface WCVideoUploadViewController ()
+@property (strong, nonatomic) NSMutableArray *cancelStatusArray;
 @end
 
 @implementation WCVideoUploadViewController
@@ -44,8 +45,20 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
         if (self.progressHandler) {
             self.progressHandler(model, percent);
         }
-    } params:nil checkCrc:YES cancellationSignal:nil];
-    [manager putFile:model.url key:model.name token:token complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+    } params:nil checkCrc:YES cancellationSignal:^BOOL{
+        __block BOOL isCancel = NO;
+        NSArray *tempArray = [self.fileArray copy];
+        [tempArray enumerateObjectsUsingBlock:^(WCVideoFileModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.identifier isEqualToString:model.identifier]) {
+                isCancel = obj.isCancel.boolValue;
+                if (isCancel) {
+                    [self.fileArray removeObject:obj];
+                }
+            }
+        }];
+        return isCancel;
+    }];
+    [manager putFile:model.url key:model.key token:token complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
         if (info.ok) {
             [self.fileArray removeObject:model];
             NSString *urlString = [[NSString stringWithFormat:@"%@%@", kWCFileBaseURL, key] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -62,8 +75,13 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
             }
         }
     } option:option];
-    
-    
+}
+- (void)cancelStatusRefresh:(WCVideoFileModel *)model {
+    [self.fileArray enumerateObjectsUsingBlock:^(WCVideoFileModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.identifier isEqualToString:model.identifier]) {
+            obj.isCancel = model.isCancel;
+        }
+    }];
 }
 
 /*
@@ -80,6 +98,12 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
         _fileArray = [[NSMutableArray alloc] init];
     }
     return _fileArray;
+}
+- (NSMutableArray *)cancelStatusArray {
+    if (!_cancelStatusArray) {
+        _cancelStatusArray = [[NSMutableArray alloc] init];
+    }
+    return _cancelStatusArray;
 }
 
 @end

@@ -18,7 +18,7 @@
     [self.params setObject:self.duration forKey:@"duration"];
     [[RequestManager sharedInstance] POST:@"UploadVideo.aspx" parameters:self.params success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([responseObject[@"code"] integerValue] == 200) {
-            !resultHandler ?: resultHandler(@YES, nil);
+            !resultHandler ?: resultHandler(responseObject[@"data"], nil);
         } else {
             !resultHandler ?: resultHandler(nil, responseObject[@"message"]);
         }

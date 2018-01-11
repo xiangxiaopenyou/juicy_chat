@@ -1263,7 +1263,8 @@ NSMutableDictionary *userInputStatus;
     } else if ([model.content isKindOfClass:[WCVideoFileMessage class]]) {
         WCVideoFileMessage *message = (WCVideoFileMessage *)model.content;
         WCVideoPlayWebViewController *playController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"VideoPlayWeb"];
-        playController.urlString = message.url;
+        //NSArray *tempArray = [message.url componentsSeparatedByString:@"/"];
+        playController.urlString = message.url;//[NSString stringWithFormat:@"http://121.43.184.230:7654/app/VideoPlayer.aspx?source=%@", tempArray[1]];
         [self.navigationController pushViewController:playController animated:YES];
     }
 }

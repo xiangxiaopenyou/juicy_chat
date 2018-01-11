@@ -3802,6 +3802,7 @@
 				CODE_SIGN_ENTITLEMENTS = SealTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = B4258LX29S;
 				ENABLE_BITCODE = NO;
@@ -3958,6 +3959,7 @@
 				CODE_SIGN_ENTITLEMENTS = SealTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = B4258LX29S;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3989,7 +3991,7 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.JuicyChat;
 				PRODUCT_NAME = SealTalk;
-				PROVISIONING_PROFILE = "21da8fb5-0418-4846-9767-d27aaa48203c";
+				PROVISIONING_PROFILE = "ad621910-4414-43bf-8a83-d402d6eb0726";
 				PROVISIONING_PROFILE_SPECIFIER = guoliao_dis;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4271,6 +4273,7 @@
 				CODE_SIGN_ENTITLEMENTS = SealTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = B4258LX29S;
 				ENABLE_BITCODE = NO;
@@ -4322,6 +4325,7 @@
 				CODE_SIGN_ENTITLEMENTS = SealTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = B4258LX29S;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4352,7 +4356,7 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.JuicyChat;
 				PRODUCT_NAME = SealTalk;
-				PROVISIONING_PROFILE = "21da8fb5-0418-4846-9767-d27aaa48203c";
+				PROVISIONING_PROFILE = "ad621910-4414-43bf-8a83-d402d6eb0726";
 				PROVISIONING_PROFILE_SPECIFIER = guoliao_dis;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -16,6 +16,7 @@ typedef void(^progressBlock)(WCVideoFileModel *model, CGFloat percent);
 @interface WCVideoUploadViewController : UIViewController
 + (instancetype)sharedController;
 - (void)uploadFile:(WCVideoFileModel *)model token:(NSString *)token;
+- (void)cancelStatusRefresh:(WCVideoFileModel *)model;
 
 @property (strong, nonatomic) NSMutableArray *fileArray;
 

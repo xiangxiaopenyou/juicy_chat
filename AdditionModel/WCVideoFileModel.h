@@ -15,9 +15,11 @@
 @property (strong, nonatomic) UIImage<Optional> *firstImage;
 @property (copy, nonatomic) NSString *createtime;
 @property (copy, nonatomic) NSString *name;
+@property (copy, nonatomic) NSString<Optional> *key;
 @property (strong, nonatomic) NSNumber *duration;
 @property (strong, nonatomic) NSNumber *size;
 @property (copy, nonatomic) NSString<Optional> *identifier;
 @property (strong, nonatomic) NSNumber<Optional> *isUploading;
+@property (strong, nonatomic) NSNumber<Optional> *isCancel;
 
 @end
