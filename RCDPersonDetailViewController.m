@@ -360,7 +360,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
              [hud hide:YES];
              UIAlertView *alertView =
              [[UIAlertView alloc] initWithTitle:nil
-                                        message:@"从黑名单移除失败"
+                                        message:@"取消黑名单失败"
                                        delegate:nil
                               cancelButtonTitle:@"确定"
                               otherButtonTitles:nil, nil];

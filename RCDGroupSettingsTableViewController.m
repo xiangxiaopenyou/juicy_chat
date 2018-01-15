@@ -32,6 +32,7 @@
 #import "DeleteGroupRequest.h"
 #import "RelieveLockViewController.h"
 #import "WCTransferGroupViewController.h"
+#import "RCDGroupViewController.h"
 static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
 
 @interface RCDGroupSettingsTableViewController ()
@@ -658,6 +659,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         
         [[RCDataBaseManager shareInstance]
          deleteGroupToDB:groupId];
+          NSArray *controllersArray = [self.navigationController.viewControllers copy];
+          for (UIViewController *controller in controllersArray) {
+              if ([controller isKindOfClass:[RCDGroupViewController class]]) {
+                  [self.navigationController popToViewController:controller animated:YES];
+                  return;
+              }
+          }
         [self.navigationController
          popToRootViewControllerAnimated:YES];
         return;
@@ -676,6 +684,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                      targetId:groupId];
                     [[RCDataBaseManager shareInstance]
                      deleteGroupToDB:groupId];
+                    NSArray *controllersArray = [self.navigationController.viewControllers copy];
+                    for (UIViewController *controller in controllersArray) {
+                        if ([controller isKindOfClass:[RCDGroupViewController class]]) {
+                             [self.navigationController popToViewController:controller animated:YES];
+                            return;
+                        }
+                    }
                     [self.navigationController
                      popToRootViewControllerAnimated:YES];
                 });
@@ -737,6 +752,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                      targetId:groupId];
                     [[RCDataBaseManager shareInstance]
                      deleteGroupToDB:groupId];
+                    NSArray *controllersArray = [self.navigationController.viewControllers copy];
+                    for (UIViewController *controller in controllersArray) {
+                        if ([controller isKindOfClass:[RCDGroupViewController class]]) {
+                             [self.navigationController popToViewController:controller animated:YES];
+                            return;
+                        }
+                    }
                     [self.navigationController
                      popToRootViewControllerAnimated:YES];
                 });
@@ -940,17 +962,22 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         }
               break;
           case 5: {
-              RCTextMessage *message = [RCTextMessage messageWithContent:@"@所有人"];
-              message.mentionedInfo = [[RCMentionedInfo alloc] initWithMentionedType:RC_Mentioned_All userIdList:nil mentionedContent:nil];
-              [[RCIM sharedRCIM] sendMessage:ConversationType_GROUP targetId:self.Group.groupId content:message pushContent:nil pushData:nil success:^(long messageId) {
-                  dispatch_async(dispatch_get_main_queue(), ^{
-                      [self.navigationController popViewControllerAnimated:YES];
-                  });
-              } error:^(RCErrorCode nErrorCode, long messageId) {
-                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                                  message:@"@所有人失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                  [alert show];
-              }];
+//              RCTextMessage *message = [RCTextMessage messageWithContent:@"@所有人"];
+//              message.mentionedInfo = [[RCMentionedInfo alloc] initWithMentionedType:RC_Mentioned_All userIdList:nil mentionedContent:nil];
+//              [[RCIM sharedRCIM] sendMessage:ConversationType_GROUP targetId:self.Group.groupId content:message pushContent:nil pushData:nil success:^(long messageId) {
+//                  dispatch_async(dispatch_get_main_queue(), ^{
+//                      [self.navigationController popViewControllerAnimated:YES];
+//                  });
+//              } error:^(RCErrorCode nErrorCode, long messageId) {
+//                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+//                                                                  message:@"@所有人失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//                  [alert show];
+//              }];
+              RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
+              vc.isTipAll = YES;
+              vc.GroupId = _Group.groupId;
+              vc.groupInfo = _Group;
+              [self.navigationController pushViewController:vc animated:YES];
           }
               break;
           

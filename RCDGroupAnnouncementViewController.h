@@ -16,5 +16,6 @@
 
 @property (nonatomic, strong) NSString *GroupId;
 @property (strong, nonatomic) RCDGroupInfo *groupInfo;
+@property (assign, nonatomic) BOOL isTipAll;
 
 @end

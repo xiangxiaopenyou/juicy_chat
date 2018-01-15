@@ -7,6 +7,7 @@
 //
 
 #import "RCDGroupAnnouncementViewController.h"
+#import "RCDChatViewController.h"
 #import "UIColor+RCColor.h"
 #import "MBProgressHUD.h"
 #import "ModifyGroupInformationsRequest.h"
@@ -59,8 +60,8 @@
        forControlEvents:UIControlEventTouchUpInside];
   UIBarButtonItem *rightButton =
   [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn ];
-      [self.rightLabel setTextColor:[UIColor colorWithHexString:@"9fcdfd" alpha:1.0]];
-  self.rightBtn .userInteractionEnabled = NO;
+    [self.rightLabel setTextColor:[UIColor colorWithHexString:@"9fcdfd" alpha:1.0]];
+    self.rightBtn.userInteractionEnabled = NO;
   self.navigationItem.rightBarButtonItem = rightButton;
   
   self.leftBtn =
@@ -79,15 +80,20 @@
   
   self.view.backgroundColor = [UIColor whiteColor];
   
-  self.navigationItem.title = @"群公告";
-  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.AnnouncementContent becomeFirstResponder];
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.isTipAll) {
+        [self navigationButtonIsCanClick:YES];
+        [self.rightLabel setTextColor:[UIColor whiteColor]];
+    }
+    self.navigationItem.title = self.isTipAll ? @"@所有人" :  @"群公告";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -154,66 +160,105 @@
 
 -(void)clickLeftBtn:(id)sender
 {
-  [self navigationButtonIsCanClick:NO];
-    if (![self.groupInfo.creatorId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
+    if (self.isTipAll) {
         [self.navigationController popViewControllerAnimated:YES];
     } else {
-        if (self.AnnouncementContent.text.length > 0) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                            message:@"退出本次编辑"
-                                                           delegate:self
-                                                  cancelButtonTitle:@"继续编辑"
-                                                  otherButtonTitles:@"退出",nil];
-            alert.tag = 101;
-            [alert show];
-        }
-        else
-        {
+        [self navigationButtonIsCanClick:NO];
+        if (![self.groupInfo.creatorId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
             [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            if (self.AnnouncementContent.text.length > 0) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                message:@"退出本次编辑"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"继续编辑"
+                                                      otherButtonTitles:@"退出",nil];
+                alert.tag = 101;
+                [alert show];
+            }
+            else
+            {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }
     }
+  
 }
 
 -(void)clickRightBtn:(id)sender
 {
-  [self navigationButtonIsCanClick:NO];
-  BOOL isEmpty = [self isEmpty:self.AnnouncementContent.text];
-  if (isEmpty == YES) {
-    [self.navigationController popViewControllerAnimated:YES];
-    return;
-  }
-
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                  message:@"该公告会通知全部群成员，是否发布？"
-                                                 delegate:self
-                                        cancelButtonTitle:@"取消"
-                                        otherButtonTitles:@"发布",nil];
-  alert.tag = 102;
-  [alert show];
+    if (self.isTipAll) {
+        NSString *txt = [NSString stringWithFormat: @"@所有人\n%@",self.AnnouncementContent.text];
+        //去除收尾的空格
+        txt = [txt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        //去除收尾的换行
+        txt = [txt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        RCTextMessage *announcementMsg = [RCTextMessage messageWithContent:txt];
+        announcementMsg.mentionedInfo = [[RCMentionedInfo alloc] initWithMentionedType:RC_Mentioned_All userIdList:nil mentionedContent:nil];
+        [[RCIM sharedRCIM] sendMessage:ConversationType_GROUP
+                              targetId:self.GroupId
+                               content:announcementMsg
+                           pushContent:nil
+                              pushData:nil
+                               success:^(long messageId) {
+                                   NSArray *viewControllers = [self.navigationController.viewControllers copy];
+                                   for (UIViewController *controller in viewControllers) {
+                                       if ([controller isKindOfClass:[RCDChatViewController class]]) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [self.navigationController popToViewController:controller animated:YES];
+                                           });
+                                       }
+                                   }
+                               } error:^(RCErrorCode nErrorCode, long messageId) {
+                                   [self.hud hide:YES];
+                                   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                                   message:@"@失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                                   [alert show];
+                               }];
+    } else {
+        [self navigationButtonIsCanClick:NO];
+        BOOL isEmpty = [self isEmpty:self.AnnouncementContent.text];
+        if (isEmpty == YES) {
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"该公告会通知全部群成员，是否发布？"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"发布",nil];
+        alert.tag = 102;
+        [alert show];
+    }
 }
 
 #pragma mark - UITextViewDelegate
 -(void)textViewDidChange:(UITextView *)textView
 {
-  NSInteger number = [textView.text length];
-  if (number == 0) {
-    self.rightBtn.userInteractionEnabled = NO;
-    [self.rightLabel setTextColor:[UIColor colorWithHexString:@"9fcdfd" alpha:1.0]];
-  }
-  if (number > 0) {
-    self.rightBtn.userInteractionEnabled = YES;
-    [self.rightLabel setTextColor:[UIColor whiteColor]];
-    
-    CGRect frame = self.AnnouncementContent.frame;
-    
-    CGSize maxSize =CGSizeMake(frame.size.width,MAXFLOAT);
-    
-    CGFloat height = [self.AnnouncementContent.text boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : self.AnnouncementContent.font} context:nil].size.height;
-    frame.size.height = height;
-  }
-  if (number > 200) {
-    textView.text = [textView.text substringToIndex:200];
-  }
+    if (self.isTipAll) {
+        
+    } else {
+        NSInteger number = [textView.text length];
+        if (number == 0) {
+            self.rightBtn.userInteractionEnabled = NO;
+            [self.rightLabel setTextColor:[UIColor colorWithHexString:@"9fcdfd" alpha:1.0]];
+        }
+        if (number > 0) {
+            self.rightBtn.userInteractionEnabled = YES;
+            [self.rightLabel setTextColor:[UIColor whiteColor]];
+            
+            CGRect frame = self.AnnouncementContent.frame;
+            
+            CGSize maxSize =CGSizeMake(frame.size.width,MAXFLOAT);
+            
+            CGFloat height = [self.AnnouncementContent.text boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : self.AnnouncementContent.font} context:nil].size.height;
+            frame.size.height = height;
+        }
+        if (number > 200) {
+            textView.text = [textView.text substringToIndex:200];
+        }
+    }
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -339,14 +384,18 @@
 - (void)setGroupInfo:(RCDGroupInfo *)groupInfo {
     if (groupInfo) {
         _groupInfo = groupInfo;
-        self.AnnouncementContent.text = groupInfo.gonggao;
-        if (![groupInfo.creatorId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
-            self.AnnouncementContent.editable = NO;
-            self.navigationItem.rightBarButtonItem = nil;
-            self.AnnouncementContent.myPlaceholder = @"暂无公告";
+        if (self.isTipAll) {
+            self.AnnouncementContent.myPlaceholder = @"请编辑@内容";
         } else {
-            self.AnnouncementContent.editable = YES;
-            self.AnnouncementContent.myPlaceholder = @"请编辑群公告(200字以内)";
+            self.AnnouncementContent.text = groupInfo.gonggao;
+            if (![groupInfo.creatorId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
+                self.AnnouncementContent.editable = NO;
+                self.navigationItem.rightBarButtonItem = nil;
+                self.AnnouncementContent.myPlaceholder = @"暂无公告";
+            } else {
+                self.AnnouncementContent.editable = YES;
+                self.AnnouncementContent.myPlaceholder = @"请编辑群公告(200字以内)";
+            }
         }
     }
 }

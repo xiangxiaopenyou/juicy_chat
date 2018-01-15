@@ -23,6 +23,7 @@
 #import "MBProgressHUD.h"
 #import "DeleteFriendRequest.h"
 #import "AFHttpTool.h"
+#import "MBProgressHUD+Add.h"
 
 #import <RongIMKit/RongIMKit.h>
 
@@ -189,6 +190,7 @@
                  weakSelf.inBlackList = YES;
                  dispatch_async(dispatch_get_main_queue(), ^{
                      [hud hide:YES];
+                     [MBProgressHUD showSuccess:@"加入黑名单成功" toView:self.view];
                  });
                  [[RCDataBaseManager shareInstance] insertBlackListToDB:weakSelf.friendInfo];
             } error:^(RCErrorCode status) {
@@ -204,10 +206,11 @@
                  weakSelf.inBlackList = NO;
              }];
         } else {
-            hud.labelText = @"正在从黑名单移除";
+            hud.labelText = @"正在取消黑名单";
             [[RCIMClient sharedRCIMClient] removeFromBlacklist:self.friendInfo.userId success:^{
                  dispatch_async(dispatch_get_main_queue(), ^{
                      [hud hide:YES];
+                     [MBProgressHUD showSuccess:@"取消黑名单成功" toView:self.view];
                  });
                  [[RCDataBaseManager shareInstance] removeBlackList:weakSelf.userId];
                  weakSelf.inBlackList = NO;
@@ -215,7 +218,7 @@
                  dispatch_async(dispatch_get_main_queue(), ^{
                      [hud hide:YES];
                      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
-                                                                         message:@"从黑名单移除失败"
+                                                                         message:@"取消黑名单失败"
                                                                         delegate:nil
                                                                cancelButtonTitle:@"确定"
                                                                otherButtonTitles:nil, nil];

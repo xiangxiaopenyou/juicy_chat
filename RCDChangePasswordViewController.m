@@ -12,6 +12,7 @@
 #import "UIColor+RCColor.h"
 #import "RCDUIBarButtonItem.h"
 #import "ChangePayPasswordRequest.h"
+#import "MBProgressHUD+Add.h"
 
 @interface RCDChangePasswordViewController ()
 @property(nonatomic, strong) UILabel *oldPwdLabel;
@@ -271,6 +272,9 @@
         } result:^(id object, NSString *msg) {
             if (object) {
                 [weakSelf.navigationController popViewControllerAnimated:YES];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD showSuccess:@"修改成功" toView:[UIApplication sharedApplication].keyWindow];
+                });
             } else {
                 [self AlertShow:msg];
             }
@@ -291,10 +295,13 @@
                                                [DEFAULTS setObject:self.newsPwdTextField.text forKey:@"userPwd"];
                                                [DEFAULTS synchronize];
                                                [weakSelf.navigationController popViewControllerAnimated:YES];
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   [MBProgressHUD showSuccess:@"修改成功" toView:[UIApplication sharedApplication].keyWindow];
+                                               });
                                            }
                                        }
                                        failure:^(NSError *err){
-                                           
+                                           [self AlertShow:@"修改失败"];
                                        }];
                     
                 } else {
