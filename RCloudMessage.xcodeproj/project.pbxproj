@@ -42,6 +42,7 @@
 		3D0E5F121EADCF9800B41F9E /* FetchInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F111EADCF9800B41F9E /* FetchInformationsRequest.m */; };
 		3D0E5F3F1EB1A0B300B41F9E /* ModifyInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F3E1EB1A0B300B41F9E /* ModifyInformationsRequest.m */; };
 		3D2F13081F9873E4008ADDB0 /* WCFetchBillTypesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2F13071F9873E4008ADDB0 /* WCFetchBillTypesRequest.m */; };
+		3D3581A8200DC8F800C305FF /* RongIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D3581A7200DC8F800C305FF /* RongIMKit.framework */; };
 		3D3F8CAD1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CAC1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m */; };
 		3D3F8CB31EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CB21EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m */; };
 		3D3F8CBC1EC4A13E0040C0D5 /* FetchBalanceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CBB1EC4A13E0040C0D5 /* FetchBalanceRequest.m */; };
@@ -71,7 +72,6 @@
 		3D71D67C1FBC3DEE00960D36 /* WCTransferGroupRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71D67B1FBC3DEE00960D36 /* WCTransferGroupRequest.m */; };
 		3D75AA2B2007669B00231987 /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D75AA2A2007669B00231987 /* Emoji.plist */; };
 		3D75AA2D200766B900231987 /* RongCloud.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3D75AA2C200766B900231987 /* RongCloud.bundle */; };
-		3D75AA2F200766E800231987 /* RongIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D75AA2E200766E800231987 /* RongIMKit.framework */; };
 		3D75AA312007673200231987 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D75AA302007673200231987 /* libopencore-amrnb.a */; };
 		3D75AA332007675500231987 /* RCConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D75AA322007675400231987 /* RCConfig.plist */; };
 		3D75AA352007676A00231987 /* RongIMLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D75AA342007676900231987 /* RongIMLib.framework */; };
@@ -514,6 +514,7 @@
 		3D0E5F3E1EB1A0B300B41F9E /* ModifyInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyInformationsRequest.m; sourceTree = "<group>"; };
 		3D2F13061F9873E4008ADDB0 /* WCFetchBillTypesRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCFetchBillTypesRequest.h; sourceTree = "<group>"; };
 		3D2F13071F9873E4008ADDB0 /* WCFetchBillTypesRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCFetchBillTypesRequest.m; sourceTree = "<group>"; };
+		3D3581A7200DC8F800C305FF /* RongIMKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMKit.framework; sourceTree = "<group>"; };
 		3D3F8CAB1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckSetPayPasswordRequest.h; sourceTree = "<group>"; };
 		3D3F8CAC1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckSetPayPasswordRequest.m; sourceTree = "<group>"; };
 		3D3F8CB11EC1FF7C0040C0D5 /* SetupPayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupPayPasswordRequest.h; sourceTree = "<group>"; };
@@ -567,7 +568,6 @@
 		3D71D67B1FBC3DEE00960D36 /* WCTransferGroupRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCTransferGroupRequest.m; sourceTree = "<group>"; };
 		3D75AA2A2007669B00231987 /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
 		3D75AA2C200766B900231987 /* RongCloud.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RongCloud.bundle; sourceTree = "<group>"; };
-		3D75AA2E200766E800231987 /* RongIMKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMKit.framework; sourceTree = "<group>"; };
 		3D75AA302007673200231987 /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
 		3D75AA322007675400231987 /* RCConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RCConfig.plist; sourceTree = "<group>"; };
 		3D75AA342007676900231987 /* RongIMLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMLib.framework; sourceTree = "<group>"; };
@@ -1334,10 +1334,10 @@
 				F82B55401DE03E40007392BD /* SafariServices.framework in Frameworks */,
 				3D75AA3B20076A1100231987 /* RongCallLib.framework in Frameworks */,
 				F880EA791D0808B300FD5CC4 /* VideoToolbox.framework in Frameworks */,
+				3D3581A8200DC8F800C305FF /* RongIMKit.framework in Frameworks */,
 				3D75AA352007676A00231987 /* RongIMLib.framework in Frameworks */,
 				F8AD4A5B1CAE5782006C1CBB /* CoreMotion.framework in Frameworks */,
 				E4C330FA1A0C724400E31B9A /* CoreMedia.framework in Frameworks */,
-				3D75AA2F200766E800231987 /* RongIMKit.framework in Frameworks */,
 				F8AD4A571CAE5702006C1CBB /* libicucore.tbd in Frameworks */,
 				F8AD4A551CAE56A4006C1CBB /* PushKit.framework in Frameworks */,
 				A6EFABA71BB0EDFB007E9D67 /* libc++.tbd in Frameworks */,
@@ -2651,10 +2651,10 @@
 				3D75AA2A2007669B00231987 /* Emoji.plist */,
 				3D75AA302007673200231987 /* libopencore-amrnb.a */,
 				3D75AA342007676900231987 /* RongIMLib.framework */,
+				3D3581A7200DC8F800C305FF /* RongIMKit.framework */,
 				8CCBC9861AEDDF8600BA1135 /* AssetsLibrary.framework */,
 				E4FCD7C31AD69DFB00915650 /* ImageIO.framework */,
 				E42A2E581AAEE67000F4C3AB /* libxml2.dylib */,
-				3D75AA2E200766E800231987 /* RongIMKit.framework */,
 				3D75AA2C200766B900231987 /* RongCloud.bundle */,
 				E4C497221A2484DB00098C8A /* MapKit.framework */,
 				E4C497201A24849E00098C8A /* CoreLocation.framework */,

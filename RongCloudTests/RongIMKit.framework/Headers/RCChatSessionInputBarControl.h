@@ -30,7 +30,6 @@
 #define PLUGIN_BOARD_ITEM_VIDEO_FILE_TAG 1109
 #define PLUGIN_BOARD_ITEM_REDPACKET_TAG 1110
 
-
 /*!
  输入工具栏的显示布局
  */

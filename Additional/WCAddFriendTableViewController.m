@@ -134,7 +134,9 @@
 - (UIButton *)sendButton {
     if (!_sendButton) {
         _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _sendButton.frame = CGRectMake(0, 0, 40, 40);
         _sendButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        [_sendButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, - 10)];
         [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
         [_sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_sendButton addTarget:self action:@selector(sendAction) forControlEvents:UIControlEventTouchUpInside];

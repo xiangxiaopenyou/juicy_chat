@@ -288,7 +288,6 @@
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType
          conversationModel:(RCConversationModel *)model
                atIndexPath:(NSIndexPath *)indexPath {
-
   if (_isClick) {
     _isClick = NO;
     if (model.conversationModelType ==
@@ -322,7 +321,7 @@
       if ([model.objectName isEqualToString:@"RC:ContactNtf"]) {
           RCDAddressBookViewController * addressBookVC= [RCDAddressBookViewController addressBookViewController];
         addressBookVC.needSyncFriendList = YES;
-        
+
         [self.navigationController pushViewController:addressBookVC
                                              animated:YES];
         return;

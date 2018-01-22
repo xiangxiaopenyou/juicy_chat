@@ -16,6 +16,7 @@
 #import "WCUserDetailsViewController.h"
 #import "RCDataBaseManager.h"
 #import "RCDUserInfoManager.h"
+#import "RCDChatViewController.h"
 
 @interface WCServiceAssistantTableViewController ()
 @property (strong, nonatomic) NSMutableArray *dataArray;
@@ -35,7 +36,7 @@
     self.title = @"客服助手";
     self.tableView.backgroundColor = HEXCOLOR(0xf2f2f2);
     self.tableView.tableFooterView = [UIView new];
-    self.dataArray = [self getAllFriendList];
+    self.dataArray = [[self getAllFriendList] mutableCopy];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -88,10 +89,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     RCDUserInfo *userInfo = self.dataArray[indexPath.row];
-    WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
-    detailViewController.userId = [NSString stringWithFormat:@"%@", userInfo.userId];
-    [self.navigationController pushViewController:detailViewController
-                                         animated:YES];
+//    WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
+//    detailViewController.userId = [NSString stringWithFormat:@"%@", userInfo.userId];
+//    [self.navigationController pushViewController:detailViewController
+//                                         animated:YES];
+    RCDChatViewController *conversationVC = [[RCDChatViewController alloc] init];
+    conversationVC.conversationType = ConversationType_PRIVATE;
+    conversationVC.targetId = userInfo.userId;
+    conversationVC.title = userInfo.name;
+    [self.navigationController pushViewController:conversationVC animated:YES];
 }
 
 /*
