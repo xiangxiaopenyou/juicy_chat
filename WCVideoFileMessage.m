@@ -9,10 +9,11 @@
 #import "WCVideoFileMessage.h"
 
 @implementation WCVideoFileMessage
-+ (instancetype)messageWithUrl:(NSString *)url duration:(NSNumber *)duration {
++ (instancetype)messageWithUrl:(NSString *)url picurl:(NSString *)picurl duration:(NSNumber *)duration {
     WCVideoFileMessage *message = [[WCVideoFileMessage alloc] init];
     if (message) {
         message.url = url;
+        message.picurl = picurl;
         message.duration = duration;
     }
     return message;
@@ -24,18 +25,23 @@
     self = [super init];
     if (self) {
         self.url = [aDecoder decodeObjectForKey:@"url"];
+        self.picurl = [aDecoder decodeObjectForKey:@"picurl"];
         self.duration = [aDecoder decodeObjectForKey:@"duration"];
     }
     return self;
 }
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.url forKey:@"url"];
+    [aCoder encodeObject:self.picurl forKey:@"picurl"];
     [aCoder encodeObject:self.duration forKey:@"duration"];
 }
 - (NSData *)encode {
     NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
     if (self.url) {
         [dataDict setObject:self.url forKey:@"url"];
+    }
+    if (self.picurl) {
+        [dataDict setObject:self.picurl forKey:@"picurl"];
     }
     if (self.duration) {
         [dataDict setObject:self.duration forKey:@"duration"];
@@ -71,6 +77,7 @@
         
         if (dictionary) {
             self.url = dictionary[@"url"];
+            self.picurl = dictionary[@"picurl"];
             self.duration = dictionary[@"duration"];
             NSDictionary *userinfoDic = dictionary[@"user"];
             [self decodeUserInfo:userinfoDic];

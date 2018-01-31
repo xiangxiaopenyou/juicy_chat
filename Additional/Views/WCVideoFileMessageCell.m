@@ -8,6 +8,7 @@
 
 #import "WCVideoFileMessageCell.h"
 #import "WCVideoFileMessage.h"
+#import "UIImageView+WebCache.h"
 
 #import <Photos/Photos.h>
 
@@ -47,12 +48,7 @@
 }
 - (void)setAutoLayout {
     WCVideoFileMessage *message = (WCVideoFileMessage *)self.model.content;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [self firstFrameWithVideoURL:[NSURL URLWithString:message.url] size:CGSizeMake(90, 90)];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.videoImageView.image = image;
-        });
-    });
+    [self.videoImageView sd_setImageWithURL:[NSURL URLWithString:message.picurl]];
     CGRect messageContentViewRect = self.messageContentView.frame;
     messageContentViewRect.size.width = 110;
     messageContentViewRect.size.height = 120;
@@ -72,20 +68,6 @@
     }
     self.messageContentView.frame = messageContentViewRect;
     
-}
-
-- (UIImage *)firstFrameWithVideoURL:(NSURL *)url size:(CGSize)size {
-    NSDictionary *opts = @{AVURLAssetPreferPreciseDurationAndTimingKey : @NO};
-    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:url options:opts];
-    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
-    generator.appliesPreferredTrackTransform = YES;
-    generator.maximumSize = size;
-    NSError *error = nil;
-    CGImageRef img = [generator copyCGImageAtTime:CMTimeMake(0, 10) actualTime:NULL error:&error];
-    if (img) {
-        return [UIImage imageWithCGImage:img];
-    }
-    return nil;
 }
 
 - (void)tapOrderMessage:(UIGestureRecognizer *)recognizer {

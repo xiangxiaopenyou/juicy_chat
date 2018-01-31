@@ -9,6 +9,8 @@
 #import "WCVideoUploadViewController.h"
 #import "WCVideoFileModel.h"
 #import "QiniuSDK.h"
+#import "RCDHttpTool.h"
+#import <RongIMKit/RongIMKit.h>
 
 #import <Photos/Photos.h>
 
@@ -60,14 +62,24 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     }];
     [manager putFile:model.url key:model.key token:token complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
         if (info.ok) {
+            //删除上传数据model
             [self.fileArray removeObject:model];
+            UIImage *firstImage = [self firstFrameWithVideoURL:[NSURL fileURLWithPath:model.url] size:CGSizeMake(70, 70)];
             NSString *urlString = [[NSString stringWithFormat:@"%@%@", kWCFileBaseURL, key] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             model.url = urlString;
-            //上传成功
-            if (self.successHandler) {
-                self.successHandler(model);
-            }
-            //删除上传数据model
+            NSData *imageData = UIImageJPEGRepresentation(firstImage, 0.5);
+            [RCDHTTPTOOL uploadImageToQiNiu:[RCIM sharedRCIM].currentUserInfo.userId ImageData:imageData success:^(NSString *url) {
+                //上传成功
+                model.picurl = url;
+                if (self.successHandler) {
+                    self.successHandler(model);
+                }
+            } failure:^(NSError *err) {
+                //上传失败
+                if (self.failHandler) {
+                    self.failHandler(model);
+                }
+            }];
         } else {
             //上传失败
             if (self.failHandler) {
@@ -82,6 +94,20 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
             obj.isCancel = model.isCancel;
         }
     }];
+}
+
+- (UIImage *)firstFrameWithVideoURL:(NSURL *)url size:(CGSize)size {
+    NSDictionary *opts = @{AVURLAssetPreferPreciseDurationAndTimingKey : @NO};
+    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:url options:opts];
+    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
+    generator.appliesPreferredTrackTransform = YES;
+    generator.maximumSize = size;
+    NSError *error = nil;
+    CGImageRef img = [generator copyCGImageAtTime:CMTimeMake(0, 10) actualTime:NULL error:&error];
+    if (img) {
+        return [UIImage imageWithCGImage:img];
+    }
+    return nil;
 }
 
 /*

@@ -12,5 +12,6 @@
 @property (copy, nonatomic) NSString *url;
 @property (copy, nonatomic) NSString *name;
 @property (strong, nonatomic) NSNumber *duration;
+@property (copy, nonatomic) NSString *picurl;
 
 @end

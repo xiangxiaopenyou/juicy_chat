@@ -13,6 +13,7 @@ static NSString *const WCVideoFileMessageTypeIdentifier = @"JC:VideoFileMsg";
 @interface WCVideoFileMessage : RCMessageContent <NSCoding>
 @property (copy, nonatomic) NSString *url;
 @property (strong, nonatomic) NSNumber *duration;
-+ (instancetype)messageWithUrl:(NSString *)url duration:(NSNumber *)duration;
+@property (copy, nonatomic) NSString *picurl;
++ (instancetype)messageWithUrl:(NSString *)url picurl:(NSString *)picurl duration:(NSNumber *)duration;
 
 @end

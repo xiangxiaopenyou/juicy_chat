@@ -16,6 +16,9 @@
     [self.params setObject:self.url forKey:@"url"];
     [self.params setObject:self.name forKey:@"name"];
     [self.params setObject:self.duration forKey:@"duration"];
+    if (self.picurl) {
+        [self.params setObject:self.picurl forKey:@"picurl"];
+    }
     [[RequestManager sharedInstance] POST:@"UploadVideo.aspx" parameters:self.params success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([responseObject[@"code"] integerValue] == 200) {
             !resultHandler ?: resultHandler(responseObject[@"data"], nil);

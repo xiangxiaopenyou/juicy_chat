@@ -548,7 +548,7 @@ NSMutableDictionary *userInputStatus;
  *  更新左上角未读消息数
  */
 - (void)notifyUpdateUnreadMessageCount {
-  __weak typeof(&*self) __weakself = self;
+  //__weak typeof(&*self) __weakself = self;
   int count = [[RCIMClient sharedRCIMClient] getUnreadCount:@[
     @(ConversationType_PRIVATE),
     @(ConversationType_DISCUSSION),
@@ -730,7 +730,7 @@ NSMutableDictionary *userInputStatus;
           UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:videoFileController];
           videoFileController.sendBlock = ^(WCVideoFileModel *model) {
               if (model) {
-                  [self sendVideoFileMessage:model.url duration:model.duration];
+                  [self sendVideoFileMessage:model.url picurl:model.picurl duration:model.duration];
               }
           };
           [self presentViewController:navigationController animated:YES completion:nil];
@@ -765,8 +765,8 @@ NSMutableDictionary *userInputStatus;
     WCRedPacketTipMessage *tipMessage = [WCRedPacketTipMessage messageWithContent:message iosMessage:iosMessage tipMessage:(NSString *)tipmessage redPacketId:redPacketId userId:userId showUserIds:ids islink:isLink];
     [self sendMessage:tipMessage pushContent:nil];
 }
-- (void)sendVideoFileMessage:(NSString *)url duration:(NSNumber *)duration {
-    WCVideoFileMessage *message = [WCVideoFileMessage messageWithUrl:url duration:duration];
+- (void)sendVideoFileMessage:(NSString *)url picurl:(NSString *)picurl duration:(NSNumber *)duration {
+    WCVideoFileMessage *message = [WCVideoFileMessage messageWithUrl:url picurl:picurl duration:duration];
     [self sendMessage:message pushContent:@"[视频文件]"];
 }
 - (RealTimeLocationStatusView *)realTimeLocationStatusView {

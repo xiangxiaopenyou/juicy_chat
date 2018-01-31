@@ -20,6 +20,7 @@
 #import "WCVideoFileModel.h"
 #import "MBProgressHUD+Add.h"
 #import "AFHttpTool.h"
+#import "UIImageView+WebCache.h"
 #import <RongIMKit/RongIMKit.h>
 #import <Photos/Photos.h>
 static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
@@ -124,6 +125,7 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     [[WCUploadVideoRequest new] request:^BOOL(WCUploadVideoRequest *request) {
         request.url = model.url;
         request.name = model.name;
+        request.picurl = model.picurl;
         request.duration =@([self videoDurationWithPath:model.url]);
         return YES;
     } result:^(id object, NSString *msg) {
@@ -162,19 +164,6 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
 }
 
 #pragma mark - Private methods
-- (UIImage *)firstFrameWithVideoURL:(NSURL *)url size:(CGSize)size {
-    NSDictionary *opts = @{AVURLAssetPreferPreciseDurationAndTimingKey : @NO};
-    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:url options:opts];
-    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
-    generator.appliesPreferredTrackTransform = YES;
-    generator.maximumSize = size;
-    NSError *error = nil;
-    CGImageRef img = [generator copyCGImageAtTime:CMTimeMake(0, 10) actualTime:NULL error:&error];
-    if (img) {
-        return [UIImage imageWithCGImage:img];
-    }
-    return nil;
-}
 - (NSString *)videoDurationWithTime:(NSInteger)time {
     //format of hour
     NSString *str_hour = [NSString stringWithFormat:@"%02ld",time/3600];
@@ -296,18 +285,9 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     WCVideoFileCell *cell = [tableView dequeueReusableCellWithIdentifier:@"VideoFileCell" forIndexPath:indexPath];
     WCVideoFileModel *model = _fileArray[indexPath.row];
     cell.videoNameLabel.text = model.name;
-    cell.videoImageView.image = model.firstImage;
+    [cell.videoImageView sd_setImageWithURL:[NSURL URLWithString:model.picurl]];
     cell.videoDurationLabel.text = [self videoDurationWithTime:model.duration.integerValue];
     cell.progressView.hidden = !model.isUploading.boolValue;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (!model.firstImage) {
-            UIImage *tempImage = [self firstFrameWithVideoURL:[NSURL URLWithString:model.url] size:CGSizeMake(70, 70)];
-            model.firstImage = tempImage;
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            cell.videoImageView.image = model.firstImage;
-        });
-    });
     return cell;
 }
 
