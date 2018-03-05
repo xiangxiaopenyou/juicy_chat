@@ -138,7 +138,6 @@
 		3DB720211FFCC777004D7A20 /* WCVideoLimitRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720201FFCC777004D7A20 /* WCVideoLimitRequest.m */; };
 		3DB720241FFCCB20004D7A20 /* WCDeleteVideoFileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720231FFCCB20004D7A20 /* WCDeleteVideoFileRequest.m */; };
 		3DB720281FFCCD24004D7A20 /* WCVideoFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720271FFCCD24004D7A20 /* WCVideoFileModel.m */; };
-		3DB720821FFE08D6004D7A20 /* WCUploadFileRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720811FFE08D6004D7A20 /* WCUploadFileRequestManager.m */; };
 		3DB720B81FFF1531004D7A20 /* QN_GTM_Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720861FFF1530004D7A20 /* QN_GTM_Base64.m */; };
 		3DB720B91FFF1531004D7A20 /* QNALAssetFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB720881FFF1530004D7A20 /* QNALAssetFile.m */; };
 		3DB720BA1FFF1531004D7A20 /* QNAsyncRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7208A1FFF1530004D7A20 /* QNAsyncRun.m */; };
@@ -692,8 +691,6 @@
 		3DB720231FFCCB20004D7A20 /* WCDeleteVideoFileRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCDeleteVideoFileRequest.m; sourceTree = "<group>"; };
 		3DB720261FFCCD24004D7A20 /* WCVideoFileModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCVideoFileModel.h; sourceTree = "<group>"; };
 		3DB720271FFCCD24004D7A20 /* WCVideoFileModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCVideoFileModel.m; sourceTree = "<group>"; };
-		3DB720801FFE08D6004D7A20 /* WCUploadFileRequestManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCUploadFileRequestManager.h; sourceTree = SOURCE_ROOT; };
-		3DB720811FFE08D6004D7A20 /* WCUploadFileRequestManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCUploadFileRequestManager.m; sourceTree = SOURCE_ROOT; };
 		3DB720851FFF1530004D7A20 /* QN_GTM_Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QN_GTM_Base64.h; sourceTree = "<group>"; };
 		3DB720861FFF1530004D7A20 /* QN_GTM_Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QN_GTM_Base64.m; sourceTree = "<group>"; };
 		3DB720871FFF1530004D7A20 /* QNALAssetFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNALAssetFile.h; sourceTree = "<group>"; };
@@ -2448,8 +2445,6 @@
 				3D8E20961ED6BA7D008E6C29 /* RCDataBaseManager.m */,
 				3D8E20971ED6BA7D008E6C29 /* RCDHttpTool.h */,
 				3D8E20981ED6BA7D008E6C29 /* RCDHttpTool.m */,
-				3DB720801FFE08D6004D7A20 /* WCUploadFileRequestManager.h */,
-				3DB720811FFE08D6004D7A20 /* WCUploadFileRequestManager.m */,
 			);
 			name = Store;
 			sourceTree = "<group>";
@@ -3547,7 +3542,6 @@
 				3DCD39351F4E6491003EEC87 /* WCRedPacketTipCell.m in Sources */,
 				3DB720BB1FFF1531004D7A20 /* QNCrc32.m in Sources */,
 				98D3C9D11D4C464D006FDF67 /* RCDMainTabBarViewController.m in Sources */,
-				3DB720821FFE08D6004D7A20 /* WCUploadFileRequestManager.m in Sources */,
 				3DCD38ED1F4AC400003EEC87 /* JSONModel+networking.m in Sources */,
 				3DE07E1E1F2F04DA004B703D /* CWTransferSuccessView.m in Sources */,
 				3DA417DB1ED80B4300613FBD /* UpdateUrlRequest.m in Sources */,

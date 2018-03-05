@@ -102,7 +102,7 @@
       
     case 1:
     /* RedPacket_FTR */ //添加了红包，row+=1；
-          rows = [OpenShare isWeixinInstalled] ? 3 : 2;
+          rows = [OpenShare isWeixinInstalled] && [OpenShare isQQInstalled] ? 3 : 2;
       break;
       
     case 2:

@@ -16,7 +16,6 @@
 #import "WCVideoLimitRequest.h"
 #import "WCVideoLimitRequest.h"
 #import "WCDeleteVideoFileRequest.h"
-#import "WCUploadFileRequestManager.h"
 #import "WCVideoFileModel.h"
 #import "MBProgressHUD+Add.h"
 #import "AFHttpTool.h"
