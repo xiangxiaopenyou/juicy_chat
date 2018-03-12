@@ -87,7 +87,7 @@
 -(void)setTabBarItems {
   [self.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
     if ([obj isKindOfClass:[RCDChatListViewController class]]) {
-      obj.tabBarItem.title = @"果聊";
+      obj.tabBarItem.title = @"会话";
       obj.tabBarItem.image = [[UIImage imageNamed:@"icon_chat"]
                                        imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
       obj.tabBarItem.selectedImage = [[UIImage imageNamed:@"icon_chat_hover"]
@@ -99,7 +99,7 @@
       obj.tabBarItem.selectedImage = [[UIImage imageNamed:@"contact_icon_hover"]
                                       imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     } else if ([obj isKindOfClass:[WCChatRoomViewController class]]) {
-      obj.tabBarItem.title = @"聊天室";
+      obj.tabBarItem.title = @"发现";
       obj.tabBarItem.image = [[UIImage imageNamed:@"square"]
                               imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
       obj.tabBarItem.selectedImage = [[UIImage imageNamed:@"square_hover"]

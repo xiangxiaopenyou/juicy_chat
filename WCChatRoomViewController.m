@@ -32,7 +32,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.tabBarController.navigationItem.title = @"聊天室";
+    self.tabBarController.navigationItem.title = @"发现";
     self.tabBarController.navigationItem.rightBarButtonItems = nil;
     if (self.chatRoomsArray.count == 0) {
         [self fetchChatRoomsRequest];

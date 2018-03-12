@@ -335,7 +335,7 @@
             </objects>
             <point key="canvasLocation" x="1678" y="183"/>
         </scene>
-        <!--分享赚果币-->
+        <!--分享赚快豆-->
         <scene sceneID="wlt-q3-Ovx">
             <objects>
                 <viewController storyboardIdentifier="ShareWeb" id="wr6-DR-Kyq" customClass="WCShareWebViewController" sceneMemberID="viewController">
@@ -363,7 +363,7 @@
                             <constraint firstItem="qt9-d7-rUs" firstAttribute="leading" secondItem="vxi-9r-dRB" secondAttribute="leading" id="YdA-1G-Nb5"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="分享赚果币" id="Yqw-Pf-NZY">
+                    <navigationItem key="navigationItem" title="分享赚快豆" id="Yqw-Pf-NZY">
                         <barButtonItem key="leftBarButtonItem" image="navigator_btn_back" id="mr2-4p-YyC">
                             <connections>
                                 <action selector="backAction:" destination="wr6-DR-Kyq" id="bFC-Ev-M0f"/>

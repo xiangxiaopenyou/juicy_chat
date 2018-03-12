@@ -179,12 +179,14 @@
         [cell.avatarImageView sd_setImageWithURL:[NSURL URLWithString:tempModel.touserheadico] placeholderImage:nil];
         cell.contentLabel.text = [NSString stringWithFormat:@"%@-转给%@", tempModel.option, tempModel.touser];
         cell.moneyLabel.textColor = [UIColor colorWithHexString:@"333333" alpha:1];
-        cell.moneyLabel.text = [NSString stringWithFormat:@"-%@ 果币", [RCDUtilities amountStringFromNumber:tempModel.money]];
+        NSString *amountString = [NSString stringWithFormat:@"%.2f", tempModel.money.floatValue];
+        cell.moneyLabel.text = [NSString stringWithFormat:@"-%@", [RCDUtilities amountNumberFromString:amountString]];
     } else {
         [cell.avatarImageView sd_setImageWithURL:[NSURL URLWithString:tempModel.fromuserheadico] placeholderImage:nil];
         cell.contentLabel.text = [NSString stringWithFormat:@"%@-来自%@", tempModel.option, tempModel.fromuser];
         cell.moneyLabel.textColor = [UIColor colorWithHexString:@"ffc000" alpha:1];
-        cell.moneyLabel.text = [NSString stringWithFormat:@"+%@ 果币", [RCDUtilities amountStringFromNumber:tempModel.money]];
+        NSString *amountString = [NSString stringWithFormat:@"%.2f", tempModel.money.floatValue];
+        cell.moneyLabel.text = [NSString stringWithFormat:@"+%@", [RCDUtilities amountNumberFromString:amountString]];
     }
     cell.timeLabel.text = [RCDUtilities commonDateString:tempModel.time];
     return cell;

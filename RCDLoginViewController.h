@@ -6,10 +6,9 @@
 //  Copyright (c) 2014年 RongCloud. All rights reserved.
 //
 
-#import "RCAnimatedImagesView.h"
 #import <UIKit/UIKit.h>
 @interface RCDLoginViewController
-    : UIViewController <RCAnimatedImagesViewDelegate>
+    : UIViewController
 
 //-(void) defaultLogin;
 - (void)login:(NSString *)userName password:(NSString *)password;

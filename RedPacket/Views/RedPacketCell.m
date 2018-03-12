@@ -39,7 +39,7 @@
     self.redpacketLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.redpacketLabel.textColor = [UIColor colorWithRed:190/255.0 green:190/255.0 blue:190/255.0 alpha:1];
     self.redpacketLabel.font = [UIFont systemFontOfSize:10];
-    self.redpacketLabel.text = @"果聊红包";
+    self.redpacketLabel.text = @"红包";
     [self.redPacketImageView addSubview:self.redpacketLabel];
     
     self.redPacketImageView.userInteractionEnabled = YES;

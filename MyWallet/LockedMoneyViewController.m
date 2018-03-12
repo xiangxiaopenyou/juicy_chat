@@ -35,8 +35,9 @@
         return YES;
     } result:^(id object, NSString *msg) {
         if (object && object[@"lockmoney"]) {
-            NSInteger money = [object[@"lockmoney"] integerValue];
-            self.amountLabel.text = [RCDUtilities amountStringFromNumber:@(money)];
+            CGFloat money = [object[@"lockmoney"] floatValue];
+            NSString *amountString = [NSString stringWithFormat:@"%.2f", money];
+            self.amountLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
             if (money > 0) {
                 self.detailButton.hidden = NO;
             } else {

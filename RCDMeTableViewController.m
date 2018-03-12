@@ -186,11 +186,11 @@
           
           /* RedPacket_FTR */ //wallet cell
             case 1: {
-                [cell setCellWithImageName:@"wallet" labelName:@"我的果币"];
+                [cell setCellWithImageName:@"wallet" labelName:@"我的快豆"];
             }
                 break;
             case 2: {
-                [cell setCellWithImageName:@"mine_share" labelName:@"分享赚果币"];
+                [cell setCellWithImageName:@"mine_share" labelName:@"分享赚快豆"];
             }
                 break;
             default:

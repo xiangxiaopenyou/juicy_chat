@@ -8,7 +8,7 @@
 #import "AFHttpTool.h"
 #import "AppkeyModel.h"
 #import "MBProgressHUD.h"
-#import "RCAnimatedImagesView.h"
+//#import "RCAnimatedImagesView.h"
 #import "RCDCommonDefine.h"
 #import "RCDFindPswViewController.h"
 #import "RCDHttpTool.h"
@@ -31,6 +31,7 @@
 
 #import "UITextFiled+Shake.h"
 #import "UIColor+RCColor.h"
+#import "Masonry.h"
 
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <OpenShareHeader.h>
@@ -41,7 +42,7 @@
 
 @interface RCDLoginViewController () <UITextFieldDelegate, RCIMConnectionStatusDelegate,UIAlertViewDelegate, TencentSessionDelegate>
 
-@property(retain, nonatomic) IBOutlet RCAnimatedImagesView *animatedImagesView;
+//@property(retain, nonatomic) IBOutlet RCAnimatedImagesView *animatedImagesView;
 
 @property(weak, nonatomic) IBOutlet UITextField *emailTextField;
 
@@ -74,7 +75,7 @@
 @implementation RCDLoginViewController
 #define UserTextFieldTag 1000
 #define PassWordFieldTag 1001
-@synthesize animatedImagesView = _animatedImagesView;
+//@synthesize animatedImagesView = _animatedImagesView;
 @synthesize inputBackground = _inputBackground;
 MBProgressHUD *hud;
 
@@ -91,11 +92,15 @@ MBProgressHUD *hud;
 
       //self.view.translatesAutoresizingMaskIntoConstraints = YES;
   //添加动态图
-  self.animatedImagesView = [[RCAnimatedImagesView alloc]
-      initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,
-                               self.view.bounds.size.height)];
-  [self.view addSubview:self.animatedImagesView];
-  self.animatedImagesView.delegate = self;
+//  self.animatedImagesView = [[RCAnimatedImagesView alloc]
+//      initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,
+//                               self.view.bounds.size.height)];
+//  [self.view addSubview:self.animatedImagesView];
+//  self.animatedImagesView.delegate = self;
+    
+    UIImageView *backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
+    backgroundImage.image = [UIImage imageNamed:@"login_background"];
+    [self.view addSubview:backgroundImage];
     
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"1106530362" andDelegate:self];
     
@@ -104,8 +109,8 @@ MBProgressHUD *hud;
   _headBackground = [[UIView alloc]
       initWithFrame:CGRectMake(0, -100, self.view.bounds.size.width, 50)];
   _headBackground.userInteractionEnabled = YES;
-  _headBackground.backgroundColor =
-      [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
+    _headBackground.backgroundColor = [UIColor clearColor];
+      //[[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
   [self.view addSubview:_headBackground];
 
   UIButton *registerHeadButton =
@@ -159,10 +164,21 @@ MBProgressHUD *hud;
   _rongLogo.contentMode = UIViewContentModeScaleAspectFit;
   _rongLogo.translatesAutoresizingMaskIntoConstraints = NO;
   [self.view addSubview:_rongLogo];
+    _rongLogo.hidden = YES;
+//
+//    UIImageView *tempImage = [[UIImageView alloc] initWithFrame:CGRectMake(22, 110, 55, 26)];
+//    tempImage.image = [UIImage imageNamed:@"guoliao"];
+//    [_rongLogo addSubview:tempImage];
+    UIButton *logoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    logoButton.frame = CGRectMake(20, 100, 200, 40);
+    [logoButton setImage:[UIImage imageNamed:@"login_logo"] forState:UIControlStateNormal];
+    [logoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [logoButton setTitle:@"快手红包" forState:UIControlStateNormal];
+    logoButton.titleLabel.font = [UIFont systemFontOfSize:25];
+    logoButton.imageEdgeInsets = UIEdgeInsetsMake(0, - 20, 0, 0);
+    logoButton.enabled = NO;
+    [self.view addSubview:logoButton];
     
-    UIImageView *tempImage = [[UIImageView alloc] initWithFrame:CGRectMake(22, 110, 55, 26)];
-    tempImage.image = [UIImage imageNamed:@"guoliao"];
-    [_rongLogo addSubview:tempImage];
 
   //中部内容输入区
   _inputBackground = [[UIView alloc] initWithFrame:CGRectZero];
@@ -299,7 +315,7 @@ MBProgressHUD *hud;
   footerLabel.text = @"Powered by guoguo";
   [footerLabel setFont:[UIFont systemFontOfSize:12.f]];
   [footerLabel setTextColor:[UIColor colorWithHexString:@"484848" alpha:1.0]];
-  [bottomBackground addSubview:footerLabel];
+  //[bottomBackground addSubview:footerLabel];
 
   [self.view addSubview:bottomBackground];
 
@@ -338,8 +354,8 @@ MBProgressHUD *hud;
                             views:views]
       arrayByAddingObjectsFromArray:
           [NSLayoutConstraint
-              constraintsWithVisualFormat:@"V:|-70-[_rongLogo(100)]-10-[_"
-                                          @"errorMsgLb(==10)]-20-[_"
+              constraintsWithVisualFormat:@"V:|-30-[_rongLogo(100)]-30-[_"
+                                          @"errorMsgLb(==10)]-5-[_"
                                           @"inputBackground(320)]-20-["
                                           @"userProtocolButton(==20)]"
                                   options:0
@@ -430,38 +446,48 @@ arrayByAddingObjectsFromArray:
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passwordDidFind) name:@"PasswordDidFind" object:nil];
   _statusBarView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 20)];
-  _statusBarView.backgroundColor =
-      [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
+    _statusBarView.backgroundColor = [UIColor clearColor];
+      //[[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
   [self.view addSubview:_statusBarView];
     
-    UILabel *otherLoginLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2.0 - 50, SCREEN_HEIGHT - 165, 100, 25)];
-    otherLoginLabel.font = [UIFont systemFontOfSize:12];
-    otherLoginLabel.textColor = [UIColor colorWithRed:153 green:153 blue:153 alpha:0.5];
-    otherLoginLabel.textAlignment = NSTextAlignmentCenter;
-    otherLoginLabel.text = @"其他方式登录";
-    [self.view addSubview:otherLoginLabel];
-    
-    UILabel *line1 = [[UILabel alloc] initWithFrame:CGRectMake(40, SCREEN_HEIGHT - 153, SCREEN_WIDTH / 2.0 - 80, 0.5)];
-    line1.backgroundColor = [UIColor colorWithRed:161 green:163 blue:168 alpha:0.2f];
-    [self.view addSubview:line1];
-    
-    UILabel *line2 = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2.0 + 40, SCREEN_HEIGHT - 153, SCREEN_WIDTH / 2.0 - 80, 0.5)];
-    line2.backgroundColor = [UIColor colorWithRed:161 green:163 blue:168 alpha:0.2f];
-    [self.view addSubview:line2];
+//    UILabel *otherLoginLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2.0 - 50, SCREEN_HEIGHT - 165, 100, 25)];
+//    otherLoginLabel.font = [UIFont systemFontOfSize:12];
+//    otherLoginLabel.textColor = [UIColor colorWithRed:153 green:153 blue:153 alpha:0.5];
+//    otherLoginLabel.textAlignment = NSTextAlignmentCenter;
+//    otherLoginLabel.text = @"其他方式登录";
+//    [self.view addSubview:otherLoginLabel];
+//
+//    UILabel *line1 = [[UILabel alloc] initWithFrame:CGRectMake(40, SCREEN_HEIGHT - 153, SCREEN_WIDTH / 2.0 - 80, 0.5)];
+//    line1.backgroundColor = [UIColor colorWithRed:161 green:163 blue:168 alpha:0.2f];
+//    [self.view addSubview:line1];
+//
+//    UILabel *line2 = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2.0 + 40, SCREEN_HEIGHT - 153, SCREEN_WIDTH / 2.0 - 80, 0.5)];
+//    line2.backgroundColor = [UIColor colorWithRed:161 green:163 blue:168 alpha:0.2f];
+//    [self.view addSubview:line2];
     
     UIButton *wechatLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    wechatLoginButton.frame = CGRectMake(SCREEN_WIDTH / 2.0 - 74, SCREEN_HEIGHT - 125, 54, 54);
-    [wechatLoginButton setImage:[UIImage imageNamed:@"wechat_login"] forState:UIControlStateNormal];
+    //wechatLoginButton.frame = CGRectMake(SCREEN_WIDTH / 2.0 - 50, SCREEN_HEIGHT / 2.0 + 50, 100, 30);
+    [wechatLoginButton setImage:[UIImage imageNamed:@"login_icon_wechat"] forState:UIControlStateNormal];
+    [wechatLoginButton setTitle:@"微信登录" forState:UIControlStateNormal];
+    [wechatLoginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    wechatLoginButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    wechatLoginButton.imageEdgeInsets = UIEdgeInsetsMake(0, - 10, 0, 0);
+    wechatLoginButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, - 10);
     [wechatLoginButton addTarget:self action:@selector(wechatAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:wechatLoginButton];
-    wechatLoginButton.hidden = ![OpenShare isWeixinInstalled];
+    [_inputBackground addSubview:wechatLoginButton];
+    [wechatLoginButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(loginButton.mas_bottom).with.mas_offset(20);
+        make.centerX.equalTo(_inputBackground);
+        make.size.mas_offset(CGSizeMake(100, 30));
+    }];
+    //wechatLoginButton.hidden = ![OpenShare isWeixinInstalled];
     
-    UIButton *qqLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    qqLoginButton.frame = CGRectMake(SCREEN_WIDTH / 2.0 + 20, SCREEN_HEIGHT - 125, 54, 54);
-    [qqLoginButton setImage:[UIImage imageNamed:@"qq_login"] forState:UIControlStateNormal];
-    [qqLoginButton addTarget:self action:@selector(qqLoginAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:qqLoginButton];
-    qqLoginButton.hidden = ![OpenShare isQQInstalled];
+//    UIButton *qqLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    qqLoginButton.frame = CGRectMake(SCREEN_WIDTH / 2.0 + 20, SCREEN_HEIGHT - 125, 54, 54);
+//    [qqLoginButton setImage:[UIImage imageNamed:@"qq_login"] forState:UIControlStateNormal];
+//    [qqLoginButton addTarget:self action:@selector(qqLoginAction) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:qqLoginButton];
+//    qqLoginButton.hidden = ![OpenShare isQQInstalled];
     
   [[UIApplication sharedApplication]
       setStatusBarStyle:UIStatusBarStyleLightContent
@@ -501,12 +527,12 @@ arrayByAddingObjectsFromArray:
 //键盘升起时动画
 - (void)keyboardWillShow:(NSNotification *)notif {
 
-  CATransition *animation = [CATransition animation];
-  animation.type = kCATransitionFade;
-  animation.duration = 0.25;
-  [_rongLogo.layer addAnimation:animation forKey:nil];
-
-  _rongLogo.hidden = YES;
+//  CATransition *animation = [CATransition animation];
+//  animation.type = kCATransitionFade;
+//  animation.duration = 0.25;
+//  [_rongLogo.layer addAnimation:animation forKey:nil];
+//
+//  _rongLogo.hidden = YES;
 
   [UIView animateWithDuration:0.25
                    animations:^{
@@ -524,12 +550,12 @@ arrayByAddingObjectsFromArray:
 
 //键盘关闭时动画
 - (void)keyboardWillHide:(NSNotification *)notif {
-  CATransition *animation = [CATransition animation];
-  animation.type = kCATransitionFade;
-  animation.duration = 0.25;
-  [_rongLogo.layer addAnimation:animation forKey:nil];
+//  CATransition *animation = [CATransition animation];
+//  animation.type = kCATransitionFade;
+//  animation.duration = 0.25;
+//  [_rongLogo.layer addAnimation:animation forKey:nil];
 
-  _rongLogo.hidden = NO;
+//  _rongLogo.hidden = NO;
   [UIView animateWithDuration:0.25
                    animations:^{
                      self.view.frame =
@@ -566,7 +592,7 @@ arrayByAddingObjectsFromArray:
         setFont:[UIFont fontWithName:@"Heiti SC" size:25.0]];
   }
   [super viewWillAppear:animated];
-  [self.animatedImagesView startAnimating];
+  //[self.animatedImagesView startAnimating];
   if (self.rcDebug) {
     [self.navigationController setNavigationBarHidden:YES animated:YES];
   }
@@ -575,7 +601,7 @@ arrayByAddingObjectsFromArray:
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   [self invalidateRetryTime];
-  [self.animatedImagesView stopAnimating];
+  //[self.animatedImagesView stopAnimating];
 }
 
 /*阅读用户协议*/
@@ -972,15 +998,15 @@ arrayByAddingObjectsFromArray:
   });
 }
 
-- (NSUInteger)animatedImagesNumberOfImages:
-    (RCAnimatedImagesView *)animatedImagesView {
-  return 2;
-}
-
-- (UIImage *)animatedImagesView:(RCAnimatedImagesView *)animatedImagesView
-                   imageAtIndex:(NSUInteger)index {
-  return [UIImage imageNamed:@"login_background.png"];
-}
+//- (NSUInteger)animatedImagesNumberOfImages:
+//    (RCAnimatedImagesView *)animatedImagesView {
+//  return 2;
+//}
+//
+//- (UIImage *)animatedImagesView:(RCAnimatedImagesView *)animatedImagesView
+//                   imageAtIndex:(NSUInteger)index {
+//  return [UIImage imageNamed:@"login_background.png"];
+//}
 
 #pragma mark - UI
 
@@ -990,7 +1016,7 @@ arrayByAddingObjectsFromArray:
 }
 
 - (void)viewDidUnload {
-  [self setAnimatedImagesView:nil];
+  //[self setAnimatedImagesView:nil];
 
   [super viewDidUnload];
 }

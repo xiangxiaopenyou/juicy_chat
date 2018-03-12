@@ -16,6 +16,10 @@
 #import "RCDPrivacyTableViewController.h"
 #import "RCDMessageNotifySettingTableViewController.h"
 #import "RCDBaseSettingTableViewCell.h"
+#import "MBProgressHUD+Add.h"
+#import "CheckSetPayPasswordRequest.h"
+#import "SetupPayPasswordViewController.h"
+#import "FindPayPasswordViewController.h"
 
 @interface RCDSettingsTableViewController () <UIAlertViewDelegate>
 
@@ -61,7 +65,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 3;
+  return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -70,12 +74,14 @@
     case 0:
       row = 3;
       break;
-      
-    case 1:
+      case 1:
+          row = 2;
+          break;
+    case 2:
       row = 1;
       break;
       
-    case 2:
+    case 3:
       row = 1;
       break;
       
@@ -99,32 +105,38 @@
       switch (indexPath.row) {
         case 0: {
           
-          cell.leftLabel.text = @"密码修改";
+          cell.leftLabel.text = @"修改登录密码";
         }
           break;
-          
-        case 1: {
-          cell.leftLabel.text = @"隐私";
-        }
-          break;
-          
-        case 2: {
-          cell.leftLabel.text = @"新消息通知";
-        }
-          break;
+          case 1: {
+              cell.leftLabel.text = @"修改支付密码";
+          }
+              break;
+          case 2: {
+              cell.leftLabel.text = @"忘记支付密码";
+          }
+              break;
           
         default:
           break;
       }
     }
       break;
+      case 1: {
+          if (indexPath.row == 0) {
+              cell.leftLabel.text = @"隐私";
+          } else {
+              cell.leftLabel.text = @"新消息通知";
+          }
+      }
+          break;
       
-    case 1: {
-    cell.leftLabel.text = @"清除缓存";
+    case 2: {
+    cell.leftLabel.text = @"清除记录";
     }
       break;
       
-    case 2: {
+    case 3: {
       return [self createQuitCell];
     }
       break;
@@ -148,32 +160,77 @@
                                                animated:YES];
         }
           break;
-          
-        case 1:{
-          RCDPrivacyTableViewController *vc = [[RCDPrivacyTableViewController alloc] init];
-          [self.navigationController pushViewController:vc animated:YES];
-        }
-          break;
-          
-        case 2: {
-          RCDMessageNotifySettingTableViewController *vc = [[RCDMessageNotifySettingTableViewController alloc] init];
-          [self.navigationController pushViewController:vc
-                                               animated:YES];
-        }
-          break;
+          case 1 : {
+              [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+              [[CheckSetPayPasswordRequest new] request:^BOOL(id request) {
+                  return YES;
+              } result:^(id object, NSString *msg) {
+                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                  if (object) {
+                      if ([object[@"code"] integerValue] == 200) {
+                          RCDChangePasswordViewController *changeViewController = [[RCDChangePasswordViewController alloc] init];
+                          changeViewController.isPayPassword = YES;
+                          [self.navigationController pushViewController:changeViewController animated:YES];
+                      } else if ([object[@"code"] integerValue] == 66001) {
+                          SetupPayPasswordViewController *setupPayPassword = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"SetupPayPassword"];
+                          [self.navigationController pushViewController:setupPayPassword animated:YES];
+                      } else {
+                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                          [alert show];
+                      }
+                  }
+                  
+              }];
+          }
+              break;
+          case 2: {
+              [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+              [[CheckSetPayPasswordRequest new] request:^BOOL(id request) {
+                  return YES;
+              } result:^(id object, NSString *msg) {
+                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                  if (object) {
+                      if ([object[@"code"] integerValue] == 200) {
+                          FindPayPasswordViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"FindPayPassword"];
+                          [self.navigationController pushViewController:viewController animated:YES];
+                      } else if ([object[@"code"] integerValue] == 66001) {
+                          SetupPayPasswordViewController *setupPayPassword = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"SetupPayPassword"];
+                          [self.navigationController pushViewController:setupPayPassword animated:YES];
+                      } else {
+                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                          [alert show];
+                      }
+                  }
+                  
+              }];
+          }
+              break;
         default:
           break;
       }
     }
       break;
+      case 1: {
+          if (indexPath.row == 0) {
+              RCDPrivacyTableViewController *vc = [[RCDPrivacyTableViewController alloc] init];
+              [self.navigationController pushViewController:vc animated:YES];
+          } else {
+              RCDMessageNotifySettingTableViewController *vc = [[RCDMessageNotifySettingTableViewController alloc] init];
+              [self.navigationController pushViewController:vc
+                                                   animated:YES];
+          }
+      }
+          break;
       
-    case 1: {
+    case 2: {
       switch (indexPath.row) {
         case 0:{
           //清除缓存
           UIAlertView *alertView =
           [[UIAlertView alloc] initWithTitle:nil
-                                     message:@"是否清理缓存？"
+                                     message:@"是否清理聊天记录？"
                                     delegate:self
                            cancelButtonTitle:@"取消"
                            otherButtonTitles:@"确定", nil];
@@ -189,7 +246,7 @@
     }
       break;
       
-    case 2:{
+    case 3:{
       switch (indexPath.row) {
         case 0:{
           //退出登录
@@ -230,7 +287,13 @@
   }
 
   if (buttonIndex == 1 && alertView.tag == 1011) {
-    [self clearCache];
+      BOOL isCleared = [[RCIMClient sharedRCIMClient] clearConversations:@[@(ConversationType_DISCUSSION), @(ConversationType_PRIVATE), @(ConversationType_GROUP), @(ConversationType_CHATROOM), @(ConversationType_CUSTOMERSERVICE), @(ConversationType_SYSTEM)]];
+      if (isCleared) {
+          [self clearCache];
+      } else {
+          [MBProgressHUD showError:@"删除失败" toView:self.view];
+      }
+    
   }
 }
 
@@ -261,7 +324,7 @@
 - (void)clearCacheSuccess {
   UIAlertView *alertView =
       [[UIAlertView alloc] initWithTitle:nil
-                                 message:@"缓存清理成功！"
+                                 message:@"聊天记录清理成功！"
                                 delegate:nil
                        cancelButtonTitle:@"确定"
                        otherButtonTitles:nil, nil];

@@ -9,7 +9,7 @@
 #import "RCDRegisterViewController.h"
 #import "AFHttpTool.h"
 #import "MBProgressHUD.h"
-#import "RCAnimatedImagesView.h"
+//#import "RCAnimatedImagesView.h"
 #import "RCDCommonDefine.h"
 #import "RCDFindPswViewController.h"
 #import "RCDLoginViewController.h"
@@ -35,7 +35,7 @@
 @property(nonatomic, strong) UIImageView *rongLogo;
 @property(nonatomic, strong) UIView *inputBackground;
 @property(weak, nonatomic) IBOutlet UITextField *tfMobile;
-@property(retain, nonatomic) IBOutlet RCAnimatedImagesView *animatedImagesView;
+//@property(retain, nonatomic) IBOutlet RCAnimatedImagesView *animatedImagesView;
 @property(nonatomic, strong) UIView *statusBarView;
 @property(nonatomic, strong) UILabel *licenseLb;
 @property(nonatomic, strong) UILabel *errorMsgLb;
@@ -59,21 +59,24 @@
 #define RePassWordFieldTag 1002
 #define NickNameFieldTag 1003
 #define VerificationCodeFieldTag 1004
-@synthesize animatedImagesView = _animatedImagesView;
+//@synthesize animatedImagesView = _animatedImagesView;
 @synthesize inputBackground = _inputBackground;
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self.navigationController setNavigationBarHidden:YES animated:YES];
-  self.animatedImagesView = [[RCAnimatedImagesView alloc]
-      initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,
-                               self.view.bounds.size.height)];
-  [self.view addSubview:self.animatedImagesView];
-  self.animatedImagesView.delegate = self;
+//  self.animatedImagesView = [[RCAnimatedImagesView alloc]
+//      initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,
+//                               self.view.bounds.size.height)];
+//  [self.view addSubview:self.animatedImagesView];
+//  self.animatedImagesView.delegate = self;
+    UIImageView *backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
+    backgroundImage.image = [UIImage imageNamed:@"login_background"];
+    [self.view addSubview:backgroundImage];
 
   _headBackground = [[UIView alloc]
       initWithFrame:CGRectMake(0, -100, self.view.bounds.size.width, 50)];
   _headBackground.userInteractionEnabled = YES;
-    _headBackground.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
+    _headBackground.backgroundColor = [UIColor clearColor];//[[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
   [self.view addSubview:_headBackground];
 
   UIButton *registerHeadButton = [[UIButton alloc]
@@ -131,10 +134,21 @@
   _rongLogo.contentMode = UIViewContentModeScaleAspectFit;
   _rongLogo.translatesAutoresizingMaskIntoConstraints = NO;
   [self.view addSubview:_rongLogo];
+    _rongLogo.hidden = YES;
     
-    UIImageView *tempImage = [[UIImageView alloc] initWithFrame:CGRectMake(22, 110, 55, 26)];
-    tempImage.image = [UIImage imageNamed:@"guoliao"];
-    [_rongLogo addSubview:tempImage];
+//    UIImageView *tempImage = [[UIImageView alloc] initWithFrame:CGRectMake(22, 110, 55, 26)];
+//    tempImage.image = [UIImage imageNamed:@"guoliao"];
+//    [_rongLogo addSubview:tempImage];
+    
+    UIButton *logoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    logoButton.frame = CGRectMake(20, 100, 200, 40);
+    [logoButton setImage:[UIImage imageNamed:@"login_logo"] forState:UIControlStateNormal];
+    [logoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [logoButton setTitle:@"快手红包" forState:UIControlStateNormal];
+    logoButton.titleLabel.font = [UIFont systemFontOfSize:25];
+    logoButton.imageEdgeInsets = UIEdgeInsetsMake(0, - 20, 0, 0);
+    logoButton.enabled = NO;
+    [self.view addSubview:logoButton];
 
   _inputBackground = [[UIView alloc] initWithFrame:CGRectZero];
   _inputBackground.translatesAutoresizingMaskIntoConstraints = NO;
@@ -366,7 +380,7 @@
   footerLabel.text = @"Powered by guoguo";
   [footerLabel setFont:[UIFont systemFontOfSize:12.f]];
   [footerLabel setTextColor:[UIColor colorWithHexString:@"484848" alpha:1.0]];
-  [bottomBackground addSubview:footerLabel];
+  //[bottomBackground addSubview:footerLabel];
 
   [self.view addSubview:bottomBackground];
 
@@ -494,8 +508,8 @@
       //                                    views:views]]
       arrayByAddingObjectsFromArray:
           [NSLayoutConstraint constraintsWithVisualFormat:
-                                  @"V:|-70-[_rongLogo(100)]-10-[_errorMsgLb(=="
-                                  @"12)]-1-[_inputBackground(==315)]-"
+                                  @"V:|-30-[_rongLogo(100)]-[_errorMsgLb(=="
+                                  @"12)]-[_inputBackground(==315)]-"
                                   @"80-[userProtocolButton(==20)]"
                                                   options:0
                                                   metrics:nil
@@ -625,7 +639,7 @@
            object:self.view.window];
   _statusBarView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 20)];
-    _statusBarView.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
+    _statusBarView.backgroundColor = [UIColor clearColor]; //[[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
   [self.view addSubview:_statusBarView];
   [self.view setNeedsLayout];
   [self.view setNeedsUpdateConstraints];
@@ -675,14 +689,13 @@
                    animations:^{
 
                      self.view.frame =
-                         CGRectMake(0.f, -150, self.view.frame.size.width,
+                         CGRectMake(0.f, -50, self.view.frame.size.width,
                                     self.view.frame.size.height);
                      _headBackground.frame =
-                         CGRectMake(0, 170, self.view.bounds.size.width, 50);
-                     _rongLogo.hidden = YES;
-                     _licenseLb.hidden = YES;
+                         CGRectMake(0, 70, self.view.bounds.size.width, 50);
                      _statusBarView.frame =
-                         CGRectMake(0.f, 150, self.view.frame.size.width, 20);
+                         CGRectMake(0.f, 50, self.view.frame.size.width, 20);
+                       _licenseLb.hidden = YES;
                    }
                    completion:nil];
 }
@@ -696,10 +709,9 @@
                      CGRectMake(0, -100, self.view.bounds.size.width, 50);
                      _headBackground.frame =
                          CGRectMake(0, -100, self.view.bounds.size.width, 50);
-                     _rongLogo.hidden = NO;
-                     _licenseLb.hidden = NO;
                      _statusBarView.frame =
                          CGRectMake(0.f, 0, self.view.frame.size.width, 20);
+                       _licenseLb.hidden = NO;
                    }
                    completion:nil];
 }
@@ -711,13 +723,13 @@
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
 
-  [self.animatedImagesView startAnimating];
+  //[self.animatedImagesView startAnimating];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
 
-  [self.animatedImagesView stopAnimating];
+  //[self.animatedImagesView stopAnimating];
 }
 
 /*阅读用户协议*/
@@ -997,15 +1009,15 @@
   return YES;
 }
 
-- (NSUInteger)animatedImagesNumberOfImages:
-    (RCAnimatedImagesView *)animatedImagesView {
-  return 2;
-}
-
-- (UIImage *)animatedImagesView:(RCAnimatedImagesView *)animatedImagesView
-                   imageAtIndex:(NSUInteger)index {
-  return [UIImage imageNamed:@"login_background.png"];
-}
+//- (NSUInteger)animatedImagesNumberOfImages:
+//    (RCAnimatedImagesView *)animatedImagesView {
+//  return 2;
+//}
+//
+//- (UIImage *)animatedImagesView:(RCAnimatedImagesView *)animatedImagesView
+//                   imageAtIndex:(NSUInteger)index {
+//  return [UIImage imageNamed:@"login_background.png"];
+//}
 
 - (void)CountDown:(int)seconds {
   _Seconds = seconds;

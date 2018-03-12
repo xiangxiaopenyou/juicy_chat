@@ -19,8 +19,8 @@
 + (NSString *)getFirstUpperLetter:(NSString *)hanzi;
 + (NSMutableDictionary *)sortedArrayWithPinYinDic:(NSArray *)userList;
 + (BOOL)isContains:(NSString *)firstString withString:(NSString *)secondString;
-+ (UIImage*) getImageWithColor:(UIColor*)color andHeight:(CGFloat)height;
-+ (NSString *)amountStringFromNumber:(NSNumber *)amount;
++ (UIImage*)getImageWithColor:(UIColor*)color andHeight:(CGFloat)height;
++ (NSNumber *)amountNumberFromString:(NSString *)amountString;
 + (NSString *)commonDateString:(NSString *)dateString;
 
 @end

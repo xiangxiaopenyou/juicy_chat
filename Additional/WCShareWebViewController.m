@@ -78,7 +78,7 @@ typedef NS_ENUM(NSInteger, WCShareType) {
         if (object) {
             NSInteger money = [object[@"money"] integerValue];
             if (money > 0) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"分享成功，奖励%@果币", @(money)] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"分享成功，奖励%@快豆", @(money)] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [alert show];
             } else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];

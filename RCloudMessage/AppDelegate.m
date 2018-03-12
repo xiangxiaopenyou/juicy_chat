@@ -38,7 +38,7 @@
 
 //#define RONGCLOUD_IM_APPKEY @"k51hidwqkexcb" //offline key
 //#define RONGCLOUD_IM_APPKEY @"c9kqb3rdkbb8j" // pre key
-#define RONGCLOUD_IM_APPKEY @"tdrvipkst7ox5" // online key
+#define RONGCLOUD_IM_APPKEY @"vnroth0kv4t6o" // online key
 
 #define UMENG_APPKEY @"563755cbe0f55a5cb300139c"
 

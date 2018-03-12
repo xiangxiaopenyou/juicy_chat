@@ -92,12 +92,16 @@
         if (indexPath.row == 0) {
             [self setCellStyle:DefaultStyle_RightLabel];
             self.leftLabel.text = @"红包下限";
-            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", [RCDUtilities amountStringFromNumber:@(groupInfo.redPacketLimit.integerValue)]];
+            NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+            numberFormatter.numberStyle = kCFNumberFormatterDecimalStyle;
+            NSString *amountString = [NSString stringWithFormat:@"%.2f", groupInfo.redPacketLimit.floatValue];
+            self.rightLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
 
         } else if (indexPath.row == 1) {
             [self setCellStyle:DefaultStyle_RightLabel];
             self.leftLabel.text = @"冻结金额";
-            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", [RCDUtilities amountStringFromNumber:@(groupInfo.lockLimit.integerValue)]];
+            NSString *amountString = [NSString stringWithFormat:@"%.2f", groupInfo.lockLimit.floatValue];
+            self.rightLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
 
         } else if (indexPath.row == 2) {
             [self setCellStyle:DefaultStyle];

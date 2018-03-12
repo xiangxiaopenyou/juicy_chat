@@ -223,7 +223,7 @@
         self.tabBarController.navigationItem.rightBarButtonItems = @[item];
     }
     
-  self.tabBarController.navigationItem.title = @"果聊";
+  self.tabBarController.navigationItem.title = @"会话";
 //  [self notifyUpdateUnreadMessageCount];
   [[NSNotificationCenter defaultCenter]
       addObserver:self

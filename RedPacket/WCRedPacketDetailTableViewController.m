@@ -127,11 +127,13 @@
         static NSString *identifier = @"TransferMoneyCell";
         WCTransferMoneyCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
         if (self.isSent) {
-            NSString *moneyString = [RCDUtilities amountStringFromNumber:self.model.money];
-            cell.moneyLabel.text = [NSString stringWithFormat:@"-%@ 果币", moneyString];
+            NSString *amountString = [NSString stringWithFormat:@"%.2f", self.model.money.floatValue];
+            NSString *moneyString = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+            cell.moneyLabel.text = [NSString stringWithFormat:@"-%@", moneyString];
         } else {
-            NSString *moneyString = [RCDUtilities amountStringFromNumber:self.model.unpackmoney];
-            cell.moneyLabel.text = [NSString stringWithFormat:@"+%@ 果币", moneyString];
+            NSString *amountString = [NSString stringWithFormat:@"%.2f", self.model.unpackmoney.floatValue];
+            NSString *moneyString = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+            cell.moneyLabel.text = [NSString stringWithFormat:@"+%@", moneyString];
         }
         return cell;
     } else {

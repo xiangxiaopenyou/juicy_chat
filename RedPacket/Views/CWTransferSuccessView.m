@@ -61,7 +61,7 @@
         label3.font = [UIFont systemFontOfSize:13];
         label3.textColor = [UIColor blackColor];
         label3.textAlignment = NSTextAlignmentRight;
-        label3.text = @"转账果币：";
+        label3.text = @"转账快豆：";
         [self.contentView addSubview:label3];
         [label3 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(label2.mas_bottom).with.mas_offset(12);

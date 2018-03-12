@@ -10,7 +10,7 @@
 
 @interface RedPacketDetailViewController : UIViewController
 @property (copy, nonatomic) NSString *redPacketId;
-@property (assign, nonatomic) NSInteger redPacketNumber;
+@property (assign, nonatomic) CGFloat redPacketNumber;
 @property (copy, nonatomic) NSString *nickname;
 @property (copy, nonatomic) NSString *avatarUrl;
 @property (copy, nonatomic) NSString *noteString;

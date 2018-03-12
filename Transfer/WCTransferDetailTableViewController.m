@@ -78,11 +78,12 @@
     if (indexPath.row == 0) {
         static NSString *identifier = @"TransferMoneyCell";
         WCTransferMoneyCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-        NSString *moneyString = [RCDUtilities amountStringFromNumber:self.model.money];
+        NSString *amountString = [NSString stringWithFormat:@"%.2f", self.model.money.floatValue];
+        NSString *moneyString = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
         if ([self isSender]) {
-            cell.moneyLabel.text = [NSString stringWithFormat:@"-%@ 果币", moneyString];
+            cell.moneyLabel.text = [NSString stringWithFormat:@"-%@", moneyString];
         } else {
-            cell.moneyLabel.text = [NSString stringWithFormat:@"+%@ 果币", moneyString];
+            cell.moneyLabel.text = [NSString stringWithFormat:@"+%@", moneyString];
         }
         return cell;
     } else {

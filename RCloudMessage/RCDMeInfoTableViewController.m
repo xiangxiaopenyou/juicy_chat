@@ -8,7 +8,7 @@
 
 #import "RCDMeInfoTableViewController.h"
 #import "DefaultPortraitView.h"
-#import "MBProgressHUD.h"
+#import "MBProgressHUD+Add.h"
 #import "RCDChangePasswordViewController.h"
 #import "RCDChatViewController.h"
 #import "RCDCommonDefine.h"
@@ -145,10 +145,9 @@
           }
               break;
           case 4:{
-              [cell setCellStyle:DefaultStyle_RightLabel_WithoutRightArrow];
+              [cell setCellStyle:DefaultStyle_RightLabel];
               cell.leftLabel.text = @"用户ID";
-              cell.rightLabel.text = [DEFAULTS stringForKey:@"userId"];
-              cell.selectionStyle = UITableViewCellSelectionStyleNone;
+              cell.rightLabel.text = [NSString stringWithFormat:@"%@(复制)", [DEFAULTS stringForKey:@"userId"]];
               return cell;
           }
               break;
@@ -247,6 +246,12 @@
           [alertController addAction:cancelAlert];
           [self presentViewController:alertController animated:YES completion:nil];
       };
+          break;
+      case 4: {
+          UIPasteboard *paste = [UIPasteboard generalPasteboard];
+          paste.string = [DEFAULTS stringForKey:@"userId"];
+          [MBProgressHUD showSuccess:@"用户ID已复制到粘贴板" toView:self.view];
+      }
           break;
       case 5: {
           JCEditSignViewController *signViewController = [[JCEditSignViewController alloc] init];

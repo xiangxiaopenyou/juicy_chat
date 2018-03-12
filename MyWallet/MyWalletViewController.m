@@ -53,7 +53,8 @@
     } result:^(id object, NSString *msg) {
         [self.tableView.mj_header endRefreshing];
         if (object) {
-            self.pocketMoneyLabel.text = [RCDUtilities amountStringFromNumber:@([object[@"money"] integerValue])];
+            NSString *amountString = [NSString stringWithFormat:@"%.2f", [object[@"money"] floatValue]];
+            self.pocketMoneyLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
             self.tipLabel.text = [self countingString:[object[@"money"] integerValue]];
             //self.tipLabel.text = [self countingString:9111000];
         } else {
@@ -65,7 +66,7 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 3;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50.f;
@@ -78,13 +79,14 @@
     } else if (indexPath.row == 1) {
         cell.imageView.image = [UIImage imageNamed:@"transaction-record"];
         cell.textLabel.text = @"我的账单";
-    } else if (indexPath.row == 2) {
-        cell.imageView.image = [UIImage imageNamed:@"lock_money"];
-        cell.textLabel.text = @"冻结果币";
     } else {
-        cell.imageView.image = [UIImage imageNamed:@"pic_safe"];
-        cell.textLabel.text = @"安全设置";
+        cell.imageView.image = [UIImage imageNamed:@"lock_money"];
+        cell.textLabel.text = @"冻结快豆";
     }
+//    else {
+//        cell.imageView.image = [UIImage imageNamed:@"pic_safe"];
+//        cell.textLabel.text = @"安全设置";
+//    }
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -108,33 +110,34 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         XJTransferRecordViewController *recordControll = [[UIStoryboard storyboardWithName:@"Transfer" bundle:nil] instantiateViewControllerWithIdentifier:@"TransferRecord"];
         [self.navigationController pushViewController:recordControll animated:YES];
-    } else if (indexPath.row == 2) {
+    } else {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         LockedMoneyViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"LockedMoney"];
         [self.navigationController pushViewController:viewController animated:YES];
-    } else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [[CheckSetPayPasswordRequest new] request:^BOOL(id request) {
-            return YES;
-        } result:^(id object, NSString *msg) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            if (object) {
-                if ([object[@"code"] integerValue] == 200) {
-                    SecuritySettingTableViewController *settingViewController = [[SecuritySettingTableViewController alloc] init];
-                    [self.navigationController pushViewController:settingViewController animated:YES];
-                } else if ([object[@"code"] integerValue] == 66001) {
-                    SetupPayPasswordViewController *setupPayPassword = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"SetupPayPassword"];
-                    [self.navigationController pushViewController:setupPayPassword animated:YES];
-                } else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    [alert show];
-                }
-            }
-
-        }];
     }
-         
+//    else {
+//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        [[CheckSetPayPasswordRequest new] request:^BOOL(id request) {
+//            return YES;
+//        } result:^(id object, NSString *msg) {
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
+//            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//            if (object) {
+//                if ([object[@"code"] integerValue] == 200) {
+//                    SecuritySettingTableViewController *settingViewController = [[SecuritySettingTableViewController alloc] init];
+//                    [self.navigationController pushViewController:settingViewController animated:YES];
+//                } else if ([object[@"code"] integerValue] == 66001) {
+//                    SetupPayPasswordViewController *setupPayPassword = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"SetupPayPassword"];
+//                    [self.navigationController pushViewController:setupPayPassword animated:YES];
+//                } else {
+//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//                    [alert show];
+//                }
+//            }
+//
+//        }];
+//    }
+    
 }
 - (NSString *)countingString:(NSInteger)count {
     NSInteger yi = 0;

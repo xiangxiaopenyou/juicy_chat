@@ -71,7 +71,7 @@
         UILabel *label = [[UILabel alloc] init];
         label.font = [UIFont systemFontOfSize:12];
         label.textColor = [UIColor grayColor];
-        label.text = @"剩余果币";
+        label.text = @"剩余快豆";
         [self.contentView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(line2.mas_bottom).with.mas_offset(10);
@@ -198,11 +198,13 @@
     }
     return _balanceLabel;
 }
-- (void)setAmount:(NSInteger)amount {
-    self.amountLabel.text = [RCDUtilities amountStringFromNumber:@(amount)];
+- (void)setAmount:(CGFloat)amount {
+    NSString *amountString = [NSString stringWithFormat:@"%.2f", amount];
+    self.amountLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
 }
-- (void)setBalance:(NSInteger)balance {
-    self.balanceLabel.text = [RCDUtilities amountStringFromNumber:@(balance)];
+- (void)setBalance:(CGFloat)balance {
+    NSString *amountString = [NSString stringWithFormat:@"%.2f", balance];
+    self.balanceLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
 }
 
 @end

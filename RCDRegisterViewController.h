@@ -6,11 +6,10 @@
 //  Copyright (c) 2015年 RongCloud. All rights reserved.
 //
 
-#import "RCAnimatedImagesView.h"
 #import "WCCommonDefines.h"
 #import <UIKit/UIKit.h>
 @interface RCDRegisterViewController
-    : UIViewController <RCAnimatedImagesViewDelegate>
+    : UIViewController
 @property (assign, nonatomic) WCRegisterType registerType;
 @property (copy, nonatomic) NSDictionary *informations;
 

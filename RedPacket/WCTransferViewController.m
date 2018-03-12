@@ -133,7 +133,8 @@
                 NSString *userIdString = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
                 _successView.senderLabel.text = [NSString stringWithFormat:@"%@（ID:%@）", nameString, userIdString];
                 _successView.receiverLabel.text = [NSString stringWithFormat:@"%@（ID:%@）", self.userInfo.name, self.userInfo.userId];
-                _successView.amountLabel.text = [RCDUtilities amountStringFromNumber:@(self.textField.text.integerValue * 100)];
+                NSString *amountString = [NSString stringWithFormat:@"%.2f", self.textField.text.floatValue];
+                _successView.amountLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
                 NSDate *date = [NSDate date];
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                 [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

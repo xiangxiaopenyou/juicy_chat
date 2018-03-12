@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface EntryPasswordView : UIView
-@property (assign, nonatomic) NSInteger amount;
-@property (assign, nonatomic) NSInteger balance;
+@property (assign, nonatomic) CGFloat amount;
+@property (assign, nonatomic) CGFloat balance;
 
 - (void)show;
 - (void)closeAction;

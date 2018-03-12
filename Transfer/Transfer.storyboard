@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -189,12 +189,6 @@
                                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="果币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ki-Hy-1zv">
-                                            <rect key="frame" x="323" y="18" width="37" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AGG-Ua-yjE">
                                             <rect key="frame" x="15" y="56.5" width="360" height="0.5"/>
                                             <color key="backgroundColor" red="0.81568627450980391" green="0.81568627450980391" blue="0.81568627450980391" alpha="1" colorSpace="calibratedRGB"/>
@@ -204,18 +198,13 @@
                                         </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="2ki-Hy-1zv" secondAttribute="trailing" constant="15" id="D5X-9F-UI4"/>
                                         <constraint firstItem="7nZ-e5-akR" firstAttribute="leading" secondItem="jgb-Yz-VVl" secondAttribute="leading" constant="15" id="F1L-fQ-hlZ"/>
-                                        <constraint firstItem="2ki-Hy-1zv" firstAttribute="centerY" secondItem="jgb-Yz-VVl" secondAttribute="centerY" id="Ov6-bR-Zxd"/>
                                         <constraint firstAttribute="trailing" secondItem="AGG-Ua-yjE" secondAttribute="trailing" id="eCY-PG-zWw"/>
                                         <constraint firstItem="7nZ-e5-akR" firstAttribute="centerY" secondItem="jgb-Yz-VVl" secondAttribute="centerY" id="kov-gq-P1x"/>
                                         <constraint firstItem="AGG-Ua-yjE" firstAttribute="leading" secondItem="jgb-Yz-VVl" secondAttribute="leading" constant="15" id="nJ8-Pe-65c"/>
                                         <constraint firstAttribute="bottom" secondItem="AGG-Ua-yjE" secondAttribute="bottom" id="z1b-ew-LFy"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="moneyLabel" destination="2ki-Hy-1zv" id="wf5-BA-Ygb"/>
-                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TransferInformationCell" rowHeight="35" id="38X-FQ-kAB" customClass="WCTransferInformationCell">
                                 <rect key="frame" x="0.0" y="148" width="375" height="35"/>

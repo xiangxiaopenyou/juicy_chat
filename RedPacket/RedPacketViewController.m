@@ -52,7 +52,7 @@
     UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1002];
     if (self.type == ConversationType_GROUP) {
         if (textField1.text.integerValue * 100 / textField2.text.integerValue < 1) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"每个红包至少1个果币哦~" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"每个红包至少0.01快豆哦~" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
             return;
         }
@@ -231,7 +231,7 @@
         } else {
             cell.leftLabel.text = @"总金额";
         }
-        cell.rightLabel.text = @"果币";
+        //cell.rightLabel.text = @"果币";
         cell.textField.tag = 1000;
         cell.tipLabel.tag = 10000;
         cell.textField.delegate = self;
