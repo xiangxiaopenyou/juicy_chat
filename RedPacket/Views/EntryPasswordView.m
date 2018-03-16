@@ -199,12 +199,10 @@
     return _balanceLabel;
 }
 - (void)setAmount:(CGFloat)amount {
-    NSString *amountString = [NSString stringWithFormat:@"%.2f", amount];
-    self.amountLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+    self.amountLabel.text = [RCDUtilities amountStringFromFloat:amount];
 }
 - (void)setBalance:(CGFloat)balance {
-    NSString *amountString = [NSString stringWithFormat:@"%.2f", balance];
-    self.balanceLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+    self.balanceLabel.text = [RCDUtilities amountStringFromFloat:balance];
 }
 
 @end

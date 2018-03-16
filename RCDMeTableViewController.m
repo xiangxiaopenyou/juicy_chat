@@ -31,6 +31,8 @@
 #import "WCShareWebViewController.h"
 #import "FetchSharePictureRequest.h"
 #import "MBProgressHUD+Add.h"
+#import "KSBuyVideoView.h"
+#import "KSConfigInformationsRequest.h"
 
 #import <OpenShareHeader.h>
 
@@ -85,11 +87,39 @@
   self.tabBarController.navigationItem.title = @"我";
   self.tabBarController.navigationItem.rightBarButtonItems = nil;
   [self.tableView reloadData];
+    
+    [self requestForConfigInformations];
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Request
+- (void)requestForConfigInformations {
+    [[KSConfigInformationsRequest new] request:^BOOL(id request) {
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            if (object[@"exchangerate"]) {
+                CGFloat exchangeRate = [object[@"exchangerate"] floatValue];
+                CGFloat savedExchangeRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"ExchangeRate"];
+                if (exchangeRate != savedExchangeRate) {
+                    [[NSUserDefaults standardUserDefaults] setFloat:exchangeRate forKey:@"ExchangeRate"];
+                }
+            }
+            if (object[@"videoprice"]) {
+                CGFloat videoPrice = [object[@"videoprice"] floatValue];
+                CGFloat savedVideoPrice = [[NSUserDefaults standardUserDefaults] floatForKey:@"VideoPrice"];
+                if (videoPrice != savedVideoPrice) {
+                    [[NSUserDefaults standardUserDefaults] setFloat:videoPrice forKey:@"VideoPrice"];
+                }
+            }
+        } else {
+            [MBProgressHUD showError:msg toView:self.view];
+        }
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -104,8 +134,10 @@
     /* RedPacket_FTR */ //添加了红包，row+=1；
           rows = [OpenShare isWeixinInstalled] && [OpenShare isQQInstalled] ? 3 : 2;
       break;
-      
     case 2:
+          rows = 1;
+          break;
+    case 3:
 #if RCDDebugTestFunction
       rows = 4;
 #else
@@ -121,7 +153,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 3;
+  return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -180,7 +212,7 @@
     case 1: {
         switch (indexPath.row) {
             case 0: {
-                [cell setCellWithImageName:@"setting_up" labelName:@"帐号设置"];
+                [cell setCellWithImageName:@"setting_up" labelName:@"账号设置"];
             }
                 break;
           
@@ -199,8 +231,12 @@
       return cell;
     }
       break;
-      
-    case 2: {
+      case 2: {
+          [cell setCellWithImageName:@"icon_buy_video" labelName:@"购买视频空间"];
+          return cell;
+      }
+          break;
+    case 3: {
       switch (indexPath.row) {
         case 0:{
           [cell setCellWithImageName:@"sevre_inactive" labelName:@"投诉与建议"];
@@ -302,8 +338,19 @@
       }
     }
       break;
+      case 2: {
+          [tableView deselectRowAtIndexPath:indexPath animated:YES];
+          if ([[NSUserDefaults standardUserDefaults] floatForKey:@"VideoPrice"]) {
+              KSBuyVideoView *buyView = [[KSBuyVideoView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds];
+              [buyView show];
+          } else {
+              [MBProgressHUD showError:@"请检查网络" toView:self.view];
+          }
+          
+      }
+          break;
       
-    case 2: {
+    case 3: {
       switch (indexPath.row) {
         case 0: {
           //[self chatWithCustomerService:SERVICE_ID];

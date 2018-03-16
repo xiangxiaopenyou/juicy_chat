@@ -17,6 +17,7 @@
 #import "SendRedPacketRequest.h"
 #import "UIColor+RCColor.h"
 #import "MBProgressHUD.h"
+#import "RCDUtilities.h"
 
 #define SCREEN_WIDTH CGRectGetWidth(UIScreen.mainScreen.bounds)
 #define SCREEN_HEIGHT CGRectGetHeight(UIScreen.mainScreen.bounds)
@@ -51,7 +52,7 @@
     UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1000];
     UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1002];
     if (self.type == ConversationType_GROUP) {
-        if (textField1.text.integerValue * 100 / textField2.text.integerValue < 1) {
+        if (textField1.text.floatValue * 100 / textField2.text.integerValue < 1) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"每个红包至少0.01快豆哦~" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
             return;
@@ -76,8 +77,8 @@
                         [_hud hide:YES];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self.entryView show];
-                            self.entryView.amount = textField1.text.integerValue * 100;
-                            self.entryView.balance = [object[@"money"] integerValue];
+                            self.entryView.amount = textField1.text.floatValue;
+                            self.entryView.balance = [object[@"money"] floatValue];
                         });
                     } else {
                         [_hud hide:YES];
@@ -127,7 +128,7 @@
                 request.note = textField1.text;
             }
             request.payPassword = passwordString;
-            request.amount = @(textField2.text.integerValue * 100);
+            request.amount = @(textField2.text.floatValue);
             return YES;
         } result:^(id object, NSString *msg) {
             [_hud hide:YES];
@@ -143,9 +144,9 @@
                         NSString *idString = [NSString stringWithFormat:@"%@", object[@"id"]];
                         if (self.successBlock) {
                             if (self.type == ConversationType_GROUP) {
-                                self.successBlock(idString, noteString, @(textField3.text.integerValue), @(textField2.text.integerValue * 100));
+                                self.successBlock(idString, noteString, @(textField3.text.integerValue), @(textField2.text.floatValue));
                             } else {
-                                self.successBlock(idString, noteString, @1, @(textField2.text.integerValue * 100));
+                                self.successBlock(idString, noteString, @1, @(textField2.text.floatValue));
                             }
                         }
                     } else {
@@ -169,7 +170,7 @@
     UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1002];
     UILabel *tipLabel = (UILabel *)[self.tableView viewWithTag:10000];
     if (self.type == ConversationType_PRIVATE) {
-        if ([textField1.text integerValue] > 0) {
+        if ([textField1.text floatValue] > 0) {
             self.submitButton.enabled = YES;
             tipLabel.hidden = NO;
             [self.submitButton setBackgroundColor:[UIColor colorWithRed:216/255.0 green:78/255.0 blue:67/255.0 alpha:1]];
@@ -179,7 +180,7 @@
             [self.submitButton setBackgroundColor:[UIColor colorWithRed:245/255.0 green:168/255.0 blue:171/255.0 alpha:1]];
         }
     } else {
-        if ([textField1.text integerValue] > 0 && [textField2.text integerValue] > 0) {
+        if ([textField1.text floatValue] > 0 && [textField2.text integerValue] > 0) {
             self.submitButton.enabled = YES;
             [self.submitButton setBackgroundColor:[UIColor colorWithRed:216/255.0 green:78/255.0 blue:67/255.0 alpha:1]];
         } else {
@@ -193,18 +194,30 @@
         }
     }
     if (textField == textField1) {
-        self.amountLabel.text = [self amountStringFromNumber:@([textField1.text
-                                                                integerValue] * 100)];
+        self.amountLabel.text = [RCDUtilities amountStringFromFloat:textField1.text.floatValue];
     }
 }
 - (void)closeAction {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-//    
-//    return YES;
-//}
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    //首位不能为.
+    if (range.location == 0 && [string isEqualToString:@"."]) {
+        return NO;
+    }
+    if ([textField.text containsString:@"."]) {
+        if ([string isEqualToString:@"."]) {
+            return NO;
+        }
+        //限制小数点后面两位
+        NSRange subRange = [textField.text rangeOfString:@"."];
+        if (range.location - subRange.location > 2) {
+            return NO;
+        }
+    }
+    return YES;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.type == ConversationType_PRIVATE ? 2 : 3;
@@ -297,15 +310,15 @@
     return _entryView;
 }
 
-- (NSString *)amountStringFromNumber:(NSNumber *)amount {
-    NSString *amountString = [NSString stringWithFormat:@"%@", amount];
-    NSMutableString *mutableString = [amountString mutableCopy];
-    if (amountString.length > 2) {
-        for (NSInteger i = amountString.length - 2; i > 0; i -= 4) {
-            [mutableString insertString:@"," atIndex:i];
-        }
-    }
-    return mutableString;
-}
+//- (NSString *)amountStringFromNumber:(NSNumber *)amount {
+//    NSString *amountString = [NSString stringWithFormat:@"%@", amount];
+//    NSMutableString *mutableString = [amountString mutableCopy];
+//    if (amountString.length > 2) {
+//        for (NSInteger i = amountString.length - 2; i > 0; i -= 4) {
+//            [mutableString insertString:@"," atIndex:i];
+//        }
+//    }
+//    return mutableString;
+//}
 
 @end

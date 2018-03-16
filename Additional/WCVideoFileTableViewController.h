@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 @class WCVideoFileModel;
 
-@interface WCVideoFileTableViewController : UITableViewController
+@interface WCVideoFileTableViewController : UIViewController
 
-@property (copy, nonatomic) void (^sendBlock)(WCVideoFileModel *model);
+@property (copy, nonatomic) void (^sendBlock)(NSArray *videoFileArray);
 
 @end

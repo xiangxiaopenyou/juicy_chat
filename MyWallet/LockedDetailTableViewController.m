@@ -75,9 +75,7 @@
     cell.nameLabel.text = [NSString stringWithFormat:@"%@", temp[@"groupname"]];
     NSString *timeString = [self timeStringFromDate:temp[@"locktime"]];
     cell.timeLabel.text = timeString;
-    NSString *amountString = [NSString stringWithFormat:@"%.2f", [temp[@"lockmoney"] floatValue]];
-    cell.amountLabel.text = [NSString stringWithFormat:@"- %@", [RCDUtilities amountNumberFromString:amountString]];
-
+    cell.amountLabel.text = [NSString stringWithFormat:@"- %@", [RCDUtilities amountStringFromFloat:[temp[@"lockmoney"] floatValue]]];
     return cell;
 }
 

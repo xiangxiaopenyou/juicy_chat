@@ -176,14 +176,12 @@
     self.bestLuckCountLabel.text = [NSString stringWithFormat:@"%@", @([self.informations[@"bestluckcount"] integerValue])];
     if (self.receivedButton.selected) {
         self.nameLabel.text = [NSString stringWithFormat:@"%@共收到", userInfo.name];
-        NSString *amountString = [NSString stringWithFormat:@"%.2f", [self.informations[@"moneyreceive"] floatValue]];
-        self.amountLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+        self.amountLabel.text = [RCDUtilities amountStringFromFloat:[self.informations[@"moneyreceive"] floatValue]];
         self.infoView.hidden = NO;
         self.sendCountLabel.hidden = YES;
     } else {
         self.nameLabel.text =[ NSString stringWithFormat:@"%@共发出", userInfo.name];
-        NSString *amountString = [NSString stringWithFormat:@"%.2f", [self.informations[@"moneysend"] floatValue]];
-        self.amountLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+        self.amountLabel.text = [RCDUtilities amountStringFromFloat:[self.informations[@"moneysend"] floatValue]];
         self.infoView.hidden = YES;
         self.sendCountLabel.hidden = NO;
     }
@@ -208,16 +206,14 @@
             cell.headLabel.text = @"群红包";
         }
         cell.timeLabel.text = [RCDUtilities commonDateString:tempModel.createtime];
-        NSString *amountString = [NSString stringWithFormat:@"%.2f", tempModel.unpackmoney.floatValue];
-        NSString *moneyString = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+        NSString *moneyString = [RCDUtilities amountStringFromFloat:tempModel.unpackmoney.floatValue];
         cell.moneyLabel.text = [NSString stringWithFormat:@"%@", moneyString];
         cell.numberLabel.hidden = YES;
     } else {
         WCRedpacketModel *tempModel = self.sentArray[indexPath.row];
         cell.headLabel.text = tempModel.type.integerValue == 1 ? tempModel.tomember : @"群红包";
         cell.timeLabel.text = [RCDUtilities commonDateString:tempModel.createtime];
-        NSString *amountString = [NSString stringWithFormat:@"%.2f", tempModel.money.floatValue];
-        NSString *moneyString = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+        NSString *moneyString = [RCDUtilities amountStringFromFloat:tempModel.money.floatValue];
         cell.moneyLabel.text = [NSString stringWithFormat:@"%@", moneyString];
         cell.numberLabel.hidden = NO;
         if (tempModel.state.integerValue == 2) {

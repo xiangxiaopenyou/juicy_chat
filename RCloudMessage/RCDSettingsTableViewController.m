@@ -22,6 +22,7 @@
 #import "FindPayPasswordViewController.h"
 
 @interface RCDSettingsTableViewController () <UIAlertViewDelegate>
+@property (nonatomic) BOOL isSetPayPassword;
 
 @end
 
@@ -42,7 +43,7 @@
             // Fallback on earlier versions
         }
     }
-  self.navigationItem.title = @"帐号设置";
+  self.navigationItem.title = @"账号设置";
   RCDUIBarButtonItem *leftBtn =
   [[RCDUIBarButtonItem alloc] initContainImage:[UIImage imageNamed:@"navigator_btn_back"]
                                 imageViewFrame:CGRectMake(-6, 4, 10, 17)
@@ -54,6 +55,23 @@
                                         action:@selector(cilckBackBtn:)];
   self.navigationItem.leftBarButtonItem = leftBtn;
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    _isSetPayPassword = [[NSUserDefaults standardUserDefaults] boolForKey:@"IsSetPayPassword"];
+    if (!_isSetPayPassword) {
+        [[CheckSetPayPasswordRequest new] request:^BOOL(id request) {
+            return YES;
+        } result:^(id object, NSString *msg) {
+            if (object) {
+                if ([object[@"code"] integerValue] == 200) {
+                    _isSetPayPassword = YES;
+                    [[NSUserDefaults standardUserDefaults] setBool:_isSetPayPassword forKey:@"IsSetPayPassword"];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableView reloadData];
+                    });
+                }
+            }
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,7 +90,7 @@
   NSUInteger row = 0;
   switch (section) {
     case 0:
-      row = 3;
+          row = _isSetPayPassword ? 3 : 2;
       break;
       case 1:
           row = 2;
@@ -109,7 +127,7 @@
         }
           break;
           case 1: {
-              cell.leftLabel.text = @"修改支付密码";
+              cell.leftLabel.text = _isSetPayPassword ? @"修改支付密码" : @"设置支付密码";
           }
               break;
           case 2: {
@@ -161,50 +179,20 @@
         }
           break;
           case 1 : {
-              [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-              [[CheckSetPayPasswordRequest new] request:^BOOL(id request) {
-                  return YES;
-              } result:^(id object, NSString *msg) {
-                  [MBProgressHUD hideHUDForView:self.view animated:YES];
-                  [tableView deselectRowAtIndexPath:indexPath animated:YES];
-                  if (object) {
-                      if ([object[@"code"] integerValue] == 200) {
-                          RCDChangePasswordViewController *changeViewController = [[RCDChangePasswordViewController alloc] init];
-                          changeViewController.isPayPassword = YES;
-                          [self.navigationController pushViewController:changeViewController animated:YES];
-                      } else if ([object[@"code"] integerValue] == 66001) {
-                          SetupPayPasswordViewController *setupPayPassword = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"SetupPayPassword"];
-                          [self.navigationController pushViewController:setupPayPassword animated:YES];
-                      } else {
-                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                          [alert show];
-                      }
-                  }
-                  
-              }];
+              if (_isSetPayPassword) {
+                  RCDChangePasswordViewController *changeViewController = [[RCDChangePasswordViewController alloc] init];
+                  changeViewController.isPayPassword = YES;
+                  [self.navigationController pushViewController:changeViewController animated:YES];
+              } else {
+                  SetupPayPasswordViewController *setupPayPassword = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"SetupPayPassword"];
+                  [self.navigationController pushViewController:setupPayPassword animated:YES];
+              }
           }
               break;
           case 2: {
-              [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-              [[CheckSetPayPasswordRequest new] request:^BOOL(id request) {
-                  return YES;
-              } result:^(id object, NSString *msg) {
-                  [MBProgressHUD hideHUDForView:self.view animated:YES];
-                  [tableView deselectRowAtIndexPath:indexPath animated:YES];
-                  if (object) {
-                      if ([object[@"code"] integerValue] == 200) {
-                          FindPayPasswordViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"FindPayPassword"];
-                          [self.navigationController pushViewController:viewController animated:YES];
-                      } else if ([object[@"code"] integerValue] == 66001) {
-                          SetupPayPasswordViewController *setupPayPassword = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"SetupPayPassword"];
-                          [self.navigationController pushViewController:setupPayPassword animated:YES];
-                      } else {
-                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                          [alert show];
-                      }
-                  }
-                  
-              }];
+
+              FindPayPasswordViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"FindPayPassword"];
+              [self.navigationController pushViewController:viewController animated:YES];
           }
               break;
         default:

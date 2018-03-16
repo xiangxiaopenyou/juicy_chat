@@ -16,7 +16,7 @@
     }
     [self.params setObject:self.toId forKey:@"toMemberId"];
     [self.params setObject:self.payPassword forKey:@"paypwd"];
-    [self.params setObject:self.amount forKey:@"money"];
+    [self.params setObject:[NSString stringWithFormat:@"%.2f", self.amount.floatValue] forKey:@"money"];
     [self.params setObject:self.type forKey:@"type"];
     if (self.note) {
         [self.params setObject:self.note forKey:@"note"];

@@ -78,6 +78,8 @@
 		3D75AA3720076A0100231987 /* RongCallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D75AA3620076A0100231987 /* RongCallKit.framework */; };
 		3D75AA3A20076A1100231987 /* AgoraRtcEngineKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D75AA3820076A1000231987 /* AgoraRtcEngineKit.framework */; };
 		3D75AA3B20076A1100231987 /* RongCallLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D75AA3920076A1100231987 /* RongCallLib.framework */; };
+		3D7DDCA22058C6480046BDAC /* KSBuyVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7DDCA12058C6480046BDAC /* KSBuyVideoView.m */; };
+		3D7DDCA520590FE70046BDAC /* KSConfigInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7DDCA420590FE70046BDAC /* KSConfigInformationsRequest.m */; };
 		3D85B42A1EB85D4000E72D3F /* ModifyFriendInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */; };
 		3D85EEF11EC0423C00CD7ED2 /* libPods-SealTalk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599D0A49FB653D89550C3FF /* libPods-SealTalk.a */; };
 		3D85EEF31EC0424000CD7ED2 /* libOpenShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */; };
@@ -573,6 +575,10 @@
 		3D75AA3620076A0100231987 /* RongCallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongCallKit.framework; sourceTree = "<group>"; };
 		3D75AA3820076A1000231987 /* AgoraRtcEngineKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AgoraRtcEngineKit.framework; sourceTree = "<group>"; };
 		3D75AA3920076A1100231987 /* RongCallLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongCallLib.framework; sourceTree = "<group>"; };
+		3D7DDCA02058C6480046BDAC /* KSBuyVideoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSBuyVideoView.h; sourceTree = SOURCE_ROOT; };
+		3D7DDCA12058C6480046BDAC /* KSBuyVideoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KSBuyVideoView.m; sourceTree = SOURCE_ROOT; };
+		3D7DDCA320590FE70046BDAC /* KSConfigInformationsRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSConfigInformationsRequest.h; sourceTree = "<group>"; };
+		3D7DDCA420590FE70046BDAC /* KSConfigInformationsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KSConfigInformationsRequest.m; sourceTree = "<group>"; };
 		3D85B4281EB85D4000E72D3F /* ModifyFriendInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyFriendInformationsRequest.h; sourceTree = "<group>"; };
 		3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyFriendInformationsRequest.m; sourceTree = "<group>"; };
 		3D85EEEF1EC01CBA00CD7ED2 /* libPods-SealTalk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SealTalk.a"; path = "Pods/../build/Debug-iphoneos/libPods-SealTalk.a"; sourceTree = SOURCE_ROOT; };
@@ -1453,6 +1459,8 @@
 				3D051F101F9D943F00E92180 /* WCFetchShareLinkRequest.m */,
 				3D71D6691FB97A9A00960D36 /* WCQQLoginRequest.h */,
 				3D71D66A1FB97A9A00960D36 /* WCQQLoginRequest.m */,
+				3D7DDCA320590FE70046BDAC /* KSConfigInformationsRequest.h */,
+				3D7DDCA420590FE70046BDAC /* KSConfigInformationsRequest.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -2208,6 +2216,8 @@
 				9891E8DC1D8263F700E874AB /* RCDMeCell.m */,
 				3DFF525E1EBC80EC00CDF351 /* MyInformationsCell.h */,
 				3DFF525F1EBC80EC00CDF351 /* MyInformationsCell.m */,
+				3D7DDCA02058C6480046BDAC /* KSBuyVideoView.h */,
+				3D7DDCA12058C6480046BDAC /* KSBuyVideoView.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -3270,6 +3280,7 @@
 				3D85B42A1EB85D4000E72D3F /* ModifyFriendInformationsRequest.m in Sources */,
 				3DCD38BD1F4AB551003EEC87 /* MJRefreshBackStateFooter.m in Sources */,
 				4666842A1B5DEC04000B7504 /* RCDConversationSettingClearMessageCell.m in Sources */,
+				3D7DDCA22058C6480046BDAC /* KSBuyVideoView.m in Sources */,
 				3DCD38BB1F4AB551003EEC87 /* MJRefreshBackGifFooter.m in Sources */,
 				E4E9396A1AD65A95001E0AC6 /* SDWebImageManager.m in Sources */,
 				98F7B0A61D826151005B2E42 /* RCDMeDetailsCell.m in Sources */,
@@ -3575,6 +3586,7 @@
 				E4E939711AD65A95001E0AC6 /* UIImageView+WebCache.m in Sources */,
 				3DCD39041F4C0D7E003EEC87 /* WCReceivedRedPacketRequest.m in Sources */,
 				3D8E20391ED6B50E008E6C29 /* RCDMeTableViewController.m in Sources */,
+				3D7DDCA520590FE70046BDAC /* KSConfigInformationsRequest.m in Sources */,
 				3D3F8D291ECAE2840040C0D5 /* RedPacketMembersRequest.m in Sources */,
 				3D8E20A71ED6D0A6008E6C29 /* MyFriendsListTableViewController.m in Sources */,
 				9B447DEC1CF82926005D3ED5 /* RCDEditGroupNameViewController.m in Sources */,

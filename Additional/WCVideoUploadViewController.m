@@ -14,7 +14,7 @@
 
 #import <Photos/Photos.h>
 
-static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
+static NSString *const kWCFileBaseURL = @"http://img.kuaishouhb.com/";
 
 @interface WCVideoUploadViewController ()
 @property (strong, nonatomic) NSMutableArray *cancelStatusArray;

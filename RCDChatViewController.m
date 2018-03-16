@@ -726,11 +726,13 @@ NSMutableDictionary *userInputStatus;
       }
           break;
       case PLUGIN_BOARD_ITEM_VIDEO_FILE_TAG: {
-          WCVideoFileTableViewController *videoFileController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"VideoFile"];
+          WCVideoFileTableViewController *videoFileController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"WCVideoFile"];
           UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:videoFileController];
-          videoFileController.sendBlock = ^(WCVideoFileModel *model) {
-              if (model) {
-                  [self sendVideoFileMessage:model.url picurl:model.picurl duration:model.duration];
+          videoFileController.sendBlock = ^(NSArray *videoFileArray) {
+              if (videoFileArray) {
+                  for (WCVideoFileModel *model in videoFileArray) {
+                      [self sendVideoFileMessage:model.url picurl:model.picurl duration:model.duration];
+                  }
               }
           };
           [self presentViewController:navigationController animated:YES completion:nil];

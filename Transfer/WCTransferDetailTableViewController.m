@@ -78,8 +78,7 @@
     if (indexPath.row == 0) {
         static NSString *identifier = @"TransferMoneyCell";
         WCTransferMoneyCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-        NSString *amountString = [NSString stringWithFormat:@"%.2f", self.model.money.floatValue];
-        NSString *moneyString = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+        NSString *moneyString = [RCDUtilities amountStringFromFloat:self.model.money.floatValue];
         if ([self isSender]) {
             cell.moneyLabel.text = [NSString stringWithFormat:@"-%@", moneyString];
         } else {

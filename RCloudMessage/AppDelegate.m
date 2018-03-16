@@ -54,7 +54,7 @@
        ? CGSizeEqualToSize(CGSizeMake(1242, 2208),                             \
                            [[UIScreen mainScreen] currentMode].size)           \
        : NO)
-static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
+static NSString *const WECHATAPPID = @"wxb142990f0ab9b6e4";
 static NSString *const QQAPPID = @"1106530362";
 
 @interface AppDelegate () <RCWKAppInfoProvider>

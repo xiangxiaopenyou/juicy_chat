@@ -145,7 +145,7 @@
     [logoButton setImage:[UIImage imageNamed:@"login_logo"] forState:UIControlStateNormal];
     [logoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [logoButton setTitle:@"快手红包" forState:UIControlStateNormal];
-    logoButton.titleLabel.font = [UIFont systemFontOfSize:25];
+    logoButton.titleLabel.font = [UIFont systemFontOfSize:28];
     logoButton.imageEdgeInsets = UIEdgeInsetsMake(0, - 20, 0, 0);
     logoButton.enabled = NO;
     [self.view addSubview:logoButton];

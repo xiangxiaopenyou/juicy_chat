@@ -13,6 +13,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.progressView.transform = CGAffineTransformMakeScale(1.0f, 4.0f);
     self.progressView.contentMode = UIViewContentModeScaleAspectFill;
     self.progressView.layer.masksToBounds = YES;
@@ -21,7 +22,6 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
     // Configure the view for the selected state
 }
 

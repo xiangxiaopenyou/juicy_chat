@@ -262,7 +262,7 @@
   UIGraphicsEndImageContext();
   return img;
 }
-+ (NSNumber *)amountNumberFromString:(NSString *)amountString {
++ (NSString *)amountStringFromFloat:(CGFloat)amountFloat {
 //    NSString *amountString = [NSString stringWithFormat:@"%@", amount];
 //    NSMutableString *mutableString = [amountString mutableCopy];
 //    if (amountString.length > 2) {
@@ -271,9 +271,12 @@
 //        }
 //    }
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    numberFormatter.numberStyle = kCFNumberFormatterDecimalStyle;
-    NSNumber *number = [numberFormatter numberFromString:amountString];
-    return number;
+    numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+    NSString *numberString = [numberFormatter stringFromNumber:@(amountFloat)];
+    if (![numberString containsString:@"."]) {
+        numberString = [numberString stringByAppendingString:@".00"];
+    }
+    return numberString;
 }
 + (NSString *)commonDateString:(NSString *)dateString {
     NSString *dateDay = [dateString substringToIndex:10];

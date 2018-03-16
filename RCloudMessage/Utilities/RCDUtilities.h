@@ -20,7 +20,7 @@
 + (NSMutableDictionary *)sortedArrayWithPinYinDic:(NSArray *)userList;
 + (BOOL)isContains:(NSString *)firstString withString:(NSString *)secondString;
 + (UIImage*)getImageWithColor:(UIColor*)color andHeight:(CGFloat)height;
-+ (NSNumber *)amountNumberFromString:(NSString *)amountString;
++ (NSString *)amountStringFromFloat:(CGFloat)amountFloat;
 + (NSString *)commonDateString:(NSString *)dateString;
 
 @end

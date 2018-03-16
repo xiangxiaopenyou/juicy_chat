@@ -28,8 +28,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UITextField *noteTextField;
 @property (weak, nonatomic) IBOutlet UIButton *transferButton;
-@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tipLabelLeadingConstraint;
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -84,8 +82,8 @@
                         [_hud hide:YES];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self.entryView show];
-                            self.entryView.amount = self.textField.text.integerValue * 100;
-                            self.entryView.balance = [object[@"money"] integerValue];
+                            self.entryView.amount = self.textField.text.floatValue;
+                            self.entryView.balance = [object[@"money"] floatValue];
                         });
                     } else {
                         [_hud hide:YES];
@@ -120,7 +118,7 @@
         NSString *passwordString = (NSString *)notification.object;
         [[WCTransferRequest new] request:^BOOL(WCTransferRequest *request) {
             request.userId = self.userInfo.userId;
-            request.money = @(self.textField.text.integerValue * 100);
+            request.money = @(self.textField.text.floatValue);
             request.password = passwordString;
             request.note = self.noteTextField.text;
             return YES;
@@ -133,8 +131,7 @@
                 NSString *userIdString = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
                 _successView.senderLabel.text = [NSString stringWithFormat:@"%@（ID:%@）", nameString, userIdString];
                 _successView.receiverLabel.text = [NSString stringWithFormat:@"%@（ID:%@）", self.userInfo.name, self.userInfo.userId];
-                NSString *amountString = [NSString stringWithFormat:@"%.2f", self.textField.text.floatValue];
-                _successView.amountLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+                _successView.amountLabel.text = [RCDUtilities amountStringFromFloat:self.textField.text.floatValue];
                 NSDate *date = [NSDate date];
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                 [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -162,17 +159,13 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)editingChanged:(id)sender {
-    self.countLabel.text = [self amountStringFromNumber:@(self.textField.text.integerValue * 100)];
-    if ([self.textField.text integerValue] > 0) {
+    self.countLabel.text = [RCDUtilities amountStringFromFloat:self.textField.text.floatValue];
+    if ([self.textField.text floatValue] > 0) {
         self.transferButton.enabled = YES;
         [self.transferButton setBackgroundColor:[UIColor colorWithRed:216/255.0 green:78/255.0 blue:67/255.0 alpha:1]];
-        self.tipLabel.hidden = NO;
-        CGSize size = [self.textField.text sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:26]}];
-        self.tipLabelLeadingConstraint.constant = size.width + 18;
     } else {
         self.transferButton.enabled = NO;
         [self.transferButton setBackgroundColor:[UIColor colorWithRed:245/255.0 green:168/255.0 blue:171/255.0 alpha:1]];
-        self.tipLabel.hidden = YES;
     }
 }
 
@@ -180,17 +173,26 @@
     [textField resignFirstResponder];
     return YES;
 }
-
-- (NSString *)amountStringFromNumber:(NSNumber *)amount {
-    NSString *amountString = [NSString stringWithFormat:@"%@", amount];
-    NSMutableString *mutableString = [amountString mutableCopy];
-    if (amountString.length > 2) {
-        for (NSInteger i = amountString.length - 2; i > 0; i -= 4) {
-            [mutableString insertString:@"," atIndex:i];
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField == self.textField) {
+        if (range.location == 0 && [string isEqualToString:@"."]) {
+            return NO;
+        }
+        if ([textField.text containsString:@"."]) {
+            if ([string isEqualToString:@"."]) {
+                return NO;
+            }
+            //限制小数点后面两位
+            NSRange subRange = [textField.text rangeOfString:@"."];
+            if (range.location - subRange.location > 2) {
+                return NO;
+            }
         }
     }
-    return mutableString;
+    
+    return YES;
 }
+
 
 - (EntryPasswordView *)entryView {
     if (!_entryView) {

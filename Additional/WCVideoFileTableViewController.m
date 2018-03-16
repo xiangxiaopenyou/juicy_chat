@@ -20,17 +20,24 @@
 #import "MBProgressHUD+Add.h"
 #import "AFHttpTool.h"
 #import "UIImageView+WebCache.h"
+#import "UIColor+RCColor.h"
 #import <RongIMKit/RongIMKit.h>
 #import <Photos/Photos.h>
-static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
+static NSString *const kWCFileBaseURL = @"http://img.kuaishouhb.com/";
 
-@interface WCVideoFileTableViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface WCVideoFileTableViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *emptyLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *rightItem;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *selectAllButton;
+@property (weak, nonatomic) IBOutlet UIButton *deleteFileButton;
+@property (weak, nonatomic) IBOutlet UIButton *sendFileButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightOfOperationView;
 
 @property (strong, nonatomic) NSMutableArray *fileArray;
 @property (assign, nonatomic) NSInteger maxCount;
 @property (assign, nonatomic) NSInteger maxSize;
+@property (nonatomic, strong) NSMutableArray *operationArray;
 
 @end
 
@@ -39,13 +46,9 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     _rightItem.enabled = NO;
+    self.heightOfOperationView.constant = 0;
+    [self.sendFileButton setBackgroundImage:[UIColor imageWithColor:[UIColor colorWithRed:26 / 255.0 green:156 / 255.0 blue:255/255.0 alpha:1]] forState:UIControlStateNormal];
     [WCVideoUploadViewController sharedController].failHandler = ^(WCVideoFileModel *model) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD showError:[NSString stringWithFormat:@"%@文件上传失败", model.name] toView:self.view];
@@ -92,6 +95,39 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
 - (IBAction)backAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+- (IBAction)selectAllAction:(id)sender {
+    if (self.selectAllButton.selected) {
+        [self.operationArray removeAllObjects];
+        self.selectAllButton.selected = NO;
+        [self.tableView reloadData];
+        [self checkSelectedFiles];
+    } else {
+        NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+        for (WCVideoFileModel *model in self.fileArray) {
+            if (!model.isUploading.boolValue) {
+                [tempArray addObject:model];
+            }
+        }
+        self.operationArray = [tempArray mutableCopy];
+        if (self.operationArray.count == 0) {
+            [MBProgressHUD showError:@"暂无可操作文件" toView:self.view];
+        } else {
+            self.selectAllButton.selected = YES;
+            [self.tableView reloadData];
+            [self checkSelectedFiles];
+        }
+    }
+    
+}
+- (IBAction)deleteFileAction:(id)sender {
+    [self deleteFiles];
+}
+- (IBAction)sendFileAction:(id)sender {
+    if (self.sendBlock) {
+        self.sendBlock(self.operationArray);
+        [self backAction:nil];
+    }
+}
 
 #pragma mark - Requests
 - (void)listRequest {
@@ -106,12 +142,7 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
                 _rightItem.enabled = YES;
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self.tableView reloadData];
-                if (_fileArray.count > 0) {
-                    self.emptyLabel.hidden = YES;
-                } else {
-                    self.emptyLabel.hidden = NO;
-                    self.emptyLabel.text = @"暂无视频文件";
-                }
+                [self checkFileNumbers];
             });
         } else {
             [MBProgressHUD showError:msg toView:self.view];
@@ -138,6 +169,7 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
                     [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
                 }
             }];
+            [self checkSelectedFiles];
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD showError:[NSString stringWithFormat:@"%@文件上传失败", model.name] toView:self.view];
@@ -183,6 +215,67 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     CMTime  time = [asset duration];
     NSInteger seconds = time.value / time.timescale;
     return seconds;
+}
+
+//判断视频文件是否为空
+- (void)checkFileNumbers {
+    if (_fileArray.count > 0) {
+        self.emptyLabel.hidden = YES;
+        self.heightOfOperationView.constant = 54.f;
+    } else {
+        self.emptyLabel.hidden = NO;
+        self.emptyLabel.text = @"暂无视频文件";
+        self.heightOfOperationView.constant = 0;
+    }
+}
+
+//选择的文件和页面处理
+- (void)checkSelectedFiles {
+    NSArray *tempArray = [[WCVideoUploadViewController sharedController].fileArray copy];
+    if (self.operationArray.count == self.fileArray.count - tempArray.count) {
+        self.selectAllButton.selected = YES;
+    } else {
+        self.selectAllButton.selected = NO;
+    }
+    if (self.operationArray.count > 0) {
+        self.deleteFileButton.enabled = YES;
+        [self.deleteFileButton setTitle:[NSString stringWithFormat:@"删除(%@)", @(self.operationArray.count)] forState:UIControlStateNormal];
+        self.sendFileButton.enabled = YES;
+        [self.sendFileButton setTitle:[NSString stringWithFormat:@"发送(%@)", @(self.operationArray.count)] forState:UIControlStateNormal];
+    } else {
+        self.deleteFileButton.enabled = NO;
+        [self.deleteFileButton setTitle:@"删除" forState:UIControlStateNormal];
+        self.sendFileButton.enabled = NO;
+        [self.sendFileButton setTitle:@"发送" forState:UIControlStateNormal];
+    }
+}
+//删除文件
+- (void)deleteFiles {
+    [MBProgressHUD showMessag:nil toView:self.view];
+    dispatch_group_t group = dispatch_group_create();
+    NSArray *tempArray = [self.operationArray copy];
+    for (WCVideoFileModel *model in tempArray) {
+        dispatch_group_enter(group);
+        [[WCDeleteVideoFileRequest new] request:^BOOL(WCDeleteVideoFileRequest *request) {
+            request.videoId = model.id;
+            return YES;
+        } result:^(id object, NSString *msg) {
+            if (object) {
+                [self.operationArray removeObject:model];
+                dispatch_group_leave(group);
+            } else {
+                dispatch_group_leave(group);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD showError:[NSString stringWithFormat:@"删除%@失败", model.name] toView:self.view];
+                });
+            }
+        }];
+    }
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self listRequest];
+    });
+    
 }
 
 /**
@@ -258,6 +351,7 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
     });
+    [self checkFileNumbers];
     [[WCVideoUploadViewController sharedController] uploadFile:tempModel token:token];
 }
 
@@ -287,28 +381,37 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     [cell.videoImageView sd_setImageWithURL:[NSURL URLWithString:model.picurl]];
     cell.videoDurationLabel.text = [self videoDurationWithTime:model.duration.integerValue];
     cell.progressView.hidden = !model.isUploading.boolValue;
+    cell.operationImageView.hidden = model.isUploading.boolValue;
+    cell.operationImageView.highlighted = [self.operationArray containsObject:model]? YES : NO;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
     WCVideoFileModel *model = _fileArray[indexPath.row];
     if (!model.isUploading.boolValue) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"确定要发送%@吗？", model.name] preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            
-        }];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"发送" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            if (self.sendBlock) {
-                self.sendBlock(model);
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }
-        }];
-        [alertController addAction:cancelAction];
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
-    } else {
-        [MBProgressHUD showError:@"视频上传完成才能发送" toView:self.view];
+        WCVideoFileCell *tempCell = (WCVideoFileCell *)[tableView cellForRowAtIndexPath:indexPath];
+        if ([self.operationArray containsObject:model]) {
+            [self.operationArray removeObject:model];
+            tempCell.operationImageView.highlighted = NO;
+        } else {
+            [self.operationArray addObject:model];
+            tempCell.operationImageView.highlighted = YES;
+        }
+        [self checkSelectedFiles];
+//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"确定要发送%@吗？", model.name] preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//
+//        }];
+//        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"发送" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            if (self.sendBlock) {
+//                self.sendBlock(model);
+//                [self dismissViewControllerAnimated:YES completion:nil];
+//            }
+//        }];
+//        [alertController addAction:cancelAction];
+//        [alertController addAction:okAction];
+//        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
@@ -347,8 +450,13 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                     if (object) {
                         [self.fileArray removeObject:model];
+                        if ([self.operationArray containsObject:model]) {
+                            [self.operationArray removeObject:model];
+                            [self checkSelectedFiles];
+                        }
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                            [self checkFileNumbers];
                         });
                     } else {
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -365,21 +473,6 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     }
 }
 
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 /*
 #pragma mark - Navigation
 
@@ -389,5 +482,12 @@ static NSString *const kWCFileBaseURL = @"http://img.juicychat.cn/";
     // Pass the selected object to the new view controller.
 }
 */
+
+- (NSMutableArray *)operationArray {
+    if (!_operationArray) {
+        _operationArray = [[NSMutableArray alloc] init];
+    }
+    return _operationArray;
+}
 
 @end

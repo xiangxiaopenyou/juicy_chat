@@ -29,8 +29,8 @@
 //#define ContentType @"text/plain"
 #define ContentType @"application/json"
 
-static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
-static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
+static NSString *const WECHATAPPID = @"wxb142990f0ab9b6e4";
+static NSString *const WECHATSECRET = @"175e0b0e678ca6f401a410890cb0e791";
 
 @implementation AFHttpTool
 
@@ -393,7 +393,7 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
   [AFHttpTool getUploadImageTokensuccess:^(id response) {
     if ([response[@"code"] integerValue] == 200) {
       NSDictionary *result = response[@"data"];
-      NSString *defaultDomain = @"img.juicychat.cn";
+      NSString *defaultDomain = @"img.kuaishouhb.com";
       [DEFAULTS setObject:defaultDomain forKey:@"QiNiuDomain"];
       [DEFAULTS synchronize];
 

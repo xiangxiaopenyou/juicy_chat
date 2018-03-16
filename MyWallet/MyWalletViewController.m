@@ -19,10 +19,12 @@
 #import "RCDUtilities.h"
 #import "MJRefresh.h"
 
+#import <OpenShareHeader.h>
+
 @interface MyWalletViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *pocketMoneyLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
+@property (nonatomic) BOOL isShowRecharge;
 
 @end
 
@@ -31,6 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _isShowRecharge = [OpenShare isWeixinInstalled] && [OpenShare isQQInstalled];
     self.tableView.tableFooterView = [UIView new];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self fetchBalance];
@@ -53,10 +56,7 @@
     } result:^(id object, NSString *msg) {
         [self.tableView.mj_header endRefreshing];
         if (object) {
-            NSString *amountString = [NSString stringWithFormat:@"%.2f", [object[@"money"] floatValue]];
-            self.pocketMoneyLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
-            self.tipLabel.text = [self countingString:[object[@"money"] integerValue]];
-            //self.tipLabel.text = [self countingString:9111000];
+            self.pocketMoneyLabel.text = [RCDUtilities amountStringFromFloat:[object[@"money"] floatValue]];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
@@ -66,7 +66,7 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return _isShowRecharge ? 4 : 3;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50.f;
@@ -77,16 +77,16 @@
         cell.imageView.image = [UIImage imageNamed:@"pic_packet"];
         cell.textLabel.text = @"我的红包";
     } else if (indexPath.row == 1) {
-        cell.imageView.image = [UIImage imageNamed:@"transaction-record"];
-        cell.textLabel.text = @"我的账单";
-    } else {
+        cell.imageView.image = _isShowRecharge ? [UIImage imageNamed:@"icon_recharge"] : [UIImage imageNamed:@"transaction-record"];
+        cell.textLabel.text = _isShowRecharge ? @"快豆充值" : @"交易记录";
+    } else if (indexPath.row == 2) {
+        cell.imageView.image = _isShowRecharge ? [UIImage imageNamed:@"transaction-record"] : [UIImage imageNamed:@"lock_money"];
+        cell.textLabel.text = _isShowRecharge ? @"交易记录" : @"冻结快豆";
+    }
+    else {
         cell.imageView.image = [UIImage imageNamed:@"lock_money"];
         cell.textLabel.text = @"冻结快豆";
     }
-//    else {
-//        cell.imageView.image = [UIImage imageNamed:@"pic_safe"];
-//        cell.textLabel.text = @"安全设置";
-//    }
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -108,8 +108,21 @@
         [self.navigationController pushViewController:viewController animated:YES];
     } else if (indexPath.row == 1) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        XJTransferRecordViewController *recordControll = [[UIStoryboard storyboardWithName:@"Transfer" bundle:nil] instantiateViewControllerWithIdentifier:@"TransferRecord"];
-        [self.navigationController pushViewController:recordControll animated:YES];
+        if (_isShowRecharge) {
+            //快豆充值
+        } else {
+            XJTransferRecordViewController *recordControll = [[UIStoryboard storyboardWithName:@"Transfer" bundle:nil] instantiateViewControllerWithIdentifier:@"TransferRecord"];
+            [self.navigationController pushViewController:recordControll animated:YES];
+        }
+    } else if (indexPath.row == 2) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        if (_isShowRecharge) {
+            XJTransferRecordViewController *recordControll = [[UIStoryboard storyboardWithName:@"Transfer" bundle:nil] instantiateViewControllerWithIdentifier:@"TransferRecord"];
+            [self.navigationController pushViewController:recordControll animated:YES];
+        } else {
+            LockedMoneyViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"LockedMoney"];
+            [self.navigationController pushViewController:viewController animated:YES];
+        }
     } else {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         LockedMoneyViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"LockedMoney"];

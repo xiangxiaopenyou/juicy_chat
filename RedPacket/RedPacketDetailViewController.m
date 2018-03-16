@@ -38,8 +38,7 @@
     if (self.redPacketNumber) {
         self.amountLabel.hidden = NO;
         self.unitLabel.hidden = NO;
-        NSString *amountString = [NSString stringWithFormat:@"%.2f", self.redPacketNumber];
-        NSString *numberString = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+        NSString *numberString = [RCDUtilities amountStringFromFloat:self.redPacketNumber];
         self.amountLabel.text = numberString;
     }
     if (self.avatarUrl) {
@@ -81,9 +80,7 @@
                     if (self.isPrivateChat) {
                         NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
                         if (userId.integerValue == [temp[@"fromuserid"] integerValue]) {
-                            NSString *amountString = [NSString stringWithFormat:@"%.2f", [temp[@"money"] floatValue]];
-                            self.detailLabel.text = [NSString stringWithFormat:@"红包金额%@，等待对方领取", [RCDUtilities amountNumberFromString:amountString]];
-
+                            self.detailLabel.text = [NSString stringWithFormat:@"红包金额%@，等待对方领取", [RCDUtilities amountStringFromFloat:[temp[@"money"] floatValue]]];
                         } else {
                             self.detailLabel.text = nil;
                         }
@@ -95,9 +92,7 @@
                         } else {
                             unpacksummoney = [temp[@"unpacksummoney"] floatValue];
                         }
-                        NSString *amountString = [NSString stringWithFormat:@"%.2f", unpacksummoney];
-                        NSString *sunString = [NSString stringWithFormat:@"%.2f", [temp[@"money"] floatValue]];
-                        self.detailLabel.text = [NSString stringWithFormat:@"已领取%@/%@个, 共%@/%@", @([temp[@"unpackcount"] integerValue]), temp[@"count"], [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]], [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:sunString]]];
+                        self.detailLabel.text = [NSString stringWithFormat:@"已领取%@/%@个, 共%@/%@", @([temp[@"unpackcount"] integerValue]), temp[@"count"], [NSString stringWithFormat:@"%@", [RCDUtilities amountStringFromFloat:unpacksummoney]], [NSString stringWithFormat:@"%@", [RCDUtilities amountStringFromFloat:[temp[@"money"] floatValue]]]];
 
                     }
                     
@@ -112,8 +107,7 @@
                     } else {
                         NSInteger second = [temp[@"duration"] integerValue];
                         NSString *timeString = [self timeString:second];
-                        NSString *amountString = [NSString stringWithFormat:@"%.2f", [temp[@"money"] floatValue]];
-                        self.detailLabel.text = [NSString stringWithFormat:@"%@个红包共%@，%@被抢光", temp[@"count"], [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]], timeString];
+                        self.detailLabel.text = [NSString stringWithFormat:@"%@个红包共%@，%@被抢光", temp[@"count"], [NSString stringWithFormat:@"%@", [RCDUtilities amountStringFromFloat:[temp[@"money"] floatValue]]], timeString];
                     }
                     
                 }
@@ -194,8 +188,7 @@
     [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:temp[@"headico"]]];
     cell.nicknameLabel.text = [NSString stringWithFormat:@"%@", temp[@"nickname"]];
 //    cell.amountLabel.text = [NSString stringWithFormat:@"%@", temp[@"unpackmoney"]];
-    NSString *amountString = [NSString stringWithFormat:@"%.2f", [temp[@"unpackmoney"] floatValue]];
-    cell.amountLabel.text = [NSString stringWithFormat:@"%@", [RCDUtilities amountNumberFromString:amountString]];
+    cell.amountLabel.text = [RCDUtilities amountStringFromFloat:[temp[@"unpackmoney"] floatValue]];
     if ([temp[@"userid"] integerValue] == [self.informations[@"bestluckuserid"] integerValue] && !self.isPrivateChat) {
         cell.bestLuckLabel.hidden = NO;
     } else {
