@@ -38,16 +38,16 @@
     // Do any additional setup after loading the view.
     self.title = @"发红包";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closeAction)];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishInputAction:) name:@"kPayPaswordInputDidFinish" object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishInputAction:) name:@"kPayPaswordInputDidFinish" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kPayPaswordInputDidFinish" object:nil];
-}
+//- (void)dealloc {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kPayPaswordInputDidFinish" object:nil];
+//}
 - (IBAction)submitAction:(id)sender {
     UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1000];
     UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1002];
@@ -79,6 +79,11 @@
                             [self.entryView show];
                             self.entryView.amount = textField1.text.floatValue;
                             self.entryView.balance = [object[@"money"] floatValue];
+                            __weak typeof(self) weakSelf = self;
+                            self.entryView.finishInputBlock = ^(NSString *password) {
+                                __strong typeof(weakSelf) strongSelf = weakSelf;
+                                [strongSelf finishInputAction:password];
+                            };
                         });
                     } else {
                         [_hud hide:YES];
@@ -104,13 +109,12 @@
         }
     }];
 }
-- (void)finishInputAction:(NSNotification *)notification {
-    if (notification) {
+- (void)finishInputAction:(NSString *)passwordString {
+    //if (notification) {
         _hud = [MBProgressHUD showHUDAddedTo:self.entryView animated:YES];
         _hud.color = [UIColor colorWithHexString:@"343637" alpha:0.5];
         _hud.labelText = @"";
         [_hud show:YES];
-        NSString *passwordString = (NSString *)notification.object;
         UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1001];
         UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1000];
         UITextField *textField3 = (UITextField *)[self.tableView viewWithTag:1002];
@@ -163,7 +167,7 @@
                 [alert show];
             }
         }];
-    }
+//   }
 }
 - (void)textChanged:(UITextField *)textField {
     UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1000];

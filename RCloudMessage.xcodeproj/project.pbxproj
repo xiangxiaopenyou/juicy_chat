@@ -129,6 +129,12 @@
 		3D8E20A71ED6D0A6008E6C29 /* MyFriendsListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E20A61ED6D0A6008E6C29 /* MyFriendsListTableViewController.m */; };
 		3D8E20AA1ED7C384008E6C29 /* PersonalCardMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E20A91ED7C384008E6C29 /* PersonalCardMessage.m */; };
 		3D8E20AD1ED7CCCE008E6C29 /* PersonalCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E20AC1ED7CCCE008E6C29 /* PersonalCardCell.m */; };
+		3D944688205F55C50056A492 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D944687205F55C50056A492 /* Launch.storyboard */; };
+		3D94468A205F57F40056A492 /* loading_picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D944689205F57F40056A492 /* loading_picture.png */; };
+		3D94468D205F611F0056A492 /* KSRechargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D94468C205F611F0056A492 /* KSRechargeViewController.m */; };
+		3D944690205F62E70056A492 /* KSServiceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D94468F205F62E70056A492 /* KSServiceCollectionViewCell.m */; };
+		3D944693205FA1E40056A492 /* KSBuyVideoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D944692205FA1E40056A492 /* KSBuyVideoRequest.m */; };
+		3D9446F9206200130056A492 /* KSVideoAmountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9446F8206200130056A492 /* KSVideoAmountCell.m */; };
 		3DA417DB1ED80B4300613FBD /* UpdateUrlRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417DA1ED80B4300613FBD /* UpdateUrlRequest.m */; };
 		3DA417DF1ED8190300613FBD /* RCDPersonDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417DE1ED8190300613FBD /* RCDPersonDetailViewController.m */; };
 		3DA417E21ED819F900613FBD /* RCDGroupSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417E11ED819F900613FBD /* RCDGroupSettingsTableViewController.m */; };
@@ -283,7 +289,6 @@
 		980EF4561D373BE0000C26FC /* RCDGroupAnnouncementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 980EF4551D373BE0000C26FC /* RCDGroupAnnouncementViewController.m */; };
 		980EF4591D376BC9000C26FC /* UITextViewAndPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 980EF4581D376BC9000C26FC /* UITextViewAndPlaceholder.m */; };
 		986A192A1D751FFC00FFEA2F /* RCDBaseSettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 986A19291D751FFC00FFEA2F /* RCDBaseSettingTableViewCell.m */; };
-		987653631D796C5B008A6BF0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 987653621D796C5B008A6BF0 /* Launch Screen.storyboard */; };
 		9891E8DD1D8263F700E874AB /* RCDMeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9891E8DC1D8263F700E874AB /* RCDMeCell.m */; };
 		9891E8E31D82AB3100E874AB /* RCDLogoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9891E8E21D82AB3100E874AB /* RCDLogoTableViewCell.m */; };
 		9891E8E61D82AC4400E874AB /* RCDVersionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9891E8E51D82AC4400E874AB /* RCDVersionCell.m */; };
@@ -673,6 +678,16 @@
 		3D8E20A91ED7C384008E6C29 /* PersonalCardMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalCardMessage.m; sourceTree = SOURCE_ROOT; };
 		3D8E20AB1ED7CCCE008E6C29 /* PersonalCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalCardCell.h; sourceTree = "<group>"; };
 		3D8E20AC1ED7CCCE008E6C29 /* PersonalCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalCardCell.m; sourceTree = "<group>"; };
+		3D944687205F55C50056A492 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = SOURCE_ROOT; };
+		3D944689205F57F40056A492 /* loading_picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading_picture.png; sourceTree = SOURCE_ROOT; };
+		3D94468B205F611F0056A492 /* KSRechargeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSRechargeViewController.h; sourceTree = "<group>"; };
+		3D94468C205F611F0056A492 /* KSRechargeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KSRechargeViewController.m; sourceTree = "<group>"; };
+		3D94468E205F62E70056A492 /* KSServiceCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSServiceCollectionViewCell.h; sourceTree = "<group>"; };
+		3D94468F205F62E70056A492 /* KSServiceCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KSServiceCollectionViewCell.m; sourceTree = "<group>"; };
+		3D944691205FA1E40056A492 /* KSBuyVideoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSBuyVideoRequest.h; sourceTree = "<group>"; };
+		3D944692205FA1E40056A492 /* KSBuyVideoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KSBuyVideoRequest.m; sourceTree = "<group>"; };
+		3D9446F7206200130056A492 /* KSVideoAmountCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSVideoAmountCell.h; sourceTree = SOURCE_ROOT; };
+		3D9446F8206200130056A492 /* KSVideoAmountCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KSVideoAmountCell.m; sourceTree = SOURCE_ROOT; };
 		3DA417D91ED80B4300613FBD /* UpdateUrlRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateUrlRequest.h; sourceTree = "<group>"; };
 		3DA417DA1ED80B4300613FBD /* UpdateUrlRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateUrlRequest.m; sourceTree = "<group>"; };
 		3DA417DD1ED8190300613FBD /* RCDPersonDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDPersonDetailViewController.h; sourceTree = SOURCE_ROOT; };
@@ -996,7 +1011,6 @@
 		980EF4581D376BC9000C26FC /* UITextViewAndPlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITextViewAndPlaceholder.m; sourceTree = SOURCE_ROOT; };
 		986A19281D751FFC00FFEA2F /* RCDBaseSettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDBaseSettingTableViewCell.h; sourceTree = SOURCE_ROOT; };
 		986A19291D751FFC00FFEA2F /* RCDBaseSettingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDBaseSettingTableViewCell.m; sourceTree = SOURCE_ROOT; };
-		987653621D796C5B008A6BF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
 		9891E8DB1D8263F700E874AB /* RCDMeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDMeCell.h; sourceTree = SOURCE_ROOT; };
 		9891E8DC1D8263F700E874AB /* RCDMeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDMeCell.m; sourceTree = SOURCE_ROOT; };
 		9891E8E11D82AB3100E874AB /* RCDLogoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDLogoTableViewCell.h; sourceTree = SOURCE_ROOT; };
@@ -1660,6 +1674,8 @@
 				3DB720201FFCC777004D7A20 /* WCVideoLimitRequest.m */,
 				3DB720221FFCCB20004D7A20 /* WCDeleteVideoFileRequest.h */,
 				3DB720231FFCCB20004D7A20 /* WCDeleteVideoFileRequest.m */,
+				3D944691205FA1E40056A492 /* KSBuyVideoRequest.h */,
+				3D944692205FA1E40056A492 /* KSBuyVideoRequest.m */,
 			);
 			path = VideoRequests;
 			sourceTree = "<group>";
@@ -2125,6 +2141,8 @@
 				3DB7211820032F06004D7A20 /* WCVideoPlayWebViewController.m */,
 				3DB7211A20033BBB004D7A20 /* WCVideoUploadViewController.h */,
 				3DB7211B20033BBB004D7A20 /* WCVideoUploadViewController.m */,
+				3D94468B205F611F0056A492 /* KSRechargeViewController.h */,
+				3D94468C205F611F0056A492 /* KSRechargeViewController.m */,
 			);
 			path = Additional;
 			sourceTree = SOURCE_ROOT;
@@ -2146,6 +2164,8 @@
 				3DB720131FFCC38A004D7A20 /* WCVideoFileCell.m */,
 				3DB7211420030BA7004D7A20 /* WCVideoFileMessageCell.h */,
 				3DB7211520030BA7004D7A20 /* WCVideoFileMessageCell.m */,
+				3D94468E205F62E70056A492 /* KSServiceCollectionViewCell.h */,
+				3D94468F205F62E70056A492 /* KSServiceCollectionViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2218,6 +2238,8 @@
 				3DFF525F1EBC80EC00CDF351 /* MyInformationsCell.m */,
 				3D7DDCA02058C6480046BDAC /* KSBuyVideoView.h */,
 				3D7DDCA12058C6480046BDAC /* KSBuyVideoView.m */,
+				3D9446F7206200130056A492 /* KSVideoAmountCell.h */,
+				3D9446F8206200130056A492 /* KSVideoAmountCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -2732,11 +2754,12 @@
 		E4D40F2B1A031F460045097C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3D944689205F57F40056A492 /* loading_picture.png */,
 				E4E939C21AD65D58001E0AC6 /* Info.plist */,
 				510624831AD63A9E00348452 /* RongCloudKit.strings */,
 				3D8E203A1ED6B569008E6C29 /* Images.xcassets */,
 				E4BFAE241A121839007165B1 /* main.m */,
-				987653621D796C5B008A6BF0 /* Launch Screen.storyboard */,
+				3D944687205F55C50056A492 /* Launch.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3161,6 +3184,7 @@
 				F894EC391DF7E47600EFD084 /* BQMM.bundle in Resources */,
 				3D8E20661ED6B776008E6C29 /* RedPacket.storyboard in Resources */,
 				3D75AA2B2007669B00231987 /* Emoji.plist in Resources */,
+				3D94468A205F57F40056A492 /* loading_picture.png in Resources */,
 				3D75AA2D200766B900231987 /* RongCloud.bundle in Resources */,
 				2E29FF3C1DC1BE8400AF2DF0 /* AlipaySDK.bundle in Resources */,
 				27C42EED1DE30637003E2306 /* RongCloudiFly.bundle in Resources */,
@@ -3170,9 +3194,9 @@
 				3DFFB8D51EFA5B13003A2ABF /* Additional.storyboard in Resources */,
 				3D8E203B1ED6B569008E6C29 /* Images.xcassets in Resources */,
 				3D67A5B01F47CBFA003B1607 /* Transfer.storyboard in Resources */,
+				3D944688205F55C50056A492 /* Launch.storyboard in Resources */,
 				510624851AD63A9E00348452 /* RongCloudKit.strings in Resources */,
 				3D75AA332007675500231987 /* RCConfig.plist in Resources */,
-				987653631D796C5B008A6BF0 /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3260,6 +3284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D944690205F62E70056A492 /* KSServiceCollectionViewCell.m in Sources */,
 				3D4F32B41F2B07B6005D9015 /* WCTransferViewController.m in Sources */,
 				98BC0E0B1D9CEA990017D4F2 /* RCDReceiptDetailsTableViewCell.m in Sources */,
 				3D7168381F516FDE00B0166D /* WCChatRoomModel.m in Sources */,
@@ -3294,6 +3319,7 @@
 				E4E9394A1AD65A95001E0AC6 /* AFURLSessionManager.m in Sources */,
 				3DCD38EA1F4AC400003EEC87 /* JSONModelError.m in Sources */,
 				9891E8E61D82AC4400E874AB /* RCDVersionCell.m in Sources */,
+				3D9446F9206200130056A492 /* KSVideoAmountCell.m in Sources */,
 				17F7A84C1DAE187200E27D25 /* RCDSearchResultViewCell.m in Sources */,
 				3DFF527E1EBC828F00CDF351 /* MASConstraint.m in Sources */,
 				3DB721081FFF1605004D7A20 /* QNTxtResolver.m in Sources */,
@@ -3375,6 +3401,7 @@
 				E4E939CA1AD65E1E001E0AC6 /* UIColor+RCColor.m in Sources */,
 				98A3E70A1D45F961007989E7 /* RCDNavigationViewController.m in Sources */,
 				3DFF52841EBC828F00CDF351 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				3D944693205FA1E40056A492 /* KSBuyVideoRequest.m in Sources */,
 				E4E939B81AD65CFD001E0AC6 /* RCDGroupTableViewCell.m in Sources */,
 				466684361B5DF36E000B7504 /* RCDUtilities.m in Sources */,
 				3DCD38C51F4AB551003EEC87 /* UIScrollView+MJRefresh.m in Sources */,
@@ -3395,6 +3422,7 @@
 				E4E9395E1AD65A95001E0AC6 /* MBProgressHUD.m in Sources */,
 				3DCD38F81F4BCE6D003EEC87 /* WCTransferInformationCell.m in Sources */,
 				9B447DE71CF82926005D3ED5 /* RCDContactSelectedTableViewCell.m in Sources */,
+				3D94468D205F611F0056A492 /* KSRechargeViewController.m in Sources */,
 				A677D6A11B81EBB9007D5D90 /* RealTimeLocationViewController.m in Sources */,
 				3DCD38B91F4AB551003EEC87 /* MJRefreshAutoNormalFooter.m in Sources */,
 				9B447DED1CF82926005D3ED5 /* RCDGroupMemberCollectionViewCell.m in Sources */,

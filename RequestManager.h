@@ -8,8 +8,8 @@
 
 #import "AFNetworking.h"
 
-#define DemoServer @"http://121.43.190.83:7654/API/"
-//#define DemoServer @"http://47.92.72.63:5689/API/"
+//#define DemoServer @"http://121.43.190.83:7654/API/"
+#define DemoServer @"http://47.98.56.166:7654/API/"
 
 @interface RequestManager : AFHTTPSessionManager
 + (instancetype)sharedInstance;

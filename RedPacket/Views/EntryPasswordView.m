@@ -36,7 +36,13 @@
             make.centerX.equalTo(self.contentView);
         }];
         [self.contentView addSubview:self.passwordView];
-        
+        __weak typeof(self) weakSelf = self;
+        self.passwordView.finishBlock = ^(NSString *passwordString) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (strongSelf.finishInputBlock) {
+                strongSelf.finishInputBlock(passwordString);
+            }
+        };
         UILabel *line1 = [[UILabel alloc] init];
         line1.backgroundColor = [UIColor colorWithRed:129/255.0 green:206/255.0 blue:242/255.0 alpha:1];
         [self.contentView addSubview:line1];

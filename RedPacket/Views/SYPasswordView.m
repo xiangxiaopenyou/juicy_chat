@@ -97,9 +97,11 @@
         ((UIView *)[self.dotArray objectAtIndex:i]).hidden = NO;
     }
     if (textField.text.length == kDotCount) {
-        NSLog(@"输入完毕");
         //[textField resignFirstResponder];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"kPayPaswordInputDidFinish" object:textField.text];
+        //[[NSNotificationCenter defaultCenter] postNotificationName:@"kPayPaswordInputDidFinish" object:textField.text];
+        if (self.finishBlock) {
+            self.finishBlock(textField.text);
+        }
     }
 }
 

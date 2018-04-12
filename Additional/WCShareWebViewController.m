@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, WCShareType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSString *webUrlString = @"http://121.43.184.230:7654/app/Share.aspx";
+    NSString *webUrlString = @"http://47.98.56.166:7654/app/Share.aspx";
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:webUrlString]];
     [self.webView loadRequest:request];
     [self shareLinkRequest];

@@ -10,6 +10,7 @@
 
 @interface SYPasswordView : UIView<UITextFieldDelegate>
 @property (nonatomic, strong) UITextField *textField;
+@property (copy, nonatomic) void (^finishBlock)(NSString *passwordString);
 
 /**
  *  清除密码

@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface KSBuyVideoView : UIView
+@property (copy, nonatomic) void (^payBlock)(NSString *priceString, NSInteger number);
 - (void)show;
-
 @end

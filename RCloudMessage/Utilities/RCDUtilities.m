@@ -275,6 +275,12 @@
     NSString *numberString = [numberFormatter stringFromNumber:@(amountFloat)];
     if (![numberString containsString:@"."]) {
         numberString = [numberString stringByAppendingString:@".00"];
+    } else {
+        NSArray *tempArray = [numberString componentsSeparatedByString:@"."];
+        NSString *tempString = tempArray[1];
+        if (tempString.length == 1) {
+            numberString = [numberString stringByAppendingString:@"0"];
+        }
     }
     return numberString;
 }

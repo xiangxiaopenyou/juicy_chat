@@ -12,6 +12,7 @@
 #import "MyRedPacketsViewController.h"
 #import "LockedMoneyViewController.h"
 #import "XJTransferRecordViewController.h"
+#import "KSRechargeViewController.h"
 
 #import "CheckSetPayPasswordRequest.h"
 #import "FetchBalanceRequest.h"
@@ -110,6 +111,8 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         if (_isShowRecharge) {
             //快豆充值
+            KSRechargeViewController *rechargeController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"KSRecharge"];
+            [self.navigationController pushViewController:rechargeController animated:YES];
         } else {
             XJTransferRecordViewController *recordControll = [[UIStoryboard storyboardWithName:@"Transfer" bundle:nil] instantiateViewControllerWithIdentifier:@"TransferRecord"];
             [self.navigationController pushViewController:recordControll animated:YES];

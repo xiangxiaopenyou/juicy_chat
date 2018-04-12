@@ -33,6 +33,13 @@
 #import "MBProgressHUD+Add.h"
 #import "KSBuyVideoView.h"
 #import "KSConfigInformationsRequest.h"
+#import "CheckSetPayPasswordRequest.h"
+#import "EntryPasswordView.h"
+#import "FetchBalanceRequest.h"
+#import "SetupPayPasswordViewController.h"
+#import "KSBuyVideoRequest.h"
+#import "FetchInformationsRequest.h"
+#import "KSVideoAmountCell.h"
 
 #import <OpenShareHeader.h>
 
@@ -42,17 +49,20 @@
 #define SERVICE_ID @"KEFU146001495753714"
 #define SERVICE_ID_XIAONENG1 @"kf_4029_1483495902343"
 #define SERVICE_ID_XIAONENG2 @"op_1000_1483495280515"
+#define kKSKeyWindow [UIApplication sharedApplication].keyWindow
 
 @interface RCDMeTableViewController ()
 @property(nonatomic) BOOL hasNewVersion;
 @property(nonatomic) NSString *versionUrl;
 @property(nonatomic, strong) NSString *versionString;
+@property (nonatomic, assign) NSInteger videoLimitNumber;
 
 @property(nonatomic, strong) NSURLConnection *connection;
 @property(nonatomic, strong) NSMutableData *receiveData;
 
 @property (strong, nonatomic) UIImageView *avatarImageView;
 @property (strong, nonatomic) UILabel *nicknameLabel;
+@property (strong, nonatomic) EntryPasswordView *entryView;
 
 @end
 
@@ -66,9 +76,12 @@
   
   self.edgesForExtendedLayout = UIRectEdgeNone;
   self.navigationController.navigationBar.translucent = NO;
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
   self.tableView.tableFooterView = [UIView new];
-  self.tableView.backgroundColor = [UIColor colorWithHexString:@"f0f0f6" alpha:1.f];
-  self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+  self.tableView.backgroundColor = [UIColor colorWithHexString:@"f2f2f2" alpha:1.f];
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0);
+  //self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
 
   self.tabBarController.navigationItem.rightBarButtonItem = nil;
   self.tabBarController.navigationController.navigationBar.tintColor =
@@ -78,8 +91,11 @@
                                            selector:@selector(setUserPortrait:)
                                                name:@"setCurrentUserPortrait"
                                              object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishInputAction:) name:@"kPayPaswordInputDidFinish" object:nil];
 
   isSyncCurrentUserInfo = NO;
+    
+    [self userInfoRequest];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -94,6 +110,77 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+//- (void)dealloc {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kPayPaswordInputDidFinish" object:nil];
+//}
+
+- (void)goPay:(NSString *)priceString buyNumber:(NSInteger)number {
+    [MBProgressHUD showMessag:@"" toView:kKSKeyWindow];
+    [[CheckSetPayPasswordRequest new] request:^BOOL(id request) {
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            if ([object[@"code"] integerValue] == 200) {
+                [[FetchBalanceRequest new] request:^BOOL(id request) {
+                    return YES;
+                } result:^(id object, NSString *msg) {
+                    if (object) {
+                        [MBProgressHUD hideAllHUDsForView:kKSKeyWindow animated:YES];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.entryView show];
+                            self.entryView.amount = priceString.floatValue;
+                            self.entryView.balance = [object[@"money"] floatValue];
+                            __weak typeof(self) weakSelf = self;
+                            self.entryView.finishInputBlock = ^(NSString *password) {
+                                __strong typeof(weakSelf) strongSelf = weakSelf;
+                                [strongSelf finishInputAction:password price:priceString buyNumber:number];
+                            };
+                        });
+                    } else {
+                        [MBProgressHUD hideAllHUDsForView:kKSKeyWindow animated:YES];
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"获取余额失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                        [alert show];
+                    }
+                }];
+                
+                
+            } else if ([object[@"code"] integerValue] == 66001) {
+                [MBProgressHUD hideAllHUDsForView:kKSKeyWindow animated:YES];
+                SetupPayPasswordViewController *setupPayPassword = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"SetupPayPassword"];
+                [self.navigationController pushViewController:setupPayPassword animated:YES];
+            } else {
+                [MBProgressHUD hideAllHUDsForView:kKSKeyWindow animated:YES];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }
+        } else {
+            [MBProgressHUD hideAllHUDsForView:kKSKeyWindow animated:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+}
+- (void)finishInputAction:(NSString *)passwordString price:(NSString *)price buyNumber:(NSInteger)number {
+    [MBProgressHUD showMessag:@"" toView:kKSKeyWindow];
+    [[KSBuyVideoRequest new] request:^BOOL(KSBuyVideoRequest *request) {
+        request.buymoney = price;
+        request.buynum = number;
+        request.paypwd = passwordString;
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            [MBProgressHUD hideAllHUDsForView:kKSKeyWindow animated:YES];
+            [MBProgressHUD showSuccess:@"购买成功" toView:kKSKeyWindow];
+            [self.entryView closeAction];
+            [self userInfoRequest];
+        } else {
+            [self.entryView clearPassword];
+            [MBProgressHUD hideAllHUDsForView:kKSKeyWindow animated:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
 }
 
 #pragma mark - Request
@@ -118,6 +205,18 @@
             }
         } else {
             [MBProgressHUD showError:msg toView:self.view];
+        }
+    }];
+}
+- (void)userInfoRequest {
+    [[FetchInformationsRequest new] request:^BOOL(id request) {
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object[@"videolimit"]) {
+            _videoLimitNumber = [object[@"videolimit"] integerValue];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
         }
     }];
 }
@@ -158,16 +257,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *reusableCellWithIdentifier = @"RCDMeCell";
-  RCDMeCell *cell = [self.tableView
-                                       dequeueReusableCellWithIdentifier:reusableCellWithIdentifier];
-  
+  //static NSString *reusableCellWithIdentifier = @"RCDMeCell";
+  //RCDMeCell *cell = [self.tableView dequeueReusableCellWithIdentifier:reusableCellWithIdentifier];
+  KSVideoAmountCell *cell = [[KSVideoAmountCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+    
   static NSString *detailsCellWithIdentifier = @"RCDMeDetailsCell";
   MyInformationsCell *detailsCell = [self.tableView
                                        dequeueReusableCellWithIdentifier:detailsCellWithIdentifier];
-  if (cell == nil) {
-    cell = [[RCDMeCell alloc] init];
-  }
+//  if (cell == nil) {
+//    cell = [[RCDMeCell alloc] init];
+//  }
   if (detailsCell == nil) {
     detailsCell = [[MyInformationsCell alloc] init];
   }
@@ -176,29 +275,6 @@
     case 0: {
       switch (indexPath.row) {
         case 0: {
-//            static NSString *identifier = @"InformationCell";
-//            UITableViewCell *informationCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-//            if (!_avatarImageView) {
-//                _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 11.5, 65, 65)];
-//                _avatarImageView.layer.masksToBounds = YES;
-//                _avatarImageView.layer.cornerRadius = 5.f;
-//            }
-//            [informationCell.contentView addSubview:_avatarImageView];
-//            NSString *portraitUrl = [DEFAULTS stringForKey:@"userPortraitUri"];
-//            if (!portraitUrl || [portraitUrl isEqualToString:@""]) {
-//                portraitUrl = [RCDUtilities defaultUserPortrait:[RCIM sharedRCIM].currentUserInfo];
-//                _avatarImageView.image = [UIImage imageNamed:portraitUrl];
-//            } else {
-//                [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:portraitUrl] placeholderImage:nil];
-//            }
-//            if (!_nicknameLabel) {
-//                _nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(83, 29, 300, 30)];
-//                _nicknameLabel.textColor = [UIColor blackColor];
-//                _nicknameLabel.font = [UIFont systemFontOfSize:16];
-//            }
-//            [informationCell.contentView addSubview:_nicknameLabel];
-//            _nicknameLabel.text = [DEFAULTS stringForKey:@"userNickName"];
-//          return informationCell;
             return detailsCell;
         }
           break;
@@ -212,17 +288,23 @@
     case 1: {
         switch (indexPath.row) {
             case 0: {
-                [cell setCellWithImageName:@"setting_up" labelName:@"账号设置"];
+                cell.textLabel.text = @"账号设置";
+                cell.imageView.image = [UIImage imageNamed:@"setting_up"];
+                //[cell setCellWithImageName:@"setting_up" labelName:@"账号设置"];
             }
                 break;
           
           /* RedPacket_FTR */ //wallet cell
             case 1: {
-                [cell setCellWithImageName:@"wallet" labelName:@"我的快豆"];
+                cell.textLabel.text = @"我的快豆";
+                cell.imageView.image = [UIImage imageNamed:@"wallet"];
+                //[cell setCellWithImageName:@"wallet" labelName:@"我的快豆"];
             }
                 break;
             case 2: {
-                [cell setCellWithImageName:@"mine_share" labelName:@"分享赚快豆"];
+                cell.textLabel.text = @"分享赚快豆";
+                cell.imageView.image = [UIImage imageNamed:@"mine_share"];
+                //[cell setCellWithImageName:@"mine_share" labelName:@"分享赚快豆"];
             }
                 break;
             default:
@@ -232,19 +314,25 @@
     }
       break;
       case 2: {
-          [cell setCellWithImageName:@"icon_buy_video" labelName:@"购买视频空间"];
+          cell.textLabel.text = @"购买视频空间";
+          cell.imageView.image = [UIImage imageNamed:@"icon_buy_video"];
+          cell.detailTextLabel.text = [NSString stringWithFormat:@"当前数量:%@", @(_videoLimitNumber)];
           return cell;
       }
           break;
     case 3: {
       switch (indexPath.row) {
         case 0:{
-          [cell setCellWithImageName:@"sevre_inactive" labelName:@"投诉与建议"];
+            cell.textLabel.text = @"投诉与建议";
+            cell.imageView.image = [UIImage imageNamed:@"sevre_inactive"];
+          //[cell setCellWithImageName:@"sevre_inactive" labelName:@"投诉与建议"];
           return cell;
         }
           break;
           case 1: {
-              [cell setCellWithImageName:@"mine_copy_link" labelName:@"复制官网地址"];
+              cell.textLabel.text = @"复制官网地址";
+              cell.imageView.image = [UIImage imageNamed:@"mine_copy_link"];
+              //[cell setCellWithImageName:@"mine_copy_link" labelName:@"复制官网地址"];
               return cell;
           }
               break;
@@ -258,18 +346,18 @@
 //          return cell;
 //        }
 //          break;
-#if RCDDebugTestFunction
-        case 2:{
-          [cell setCellWithImageName:@"sevre_inactive" labelName:@"小能客服1"];
-          return cell;
-        }
-          break;
-        case 3:{
-          [cell setCellWithImageName:@"sevre_inactive" labelName:@"小能客服2"];
-          return cell;
-        }
-          break;
-#endif
+//#if RCDDebugTestFunction
+//        case 2:{
+//          [cell setCellWithImageName:@"sevre_inactive" labelName:@"小能客服1"];
+//          return cell;
+//        }
+//          break;
+//        case 3:{
+//          [cell setCellWithImageName:@"sevre_inactive" labelName:@"小能客服2"];
+//          return cell;
+//        }
+//          break;
+//#endif
         default:
           break;
       }
@@ -343,6 +431,9 @@
           if ([[NSUserDefaults standardUserDefaults] floatForKey:@"VideoPrice"]) {
               KSBuyVideoView *buyView = [[KSBuyVideoView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds];
               [buyView show];
+              buyView.payBlock = ^(NSString *priceString, NSInteger number) {
+                  [self goPay:priceString buyNumber:number];
+              };
           } else {
               [MBProgressHUD showError:@"请检查网络" toView:self.view];
           }
@@ -407,6 +498,12 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return [UIView new];
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.1f;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [UIView new];
+}
 
 - (void)setUserPortrait:(NSNotification *)notifycation {
   userPortrait = [notifycation object];
@@ -457,6 +554,13 @@
   chatService.title = @"客服";
 
   [self.navigationController pushViewController:chatService animated:YES];
+}
+
+- (EntryPasswordView *)entryView {
+    if (!_entryView) {
+        _entryView = [[EntryPasswordView alloc] initWithFrame:kKSKeyWindow.bounds];
+    }
+    return _entryView;
 }
 
 

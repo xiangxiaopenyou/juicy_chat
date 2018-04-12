@@ -118,6 +118,12 @@
     [self.payButton setTitle:payString forState:UIControlStateNormal];
     
 }
+- (void)payAction {
+    if (self.payBlock) {
+        self.payBlock(self.priceLabel.text, self.amountTextField.text.integerValue);
+        [self closeAction];
+    }
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -193,6 +199,7 @@
         [_payButton setTitle:@"确认支付" forState:UIControlStateNormal];
         _payButton.titleLabel.font = [UIFont systemFontOfSize:16];
         _payButton.enabled = NO;
+        [_payButton addTarget:self action:@selector(payAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _payButton;
 }

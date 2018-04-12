@@ -252,29 +252,49 @@ static NSString *const kWCFileBaseURL = @"http://img.kuaishouhb.com/";
 //删除文件
 - (void)deleteFiles {
     [MBProgressHUD showMessag:nil toView:self.view];
-    dispatch_group_t group = dispatch_group_create();
-    NSArray *tempArray = [self.operationArray copy];
-    for (WCVideoFileModel *model in tempArray) {
-        dispatch_group_enter(group);
-        [[WCDeleteVideoFileRequest new] request:^BOOL(WCDeleteVideoFileRequest *request) {
-            request.videoId = model.id;
-            return YES;
-        } result:^(id object, NSString *msg) {
-            if (object) {
-                [self.operationArray removeObject:model];
-                dispatch_group_leave(group);
-            } else {
-                dispatch_group_leave(group);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD showError:[NSString stringWithFormat:@"删除%@失败", model.name] toView:self.view];
-                });
-            }
-        }];
+    //dispatch_group_t group = dispatch_group_create();
+    //NSArray *tempArray = [self.operationArray copy];
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    for (WCVideoFileModel *model in self.operationArray) {
+        [tempArray addObject:model.id];
     }
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+    [[WCDeleteVideoFileRequest new] request:^BOOL(WCDeleteVideoFileRequest *request) {
+        request.videoIds = tempArray;
+        return YES;
+    } result:^(id object, NSString *msg) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        [self listRequest];
-    });
+        if (object) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD showSuccess:@"删除成功" toView:self.view];
+                [self listRequest];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD showError:@"删除失败" toView:self.view];
+            });
+        }
+    }];
+//    for (WCVideoFileModel *model in tempArray) {
+//        dispatch_group_enter(group);
+//        [[WCDeleteVideoFileRequest new] request:^BOOL(WCDeleteVideoFileRequest *request) {
+//            request.videoId = model.id;
+//            return YES;
+//        } result:^(id object, NSString *msg) {
+//            if (object) {
+//                [self.operationArray removeObject:model];
+//                dispatch_group_leave(group);
+//            } else {
+//                dispatch_group_leave(group);
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [MBProgressHUD showError:[NSString stringWithFormat:@"删除%@失败", model.name] toView:self.view];
+//                });
+//            }
+//        }];
+//    }
+//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+//        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+//        [self listRequest];
+//    });
     
 }
 
@@ -444,7 +464,7 @@ static NSString *const kWCFileBaseURL = @"http://img.kuaishouhb.com/";
             } else {
                 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 [[WCDeleteVideoFileRequest new] request:^BOOL(WCDeleteVideoFileRequest *request) {
-                    request.videoId = model.id;
+                    request.videoIds = @[model.id];
                     return YES;
                 } result:^(id object, NSString *msg) {
                     [MBProgressHUD hideHUDForView:self.view animated:YES];

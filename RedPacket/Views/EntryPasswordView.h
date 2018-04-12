@@ -11,6 +11,7 @@
 @interface EntryPasswordView : UIView
 @property (assign, nonatomic) CGFloat amount;
 @property (assign, nonatomic) CGFloat balance;
+@property (copy, nonatomic) void (^finishInputBlock)(NSString *password);
 
 - (void)show;
 - (void)closeAction;
